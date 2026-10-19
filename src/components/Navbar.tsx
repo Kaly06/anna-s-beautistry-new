@@ -6,7 +6,7 @@ import { EASE } from '../lib/animations';
 import { HOUSE } from '../data/house';
 import { services } from '../data/services';
 import Magnetic from './ui/Magnetic';
-import Monogram from './ui/Monogram';
+import Logo from './ui/Logo';
 
 const LINKS = [
   { label: 'Services', href: '/services/wigs' },
@@ -56,11 +56,8 @@ export default function Navbar() {
             scrolled ? 'h-16' : 'h-20 md:h-24'
           }`}
         >
-          <Link to="/" className="group flex items-center gap-3" aria-label="Anna's Beautistry — home">
-            <Monogram className="h-7 w-7 text-gold-300 transition-transform duration-700 ease-luxe group-hover:rotate-180" />
-            <span className="font-display text-base tracking-[0.28em] text-ivory-50 sm:text-lg">
-              ANNA&apos;S
-            </span>
+          <Link to="/" className="group flex items-center" aria-label="Anna's Beautistry — home">
+            <Logo size="nav" />
           </Link>
 
           <ul className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-9 lg:flex">
@@ -110,7 +107,7 @@ export default function Navbar() {
             transition={{ duration: 0.75, ease: EASE }}
           >
             <div className="container-luxe flex h-20 items-center justify-between">
-              <span className="font-display text-base tracking-[0.28em] text-ivory-50">ANNA&apos;S</span>
+              <Logo size="menu" />
               <button
                 type="button"
                 onClick={() => setOpen(false)}

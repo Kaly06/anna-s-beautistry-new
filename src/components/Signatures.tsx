@@ -15,6 +15,7 @@ export default function Signatures() {
       className="relative scroll-mt-24 overflow-hidden bg-ink-900 py-24 sm:py-32"
     >
       <div className="pointer-events-none absolute -right-40 top-0 h-[600px] w-[600px] rounded-full bg-gold-600/[0.07] blur-[130px]" />
+      <div className="pointer-events-none absolute -left-40 bottom-0 h-[480px] w-[480px] rounded-full bg-royal-600/[0.15] blur-[130px]" />
 
       <div className="container-luxe relative">
         <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end">

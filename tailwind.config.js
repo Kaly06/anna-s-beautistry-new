@@ -8,14 +8,32 @@ export default {
         sans: ['Montserrat', 'system-ui', 'sans-serif'],
       },
       colors: {
+        // Her colours: purple and gold.
+        // `ink` is the royal-purple foundation — lifted well clear of black
+        // (near-black plum read as black), so the site is unmistakably purple at a
+        // glance while still dark enough for ivory text and gold details.
         ink: {
-          950: '#050506',
-          900: '#08080a',
-          850: '#0b0b0e',
-          800: '#101014',
-          700: '#17171d',
-          600: '#202028',
-          500: '#2c2c36',
+          950: '#36145e',
+          900: '#40196d',
+          850: '#491f7a',
+          800: '#54268c',
+          700: '#65339f',
+          600: '#7a45b3',
+          500: '#8f5cc4',
+        },
+        // Royal purple — the vivid end of the plum scale, for glows,
+        // accents and moments where the purple should be felt, not just seen.
+        royal: {
+          50: '#f5efff',
+          100: '#ede0ff',
+          200: '#d8c2ff',
+          300: '#be9bf5',
+          400: '#a06fe0',
+          500: '#7e3fc4',
+          600: '#62269f',
+          700: '#4a187c',
+          800: '#351058',
+          900: '#24083d',
         },
         gold: {
           50: '#fcf9f1',
@@ -28,26 +46,29 @@ export default {
           700: '#7d5c28',
           800: '#5a421d',
         },
+        // Lilac-ivory: the warm ivory cooled into the purple family, so
+        // light sections read as pale lavender against the royal plum.
         ivory: {
-          50: '#fdfbf6',
-          100: '#f7f2e7',
-          200: '#ece4d3',
-          300: '#d9cdb6',
-          400: '#b3a68d',
-          500: '#8d816b',
+          50: '#fdfaff',
+          100: '#f6f0fc',
+          200: '#ece1f6',
+          300: '#ddd0f2',
+          400: '#bfabe0',
+          500: '#9e87c2',
         },
-        // The one colour the house keeps apart from gold.
+        // Formerly blush-pink; now the soft lilac accent scale
+        // (token name kept for compatibility).
         blush: {
-          50: '#fdf7f5',
-          100: '#f9e9e5',
-          200: '#f0cec7',
-          300: '#e3a99f',
-          400: '#d08479',
-          500: '#b96258',
-          600: '#97493f',
-          700: '#74352d',
+          50: '#faf5ff',
+          100: '#f1e6fd',
+          200: '#e0ccfa',
+          300: '#c4a3ec',
+          400: '#a678dd',
+          500: '#8550c4',
+          600: '#68369f',
+          700: '#502578',
         },
-        wine: '#1b0d11',
+        wine: '#1e0836',
       },
       letterSpacing: {
         mega: '0.42em',

@@ -26,6 +26,7 @@ export default function Booking() {
   return (
     <section id="book" className="relative scroll-mt-24 overflow-hidden bg-ink-900 py-24 sm:py-28">
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-gold-500/[0.06] blur-[120px]" />
+      <div className="pointer-events-none absolute -right-40 bottom-0 h-[420px] w-[420px] rounded-full bg-royal-600/[0.16] blur-[130px]" />
 
       <div className="container-luxe relative">
         <div className="grid gap-12 border border-ivory-100/10 px-6 py-14 sm:px-10 lg:grid-cols-2 lg:gap-20 lg:px-16 lg:py-16">

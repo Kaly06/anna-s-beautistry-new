@@ -41,6 +41,9 @@ export default function Hero({ introDone }: { introDone: boolean }) {
       <div className="absolute inset-0 bg-gradient-to-b from-ink-950/90 via-ink-950/35 to-ink-950" />
       <div className="absolute inset-0 bg-gradient-to-r from-ink-950/85 via-ink-950/20 to-transparent" />
       <div className="vignette absolute inset-0" />
+      {/* Royal-purple radiance behind the headline — her colour, felt as light. */}
+      <div className="pointer-events-none absolute -left-40 bottom-0 h-[520px] w-[520px] rounded-full bg-royal-500/35 blur-[130px]" />
+      <div className="pointer-events-none absolute -right-32 top-0 h-[380px] w-[380px] rounded-full bg-royal-400/20 blur-[120px]" />
       <div className="noise pointer-events-none absolute inset-0 opacity-[0.055]" />
 
       <div className="container-luxe relative flex flex-1 flex-col justify-end pb-10 pt-36 sm:pb-14 md:pt-40">

@@ -27,7 +27,7 @@ export default function MenuCard({ item, index }: MenuCardProps) {
         className="block w-full text-left"
         aria-label={`View ${item.name}, ${formatPrice(item.price)}`}
       >
-        <div className="relative overflow-hidden border border-ivory-100/[0.08] bg-[radial-gradient(120%_100%_at_50%_0%,#191921_0%,#0d0d11_52%,#070709_100%)] transition-colors duration-700 ease-luxe group-hover:border-gold-300/35">
+        <div className="relative overflow-hidden border border-ivory-100/[0.08] bg-[radial-gradient(120%_100%_at_50%_0%,#4a2480_0%,#34135e_52%,#250b45_100%)] transition-colors duration-700 ease-luxe group-hover:border-gold-300/35">
           <div className="pointer-events-none absolute inset-4 border border-ivory-100/[0.06] transition-colors duration-700 group-hover:border-gold-300/20" />
 
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold-400/[0.06] opacity-0 blur-2xl transition-opacity duration-700 group-hover:opacity-100" />
