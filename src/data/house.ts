@@ -1,7 +1,18 @@
 export const HOUSE = {
   name: "Anna's Beautistry",
-  /** The wordmark the opening curtain spells out. */
-  wordmark: "ANNA'S",
+  /** The wordmark the opening curtain spells out — always the full name. */
+  wordmark: "ANNA'S BEAUTISTRY",
+  /** Full name split for the stacked logo lockup: ANNA'S over BEAUTISTRY. */
+  wordmarkLines: ["ANNA'S", 'BEAUTISTRY'] as const,
+  /**
+   * Uploaded logo file (drop the new logo at this path to use it).
+   * Preferred: transparent SVG, otherwise transparent PNG (gold/ivory on
+   * transparent — her colours are purple and gold, and the site
+   * background is deep royal plum #36145e).
+   * Set to the uploaded path once the file arrives; until then the
+   * Logo component renders the typographic lockup with the house mark.
+   */
+  logoSrc: null as string | null,
   city: 'Cape Coast',
   region: 'Central Region, Ghana',
   founded: 2016,

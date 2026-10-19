@@ -1,8 +1,8 @@
 # Anna's Beautistry
 
 A Cape Coast beauty house — wig installation, piercing, lashes and makeup — built on the
-design system of the Sika jewellery house: near-black ink, champagne gold, Cormorant
-Garamond over Montserrat, and the same slow-motion reveal vocabulary.
+design system of the Sika jewellery house: deep royal plum (her purple), champagne gold,
+Cormorant Garamond over Montserrat, and the same slow-motion reveal vocabulary.
 
 ## Running it
 
@@ -26,8 +26,11 @@ npm run preview
 The original house is a Ghanaian haute-joaillerie site. The parts worth keeping were not
 the rings but the grammar, so the grammar is what moved:
 
-- **Palette** — `ink` 950–500, `gold` 50–800, `ivory` 50–500 are unchanged. One new
-  accent, `blush`, is held back for the sections about skin.
+- **Palette — her colours are purple and gold.** `ink` 950–500 is a deep royal-plum
+  scale (`#36145e`–`#8f5cc4`) that replaces black as the foundation, `royal` 50–900 is
+  the vivid purple used for glows and accents, `gold` 50–800 is the unchanged champagne
+  gold, and `ivory` 50–500 is cooled to lilac-ivory so light sections read as pale
+  lavender. The former `blush` token now holds the soft lilac accent scale.
 - **Type** — `display-1/2/3` clamps, `.eyebrow` with its `0.42em` tracking, and the
   tracked-out `0.3em` buttons are the same rules (`src/index.css`).
 - **Motion** — one easing curve (`EASE`, `[0.22, 1, 0.36, 1]`), word-by-word masked

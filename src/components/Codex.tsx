@@ -39,7 +39,8 @@ export default function Codex() {
       >
         <Mark name="halo" strokeWidth={0.5} className="h-full w-full" />
       </m.div>
-      <div className="pointer-events-none absolute left-1/3 top-0 h-[400px] w-[400px] -translate-y-1/2 rounded-full bg-gold-600/[0.08] blur-[130px]" />
+      <div className="pointer-events-none absolute left-1/3 top-0 h-[400px] w-[400px] -translate-y-1/2 rounded-full bg-royal-600/[0.18] blur-[130px]" />
+      <div className="pointer-events-none absolute -left-32 bottom-0 h-[320px] w-[320px] rounded-full bg-gold-600/[0.06] blur-[120px]" />
 
       <div className="container-luxe relative">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">

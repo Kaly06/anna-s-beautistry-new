@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowUp, Facebook, Instagram, Twitter } from 'lucide-react';
 import { HOUSE } from '../data/house';
 import { services } from '../data/services';
-import Monogram from './ui/Monogram';
+import Logo from './ui/Logo';
 import Reveal from './ui/Reveal';
 
 const HOUSE_LINKS = [
@@ -26,11 +26,8 @@ export default function Footer() {
         <div className="grid gap-12 border-b border-ivory-100/10 pb-16 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Reveal>
-              <Link to="/" className="flex items-center gap-3" aria-label="Anna's Beautistry home">
-                <Monogram className="h-8 w-8 text-gold-300" />
-                <span className="font-display text-lg tracking-[0.26em] text-ivory-50">
-                  ANNA&apos;S
-                </span>
+              <Link to="/" className="group flex items-center" aria-label="Anna's Beautistry home">
+                <Logo size="footer" />
               </Link>
               <p className="mt-6 max-w-xs font-sans text-[12px] font-light leading-[1.95] text-ivory-300/60">
                 A beauty house in {HOUSE.city}: lace laid by hand, needle-only piercings in
@@ -121,9 +118,9 @@ export default function Footer() {
         <div className="relative pt-12">
           <p
             aria-hidden="true"
-            className="select-none whitespace-nowrap text-center font-display text-[clamp(3rem,11vw,10rem)] font-light leading-[0.8] tracking-[0.06em] text-ivory-50/[0.055]"
+            className="select-none whitespace-nowrap text-center font-display text-[clamp(1.9rem,6.8vw,6.25rem)] font-light leading-[0.85] tracking-[0.05em] text-ivory-50/[0.055]"
           >
-            BEAUTISTRY
+            ANNA&apos;S BEAUTISTRY
           </p>
         </div>
 

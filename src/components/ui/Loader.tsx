@@ -4,7 +4,8 @@ import { EASE } from '../../lib/animations';
 import { HOUSE } from '../../data/house';
 import Monogram from './Monogram';
 
-const WORDMARK = HOUSE.wordmark.split('');
+const [WORDMARK_LINE_ONE, WORDMARK_LINE_TWO] = HOUSE.wordmarkLines;
+const WORDMARK = WORDMARK_LINE_ONE.split('');
 
 /** Opening curtain: wordmark reveal, gold rule and a percentage counter. */
 export default function Loader({ onDone }: { onDone: () => void }) {
@@ -57,10 +58,11 @@ export default function Loader({ onDone }: { onDone: () => void }) {
           <Monogram className="h-full w-full" />
         </m.div>
         <div className="overflow-hidden">
-          <div className="flex">
+          <div className="flex justify-center" aria-label="Anna's Beautistry">
             {WORDMARK.map((letter, i) => (
               <m.span
                 key={`${letter}-${i}`}
+                aria-hidden="true"
                 className="font-display text-[11vw] font-light leading-none tracking-[0.12em] text-ivory-50 sm:text-[7.5vw]"
                 initial={{ y: '110%' }}
                 animate={{ y: '0%' }}
@@ -71,6 +73,15 @@ export default function Loader({ onDone }: { onDone: () => void }) {
             ))}
           </div>
         </div>
+        <m.p
+          aria-hidden="true"
+          className="mt-4 text-center font-sans text-[10px] font-medium uppercase tracking-[0.62em] text-gold-300/90 sm:text-xs"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: EASE, delay: 0.45 }}
+        >
+          {WORDMARK_LINE_TWO}
+        </m.p>
         <m.div
           className="mt-7 h-px w-[min(70vw,520px)] origin-left bg-gradient-to-r from-gold-600 via-gold-300 to-gold-600"
           initial={{ scaleX: 0 }}
