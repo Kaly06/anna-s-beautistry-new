@@ -181,7 +181,7 @@ export const menu: MenuItem[] = [
     slug: 'navel-piercing',
     service: 'piercing',
     name: 'Navel Piercing',
-    image: '/images/service-navel-piercing.jpg',
+    image: '/images/service-navel-piercing-result.jpg',
     price: 300,
     duration: 20,
     tagline: 'Anatomically checked first — not every navel takes a standard bar.',
