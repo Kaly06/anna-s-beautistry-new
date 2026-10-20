@@ -93,6 +93,11 @@ export default function Signatures() {
                       {signature.detail} · {signature.duration}
                     </p>
                     <p className="mt-4 font-display text-lg text-gold-200">
+                      {signature.priceFrom ? (
+                        <span className="mr-2 font-sans text-[8px] uppercase tracking-[0.24em] text-ivory-500">
+                          From
+                        </span>
+                      ) : null}
                       {formatPrice(signature.price)}
                     </p>
                   </div>

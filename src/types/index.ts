@@ -16,6 +16,8 @@ export interface MenuItem {
   service: ServiceId;
   name: string;
   price: number;
+  /** True when `price` is the starting price for a service with options. */
+  priceFrom?: boolean;
   /** Duration in minutes — drives the label and the sort. */
   duration: number;
   tagline: string;
@@ -34,6 +36,7 @@ export interface Signature {
   name: string;
   service: string;
   price: number;
+  priceFrom?: boolean;
   duration: string;
   image: string;
   detail: string;

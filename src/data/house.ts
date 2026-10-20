@@ -8,7 +8,7 @@ export const HOUSE = {
    * Uploaded logo file (drop the new logo at this path to use it).
    * Preferred: transparent SVG, otherwise transparent PNG (gold/ivory on
    * transparent — her colours are purple and gold, and the site
-   * background is deep royal plum #36145e).
+   * background is deep royal plum #170429).
    * Set to the uploaded path once the file arrives; until then the
    * Logo component renders the typographic lockup with the house mark.
    */

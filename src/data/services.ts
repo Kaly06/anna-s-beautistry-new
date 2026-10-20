@@ -3,35 +3,35 @@ import type { Service, ServiceId, Signature, Testimonial } from '../types';
 export const services: Service[] = [
   {
     id: 'wigs',
-    name: 'Lace & Wigs',
+    name: 'Wigs',
     description:
-      'Hand-plucked frontals melted to your own hairline, glueless closures, and revamps for the unit you already love.',
+      'Installation, construction, reconstruction, revamping, styling and custom services for every stage of your unit.',
     image: '/images/cat-wigs.webp',
-    count: '8 services',
-  },
-  {
-    id: 'piercing',
-    name: 'Piercing',
-    description:
-      'Needle-only, single-use, implant-grade titanium. Lobes, stacks, helix, conch and nostril, marked and measured with you.',
-    image: '/images/cat-piercing.webp',
-    count: '8 services',
+    count: '5 services',
   },
   {
     id: 'lashes',
     name: 'Lashes',
     description:
-      'Korean silk sets placed one extension at a time — classic, hybrid, volume and wispy, mapped to your eye shape.',
+      'Classic, hybrid, volume and mega volume Korean silk sets, with refill and maintenance mapped to your natural lashes.',
     image: '/images/cat-lashes.webp',
-    count: '8 services',
+    count: '5 services',
+  },
+  {
+    id: 'piercing',
+    name: 'Piercings',
+    description:
+      'Needle-only earlobe, cartilage, Nostril, lip / Medusa and navel piercings in implant-grade titanium.',
+    image: '/images/cat-piercing.webp',
+    count: '5 services',
   },
   {
     id: 'makeup',
     name: 'Makeup',
     description:
-      'Skin-first glam that still reads as skin in daylight: soft, full, bridal, traditional and editorial.',
+      'Soft glam, full glam, bridal makeup and a dedicated bridal trial — skin-first and built to last.',
     image: '/images/cat-makeup.webp',
-    count: '8 services',
+    count: '4 services',
   },
 ];
 
@@ -39,56 +39,53 @@ export const serviceIds: ServiceId[] = services.map((service) => service.id);
 
 export const signatures: Signature[] = [
   {
-    id: 'wigs-1',
-    name: 'The Frontal Rebirth',
-    service: 'Lace & Wigs',
-    price: 850,
-    duration: '3 hrs',
+    id: 'wigs-wig-installation',
+    name: 'Wig Installation',
+    service: 'Wigs',
+    price: 90,
+    priceFrom: true,
+    duration: '2 hrs',
     image: '/images/svc-frontal.webp',
-    detail: '13×6 HD frontal · hand-plucked',
-    description:
-      'A 13×6 HD frontal, bleached, tinted and plucked by hand, then melted to your hairline with no lace grid in sight.',
-    tag: 'Signature',
-    href: '/services/wigs/signature-lace-frontal',
+    detail: 'Closure · frontal · pony · sew-in',
+    description: 'Professional installation tailored to your preferred style.',
+    tag: 'Popular',
+    href: '/services/wigs/wig-installation',
   },
   {
-    id: 'piercing-2',
-    name: 'The Kotokuraba Stack',
-    service: 'Piercing',
-    price: 640,
-    duration: '45 min',
-    image: '/images/svc-stack.webp',
-    detail: '3 piercings · implant-grade titanium',
-    description:
-      'Three piercings planned as one composition — lobe, helix and flat — in solid titanium that stays in through healing.',
-    tag: 'Most booked',
-    href: '/services/piercing/curated-ear-stack',
-  },
-  {
-    id: 'lashes-3',
-    name: 'The Sea Mist Volume',
+    id: 'lashes-volume',
+    name: 'Volume Lash Extensions',
     service: 'Lashes',
     price: 560,
     duration: '2 hrs 45',
     image: '/images/svc-lashes.webp',
     detail: '0.05mm silk · 4D fans',
-    description:
-      'A full volume set in matte Korean silk, weighed for humidity so it survives a Cape Coast afternoon.',
+    description: 'Hand-made volume fans mapped to your eye shape and natural-lash strength.',
     tag: 'Signature',
-    href: '/services/lashes/volume-set',
+    href: '/services/lashes/volume-lash-extensions',
   },
   {
-    id: 'makeup-1',
-    name: 'Cape Coast Soft Glam',
+    id: 'piercing-cartilage',
+    name: 'Cartilage Piercing (Helix/Tragus)',
+    service: 'Piercings',
+    price: 280,
+    duration: '20 min',
+    image: '/images/svc-stack.webp',
+    detail: 'Needle-only · implant-grade titanium',
+    description: 'Helix or tragus placement marked against your anatomy before the needle is opened.',
+    tag: 'Most booked',
+    href: '/services/piercing/cartilage-piercing-helix-tragus',
+  },
+  {
+    id: 'makeup-soft-glam',
+    name: 'Soft Glam Makeup',
     service: 'Makeup',
     price: 600,
     duration: '1 hr 30',
     image: '/images/svc-glam.webp',
     detail: 'Luminous matte · mineral pigment',
-    description:
-      'Bronze, light and undetectable up close. The face people book when they want to be told they look well, not done.',
+    description: 'Bronze, light and undetectable up close — makeup that still reads as skin.',
     tag: 'Signature',
-    href: '/services/makeup/soft-glam',
+    href: '/services/makeup/soft-glam-makeup',
   },
 ];
 
@@ -97,13 +94,13 @@ export const testimonials: Testimonial[] = [
     quote:
       'I have worn lace for eleven years and no one has ever matched my hairline like Anna. Three weeks in, nobody could find the line — including my sister, who was looking for it.',
     name: 'Efua Baidoo',
-    role: 'Lace & Wigs · client since 2019',
+    role: 'Wigs · client since 2019',
   },
   {
     quote:
       'She talked me out of the third hoop and was right. It healed in six weeks with no irritation at all, and I have since brought my daughter for her first lobes.',
-    name: 'Nana Ama Kuntu',
-    role: 'Piercing · curated stack',
+    name: 'Ama Serwaa',
+    role: 'Piercings · earlobe & cartilage',
   },
   {
     quote:
@@ -115,7 +112,7 @@ export const testimonials: Testimonial[] = [
     quote:
       'The lash set is so light I forget it is there until someone asks. That is the compliment I wanted — not "your lashes are lovely", but "your eyes are lovely".',
     name: 'Zainab Yakubu',
-    role: 'Lashes · volume set',
+    role: 'Lashes · Volume Lash Extensions',
   },
 ];
 

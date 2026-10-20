@@ -83,7 +83,7 @@ export default function MenuModal({ item, onClose, onNavigate, indexLabel }: Men
             </div>
 
             <div className="grid flex-1 gap-0 md:grid-cols-2">
-              <div className="relative flex min-h-[320px] items-center justify-center overflow-hidden bg-[radial-gradient(120%_100%_at_50%_0%,#4e2786_0%,#33125a_55%,#230a42_100%)]">
+              <div className="relative flex min-h-[320px] items-center justify-center overflow-hidden bg-[radial-gradient(120%_100%_at_50%_0%,#341b4e_0%,#200b35_55%,#170429_100%)]">
                 {item.image ? (
                   <img
                     src={item.image}
@@ -124,7 +124,7 @@ export default function MenuModal({ item, onClose, onNavigate, indexLabel }: Men
                 <div className="grid grid-cols-2 gap-6 border-y border-ivory-100/10 py-6">
                   <div>
                     <p className="font-sans text-[9px] uppercase tracking-[0.26em] text-ivory-500">
-                      Price
+                      {item.priceFrom ? 'From' : 'Price'}
                     </p>
                     <p className="mt-2 font-display text-3xl text-gold-200">
                       {formatPrice(item.price)}

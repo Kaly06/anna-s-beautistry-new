@@ -90,8 +90,8 @@ export const MARKS: Record<
 
 /** The four material marks, in codex order. */
 export const CODEX: { name: MarkName; for: string }[] = [
-  { name: 'lace', for: 'Lace & Wigs' },
-  { name: 'titanium', for: 'Piercing' },
+  { name: 'lace', for: 'Wigs' },
   { name: 'silk', for: 'Lashes' },
+  { name: 'titanium', for: 'Piercings' },
   { name: 'pigment', for: 'Makeup' },
 ];

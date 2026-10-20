@@ -1,7 +1,7 @@
 # Anna's Beautistry
 
 A Cape Coast beauty house — wig installation, piercing, lashes and makeup — built on the
-design system of the Sika jewellery house: deep royal plum (her purple), champagne gold,
+design system of the Sika jewellery house: deep royal plum (her purple), metallic gold,
 Cormorant Garamond over Montserrat, and the same slow-motion reveal vocabulary.
 
 ## Running it
@@ -29,9 +29,9 @@ The original house is a Ghanaian haute-joaillerie site. The parts worth keeping 
 the rings but the grammar, so the grammar is what moved:
 
 - **Palette — her colours are purple and gold.** `ink` 950–500 is a deep royal-plum
-  scale (`#36145e`–`#8f5cc4`) that replaces black as the foundation, `royal` 50–900 is
-  the vivid purple used for glows and accents, `gold` 50–800 is the unchanged champagne
-  gold, and `ivory` 50–500 is cooled to lilac-ivory so light sections read as pale
+  scale (`#170429`–`#6d4c88`) that replaces black as the foundation, `royal` 50–900 is
+  the muted purple used for glows and accents, `gold` 50–800 is metallic gold anchored
+  exactly on `#d4af37` at `gold-400`, and `ivory` 50–500 is cooled to lilac-ivory so light sections read as pale
   lavender. The former `blush` token now holds the soft lilac accent scale.
 - **Type** — `display-1/2/3` clamps, `.eyebrow` with its `0.42em` tracking, and the
   tracked-out `0.3em` buttons are the same rules (`src/index.css`).
@@ -61,7 +61,7 @@ the rings but the grammar, so the grammar is what moved:
 ## Content
 
 All copy and prices live in `src/data/`: `house.ts` (brand, address, hours), `services.ts`
-(the four rooms, signatures, testimonials), `menu.ts` (32 treatments with price, duration
+(the four rooms, signatures, testimonials), `menu.ts` (19 treatments with price, duration
 and aftercare) and `rooms.ts` (the copy above each menu). Prices are illustrative cedi
 figures; `formatPrice` and `formatDuration` in `house.ts` do the formatting.
 

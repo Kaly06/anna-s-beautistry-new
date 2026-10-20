@@ -25,9 +25,9 @@ export default function MenuCard({ item, index }: MenuCardProps) {
         data-cursor="view"
         data-cursor-label="View"
         className="block w-full text-left"
-        aria-label={`View ${item.name}, ${formatPrice(item.price)}`}
+        aria-label={`View ${item.name}, ${item.priceFrom ? 'from ' : ''}${formatPrice(item.price)}`}
       >
-        <div className="relative overflow-hidden border border-ivory-100/[0.08] bg-[radial-gradient(120%_100%_at_50%_0%,#4a2480_0%,#34135e_52%,#250b45_100%)] transition-colors duration-700 ease-luxe group-hover:border-gold-300/35">
+        <div className="relative overflow-hidden border border-ivory-100/[0.08] bg-[radial-gradient(120%_100%_at_50%_0%,#341b4e_0%,#200b35_52%,#170429_100%)] transition-colors duration-700 ease-luxe group-hover:border-gold-300/35">
           <div className="pointer-events-none absolute inset-4 border border-ivory-100/[0.06] transition-colors duration-700 group-hover:border-gold-300/20" />
 
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold-400/[0.06] opacity-0 blur-2xl transition-opacity duration-700 group-hover:opacity-100" />
@@ -91,8 +91,15 @@ export default function MenuCard({ item, index }: MenuCardProps) {
               {item.tagline}
             </p>
           </div>
-          <span className="shrink-0 font-display text-lg text-gold-200">
-            {formatPrice(item.price)}
+          <span className="shrink-0 text-right">
+            {item.priceFrom ? (
+              <span className="block font-sans text-[8px] uppercase tracking-[0.24em] text-ivory-500">
+                From
+              </span>
+            ) : null}
+            <span className="block font-display text-lg leading-tight text-gold-200">
+              {formatPrice(item.price)}
+            </span>
           </span>
         </div>
       </Link>
