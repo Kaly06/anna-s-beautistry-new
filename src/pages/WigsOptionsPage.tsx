@@ -203,7 +203,7 @@ export default function WigsOptionsPage() {
             {/* -------------------------------------------------- summary */}
             <aside className="lg:order-2 lg:col-span-4">
               <div className="lg:sticky lg:top-24">
-                <div className="border border-gold-300/25 bg-[radial-gradient(130%_110%_at_50%_0%,#4a2480_0%,#35125f_55%,#270c46_100%)] p-6 sm:p-7">
+                <div className="border border-gold-300/25 bg-[radial-gradient(130%_110%_at_50%_0%,#341b4e_0%,#200b35_55%,#170429_100%)] p-6 sm:p-7">
                   <div className="flex items-center justify-between">
                     <p className="font-sans text-[9px] uppercase tracking-[0.28em] text-gold-300/80">
                       Your build

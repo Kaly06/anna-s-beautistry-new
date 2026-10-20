@@ -36,9 +36,9 @@ export default function Specimen({
     >
       <defs>
         <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#f3e4bc" />
-          <stop offset="0.42" stopColor="#d6b478" />
-          <stop offset="1" stopColor="#97712f" />
+          <stop offset="0" stopColor="#f7e7ac" />
+          <stop offset="0.42" stopColor="#d4af37" />
+          <stop offset="1" stopColor="#98751f" />
         </linearGradient>
         <filter id={glowId} x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="2.4" result="blur" />

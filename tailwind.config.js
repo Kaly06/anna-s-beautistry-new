@@ -9,42 +9,47 @@ export default {
       },
       colors: {
         // Her colours: purple and gold.
-        // `ink` is the royal-purple foundation — lifted well clear of black
-        // (near-black plum read as black), so the site is unmistakably purple at a
-        // glance while still dark enough for ivory text and gold details.
+        // `ink` is the purple foundation, anchored exactly on #170429.
+        // The rest of the scale stays in that deep, muted family for
+        // surfaces and gradients, while ivory text and gold details sit on top.
         ink: {
-          950: '#36145e',
-          900: '#40196d',
-          850: '#491f7a',
-          800: '#54268c',
-          700: '#65339f',
-          600: '#7a45b3',
-          500: '#8f5cc4',
+          950: '#170429',
+          900: '#200b35',
+          850: '#291240',
+          800: '#341b4e',
+          700: '#44275f',
+          600: '#563672',
+          500: '#6d4c88',
         },
-        // Royal purple — the vivid end of the plum scale, for glows,
-        // accents and moments where the purple should be felt, not just seen.
+        // Royal purple — the glow/accent scale. It is deliberately kept
+        // inside the same muted #170429 family as `ink`; using a vivid
+        // royal here would repaint large blurred areas bright purple even
+        // when the flat foundation underneath is exact.
         royal: {
-          50: '#f5efff',
-          100: '#ede0ff',
-          200: '#d8c2ff',
-          300: '#be9bf5',
-          400: '#a06fe0',
-          500: '#7e3fc4',
-          600: '#62269f',
-          700: '#4a187c',
-          800: '#351058',
-          900: '#24083d',
+          50: '#f4eef9',
+          100: '#e7dbf1',
+          200: '#d0bce0',
+          300: '#a98dbc',
+          400: '#6d4c88',
+          500: '#563672',
+          600: '#44275f',
+          700: '#341b4e',
+          800: '#200b35',
+          900: '#170429',
         },
+        // Metallic gold, anchored exactly on #d4af37 at gold-400.
+        // The lighter and deeper stops are only tints/shades around that
+        // brand gold; primary gold surfaces use gold-400 itself.
         gold: {
-          50: '#fcf9f1',
-          100: '#f6eeda',
-          200: '#ecdcb0',
-          300: '#e0c88b',
-          400: '#d2ae63',
-          500: '#c29a4c',
-          600: '#a37c37',
-          700: '#7d5c28',
-          800: '#5a421d',
+          50: '#fbf3d5',
+          100: '#f7e7ac',
+          200: '#f1d27a',
+          300: '#e6bd4a',
+          400: '#d4af37',
+          500: '#b8922e',
+          600: '#98751f',
+          700: '#775a16',
+          800: '#57410f',
         },
         // Lilac-ivory: the warm ivory cooled into the purple family, so
         // light sections read as pale lavender against the royal plum.
@@ -59,16 +64,16 @@ export default {
         // Formerly blush-pink; now the soft lilac accent scale
         // (token name kept for compatibility).
         blush: {
-          50: '#faf5ff',
-          100: '#f1e6fd',
-          200: '#e0ccfa',
-          300: '#c4a3ec',
-          400: '#a678dd',
-          500: '#8550c4',
-          600: '#68369f',
-          700: '#502578',
+          50: '#f7f2fb',
+          100: '#eee4f6',
+          200: '#dcc9ed',
+          300: '#bda0d4',
+          400: '#8a6aa3',
+          500: '#6d4c88',
+          600: '#563672',
+          700: '#44275f',
         },
-        wine: '#1e0836',
+        wine: '#170429',
       },
       letterSpacing: {
         mega: '0.42em',

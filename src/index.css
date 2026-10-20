@@ -37,14 +37,14 @@
     width: 9px;
   }
   ::-webkit-scrollbar-track {
-    background: #36145e;
+    background: #170429;
   }
   ::-webkit-scrollbar-thumb {
-    background: #5c3596;
+    background: #563672;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #7b45ab;
+    background: #6d4c88;
   }
 
   :focus-visible {
@@ -112,7 +112,7 @@
   }
 
   .btn-gold {
-    @apply relative inline-flex items-center justify-center gap-3 overflow-hidden border border-gold-300/60 bg-gold-300 px-8 py-4 font-sans text-[10px] font-semibold uppercase tracking-widest2 text-ink-950 transition-colors duration-500 ease-luxe hover:border-gold-200 hover:bg-gold-200;
+    @apply relative inline-flex items-center justify-center gap-3 overflow-hidden border border-gold-400/60 bg-gold-400 px-8 py-4 font-sans text-[10px] font-semibold uppercase tracking-widest2 text-ink-950 transition-colors duration-500 ease-luxe hover:border-gold-300 hover:bg-gold-300;
   }
 
   .btn-ghost {
@@ -150,11 +150,11 @@
   .gold-text {
     background: linear-gradient(
       100deg,
-      #f6eeda 0%,
-      #d2ae63 32%,
-      #f6eeda 52%,
-      #a37c37 78%,
-      #e0c88b 100%
+      #f7e7ac 0%,
+      #d4af37 32%,
+      #f1d27a 52%,
+      #98751f 78%,
+      #e6bd4a 100%
     );
     background-size: 200% auto;
     -webkit-background-clip: text;
@@ -167,11 +167,11 @@
   .royal-text {
     background: linear-gradient(
       100deg,
-      #f1e6fd 0%,
-      #c4a3ec 34%,
+      #eee4f6 0%,
+      #bda0d4 34%,
       #fdfaff 54%,
-      #8550c4 78%,
-      #e0ccfa 100%
+      #6d4c88 78%,
+      #dcc9ed 100%
     );
     background-size: 200% auto;
     -webkit-background-clip: text;
@@ -187,8 +187,8 @@
     background: radial-gradient(
       120% 90% at 50% 30%,
       transparent 35%,
-      rgba(54, 20, 94, 0.55) 78%,
-      rgba(54, 20, 94, 0.92) 100%
+      rgba(23, 4, 41, 0.55) 78%,
+      rgba(23, 4, 41, 0.92) 100%
     );
   }
 

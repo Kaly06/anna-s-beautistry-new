@@ -83,7 +83,7 @@ export default function MenuModal({ item, onClose, onNavigate, indexLabel }: Men
             </div>
 
             <div className="grid flex-1 gap-0 md:grid-cols-2">
-              <div className="relative flex min-h-[320px] items-center justify-center overflow-hidden bg-[radial-gradient(120%_100%_at_50%_0%,#4e2786_0%,#33125a_55%,#230a42_100%)]">
+              <div className="relative flex min-h-[320px] items-center justify-center overflow-hidden bg-[radial-gradient(120%_100%_at_50%_0%,#341b4e_0%,#200b35_55%,#170429_100%)]">
                 {item.image ? (
                   <img
                     src={item.image}
