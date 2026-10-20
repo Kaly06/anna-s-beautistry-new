@@ -47,3 +47,33 @@ export interface Testimonial {
   name: string;
   role: string;
 }
+
+/** One choice on a wig's options sheet. */
+export interface WigOption {
+  id: string;
+  name: string;
+  /** The spec, set as a tracked-out label — '13×6', '200%', '22"'. */
+  spec: string;
+  /** Added to the estimate, in cedis. 0 reads as included. */
+  add: number;
+  /** What it is, in one line. */
+  detail: string;
+  /** Anna's note — when to choose it, or when not to. */
+  note?: string;
+  /** Recommended by the house. */
+  recommended?: boolean;
+  /** Anything the price cannot say — lead time, what it is waived on. */
+  meta?: string;
+}
+
+/** A question on the options sheet, with the choices that answer it. */
+export interface WigOptionGroup {
+  id: string;
+  name: string;
+  /** The question, as it is put in the chair. */
+  question: string;
+  intro?: string;
+  /** Several choices can be true at once (finishing touches). */
+  multi?: boolean;
+  options: WigOption[];
+}

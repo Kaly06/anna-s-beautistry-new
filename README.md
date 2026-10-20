@@ -18,8 +18,10 @@ npm run preview
 | Route | What it is |
 | --- | --- |
 | `/` | The house: hero, services, signatures, studio, materials, looks, booking |
+| `/services` | The menu index — four rooms with counts, price ranges and signatures |
 | `/services/:serviceId` | A room of the menu — `wigs`, `piercing`, `lashes`, `makeup` |
 | `/services/:serviceId/:slug` | The same room, with one service open in a modal |
+| `/services/wigs/options` | The wigs options sheet — build a unit, the estimate updates live |
 
 ## How the design carries over from Sika
 
@@ -50,6 +52,11 @@ the rings but the grammar, so the grammar is what moved:
   parametrically as stroked SVG in a 200×200 box, so a 32-item menu needs no photography
   and still looks considered. Change a variant number and the drawing changes.
 - **Booking** — a two-column form that collects the sitting, not a newsletter signup.
+- **The options sheet** (`/services/wigs/options`, data in `src/data/wigOptions.ts`) —
+  a lace unit is eight decisions, so the page prices all eight as increments on a base
+  install. Choosing an option updates the estimate, writes a plain-text sheet you can
+  copy or email, and never hides a line until the till. Every number on `/services`
+  (counts, price and duration ranges) is derived from `menu.ts`, not typed twice.
 
 ## Content
 

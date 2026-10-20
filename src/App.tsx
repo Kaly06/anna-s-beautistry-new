@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import HomePage from './pages/HomePage';
+import ServicesPage from './pages/ServicesPage';
 import ServicePage from './pages/ServicePage';
+import WigsOptionsPage from './pages/WigsOptionsPage';
 import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -71,6 +73,8 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<HomePage introDone={introDone} />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/services/wigs/options" element={<WigsOptionsPage />} />
         <Route path="/services/:serviceId" element={<ServicePage />} />
         <Route path="/services/:serviceId/:slug" element={<ServicePage />} />
         <Route path="*" element={<NotFound />} />

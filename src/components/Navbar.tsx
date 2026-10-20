@@ -9,7 +9,7 @@ import Magnetic from './ui/Magnetic';
 import Logo from './ui/Logo';
 
 const LINKS = [
-  { label: 'Services', href: '/services/wigs' },
+  { label: 'Services', href: '/services' },
   { label: 'Materials', href: '/#materials' },
   { label: 'Studio', href: '/#studio' },
   { label: 'The Looks', href: '/#lookbook' },
@@ -163,6 +163,14 @@ export default function Navbar() {
                     </Link>
                   ))}
                 </div>
+                <Link
+                  to="/services/wigs/options"
+                  onClick={() => setOpen(false)}
+                  className="mt-4 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.2em] text-gold-200 transition-colors hover:text-gold-100"
+                >
+                  Wigs options sheet
+                  <ArrowUpRight className="h-3 w-3" strokeWidth={1.4} />
+                </Link>
               </m.div>
 
               <m.div
