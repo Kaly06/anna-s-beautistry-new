@@ -10,6 +10,17 @@ export interface Service {
   count: string;
 }
 
+/** One selectable option beneath a menu service. */
+export interface MenuItemOption {
+  name: string;
+  /** Fixed price, or the lower end of a range, in cedis. */
+  minPrice?: number;
+  /** Upper end of a price range, in cedis. */
+  maxPrice?: number;
+  /** Used when the price is not a fixed cedi figure. */
+  priceNote?: string;
+}
+
 /** One line of the treatment menu, as it appears on a service page. */
 export interface MenuItem {
   slug: string;
@@ -28,6 +39,8 @@ export interface MenuItem {
   tag?: string;
   focus?: 'attention';
   image?: string;
+  /** Selectable priced options shown under the service. */
+  options?: MenuItemOption[];
 }
 
 /** A signature treatment, featured on the home page. */

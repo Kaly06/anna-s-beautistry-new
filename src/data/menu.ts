@@ -21,6 +21,13 @@ export const menu: MenuItem[] = [
     variant: 0,
     tag: 'Popular',
     focus: 'attention',
+    options: [
+      { name: 'Closure Installation', minPrice: 90, maxPrice: 140 },
+      { name: 'Frontal Installation', minPrice: 160, maxPrice: 200 },
+      { name: 'Frontal Pony', minPrice: 160, maxPrice: 250 },
+      { name: 'Traditional Pony', minPrice: 140, maxPrice: 200 },
+      { name: 'Sew-In', minPrice: 180, maxPrice: 220 },
+    ],
   },
   {
     slug: 'wig-construction-making',
@@ -34,6 +41,13 @@ export const menu: MenuItem[] = [
     note: 'Closure, frontal, pixie and glueless units are priced by construction type. Styling and lace tinting are included.',
     variant: 1,
     tag: 'Signature',
+    options: [
+      { name: 'Closure Unit Construction', minPrice: 120, maxPrice: 150 },
+      { name: 'Frontal Unit Construction', minPrice: 160, maxPrice: 200 },
+      { name: 'Pixie Unit Construction', minPrice: 180 },
+      { name: 'Ready-Made Frontal Wig to Glueless', minPrice: 150 },
+      { name: 'Customized Glueless Unit', minPrice: 180 },
+    ],
   },
   {
     slug: 'wig-reconstruction-remaking',
@@ -46,6 +60,11 @@ export const menu: MenuItem[] = [
     tagline: 'Rebuilding and refreshing your unit. Styling and lace tinting included.',
     note: 'Available for closure, frontal and pixie units. Styling and lace tinting are included in the reconstruction.',
     variant: 2,
+    options: [
+      { name: 'Closure Reconstruction', minPrice: 160 },
+      { name: 'Frontal Reconstruction', minPrice: 180 },
+      { name: 'Pixie Reconstruction', minPrice: 150 },
+    ],
   },
   {
     slug: 'wig-revamping',
@@ -58,6 +77,11 @@ export const menu: MenuItem[] = [
     tagline: 'Deep cleansing, treatment, and restyling services. Styling included.',
     note: 'Choose revamping with or without treatment; knot bleaching can also be included. Styling is included.',
     variant: 3,
+    options: [
+      { name: 'Without Treatment', minPrice: 60, maxPrice: 90 },
+      { name: 'With Treatment', minPrice: 90, maxPrice: 150 },
+      { name: 'Bleaching Knots + Revamping', minPrice: 120 },
+    ],
   },
   {
     slug: 'wig-styling-custom-services',
@@ -70,6 +94,14 @@ export const menu: MenuItem[] = [
     tagline: 'Professional styling services and custom lace adjustments.',
     note: 'Straightening, curling and pixie styling are priced by service. Coloring and ventilation are quoted by consultation.',
     variant: 4,
+    options: [
+      { name: 'Straightening', minPrice: 50, maxPrice: 80 },
+      { name: 'Curling', minPrice: 60, maxPrice: 100 },
+      { name: 'Pixie Styling', minPrice: 100 },
+      { name: 'Coloring', priceNote: 'Varies' },
+      { name: 'Ventilation', priceNote: 'Varies' },
+      { name: 'Changing Closure / Frontal Lace', priceNote: 'Same as Reconstruction' },
+    ],
   },
 
   // ----------------------------------------------------------------- Lashes

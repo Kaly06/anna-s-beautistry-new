@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { m } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
 import { EASE } from '../lib/animations';
@@ -13,6 +14,22 @@ const EMPTY = { name: '', phone: '', service: services[0].id, date: '', notes: '
 export default function Booking() {
   const [form, setForm] = useState(EMPTY);
   const [sent, setSent] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const requestedService = searchParams.get('service');
+    const treatment = searchParams.get('treatment');
+    if (!requestedService && !treatment) return;
+
+    setForm((current) => ({
+      ...current,
+      service: services.some((service) => service.id === requestedService)
+        ? (requestedService as typeof current.service)
+        : current.service,
+      notes: treatment ? `Requested option: ${treatment}` : current.notes,
+    }));
+    setSent(false);
+  }, [searchParams]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

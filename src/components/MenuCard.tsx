@@ -1,17 +1,32 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { m } from 'framer-motion';
-import type { MenuItem } from '../types';
+import { AnimatePresence, m } from 'framer-motion';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+import type { MenuItem, MenuItemOption } from '../types';
 import { formatDuration, formatPrice } from '../data/house';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
 import Specimen from './ui/Specimen';
+import ServiceOptions, { bookingSearch, optionPriceLabel } from './ServiceOptions';
 
 interface MenuCardProps {
   item: MenuItem;
   index: number;
+  selectedOption?: string;
+  onSelectOption?: (option: MenuItemOption) => void;
 }
 
-export default function MenuCard({ item, index }: MenuCardProps) {
+export default function MenuCard({
+  item,
+  index,
+  selectedOption,
+  onSelectOption,
+}: MenuCardProps) {
+  const [optionsOpen, setOptionsOpen] = useState(Boolean(item.options?.length));
+  const selected = item.options?.find((option) => option.name === selectedOption);
+  const optionsId = `${item.slug}-options`;
+  const serviceHref = `/services/${item.service}/${item.slug}`;
+
   return (
     <m.article
       initial={{ opacity: 0, y: 34 }}
@@ -21,7 +36,7 @@ export default function MenuCard({ item, index }: MenuCardProps) {
       className="group"
     >
       <Link
-        to={`/services/${item.service}/${item.slug}`}
+        to={serviceHref}
         data-cursor="view"
         data-cursor-label="View"
         className="block w-full text-left"
@@ -78,31 +93,104 @@ export default function MenuCard({ item, index }: MenuCardProps) {
             <span className="h-px w-8 bg-gold-300/60" />
           </div>
         </div>
-
-        <div className="flex items-start justify-between gap-4 pt-5">
-          <div>
-            <h3 className="font-display text-2xl font-light leading-tight text-ivory-50 transition-colors duration-300 group-hover:text-gold-100">
-              {item.name}
-            </h3>
-            <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.2em] text-gold-300/70">
-              {formatDuration(item.duration)}
-            </p>
-            <p className="mt-1.5 font-sans text-[10.5px] font-light leading-relaxed tracking-wide text-ivory-400">
-              {item.tagline}
-            </p>
-          </div>
-          <span className="shrink-0 text-right">
-            {item.priceFrom ? (
-              <span className="block font-sans text-[8px] uppercase tracking-[0.24em] text-ivory-500">
-                From
-              </span>
-            ) : null}
-            <span className="block font-display text-lg leading-tight text-gold-200">
-              {formatPrice(item.price)}
-            </span>
-          </span>
-        </div>
       </Link>
+
+      <div className="flex items-start justify-between gap-4 pt-5">
+        <div>
+          <h3 className="font-display text-2xl font-light leading-tight text-ivory-50">
+            <Link
+              to={serviceHref}
+              className="transition-colors duration-300 hover:text-gold-100"
+            >
+              {item.name}
+            </Link>
+          </h3>
+          <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.2em] text-gold-300/70">
+            {formatDuration(item.duration)}
+          </p>
+          <p className="mt-1.5 font-sans text-[10.5px] font-light leading-relaxed tracking-wide text-ivory-400">
+            {item.tagline}
+          </p>
+        </div>
+        <span className="shrink-0 text-right">
+          <span className="block font-sans text-[8px] uppercase tracking-[0.24em] text-ivory-500">
+            {selected ? 'Selected' : item.priceFrom ? 'From' : 'Price'}
+          </span>
+          <span className="block font-display text-lg leading-tight text-gold-200">
+            {selected ? optionPriceLabel(selected) : formatPrice(item.price)}
+          </span>
+        </span>
+      </div>
+
+      {item.options?.length ? (
+        <div className="mt-5 border-t border-ivory-100/10 pt-4">
+          <button
+            type="button"
+            aria-expanded={optionsOpen}
+            aria-controls={optionsId}
+            onClick={() => setOptionsOpen((open) => !open)}
+            className="flex w-full items-center justify-between gap-4 font-sans text-[9px] uppercase tracking-[0.26em] text-gold-200 transition-colors duration-300 hover:text-gold-100"
+          >
+            <span>{optionsOpen ? 'Hide options' : `Show ${item.options.length} options`}</span>
+            <ChevronDown
+              className={`h-4 w-4 transition-transform duration-500 ease-luxe ${
+                optionsOpen ? 'rotate-180' : ''
+              }`}
+              strokeWidth={1.4}
+            />
+          </button>
+
+          <AnimatePresence initial={false}>
+            {optionsOpen ? (
+              <m.div
+                id={optionsId}
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.45, ease: EASE }}
+                className="overflow-hidden"
+              >
+                <div className="pt-4">
+                  <ServiceOptions
+                    item={item}
+                    selectedOption={selectedOption}
+                    onSelectOption={onSelectOption}
+                    idPrefix={`${item.slug}-card-option`}
+                  />
+                </div>
+              </m.div>
+            ) : null}
+          </AnimatePresence>
+
+          {selected ? (
+            <div className="mt-4 border border-gold-300/25 bg-gold-400/[0.06] px-4 py-3">
+              <p className="font-sans text-[9px] uppercase tracking-[0.22em] text-ivory-500">
+                Selected option
+              </p>
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+                <p className="font-sans text-[11px] font-light tracking-wide text-ivory-100">
+                  {selected.name}
+                  <span className="text-ivory-500"> · {optionPriceLabel(selected)}</span>
+                </p>
+                <Link
+                  to={{ pathname: '/', search: bookingSearch(item, selected), hash: '#book' }}
+                  className="group/book inline-flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.24em] text-gold-200 transition-colors hover:text-gold-100"
+                >
+                  Book selected
+                  <ArrowRight
+                    className="h-3 w-3 transition-transform duration-500 ease-luxe group-hover/book:translate-x-1"
+                    strokeWidth={1.5}
+                  />
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <p className="mt-3 font-sans text-[9px] uppercase tracking-[0.2em] text-ivory-600">
+              Select an option above
+            </p>
+          )}
+        </div>
+      ) : null}
     </m.article>
   );
 }

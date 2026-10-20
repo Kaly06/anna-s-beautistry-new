@@ -36,6 +36,12 @@ export function formatPrice(value: number): string {
   return `${CURRENCY} ${value.toLocaleString('en-US')}`;
 }
 
+/** GH₵ 90 – 140, without repeating the currency symbol. */
+export function formatPriceRange(min: number, max?: number): string {
+  if (!max || max === min) return formatPrice(min);
+  return `${CURRENCY} ${min.toLocaleString('en-US')} – ${max.toLocaleString('en-US')}`;
+}
+
 /** 90 → "1 hr 30", 45 → "45 min". */
 export function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);
