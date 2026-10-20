@@ -115,9 +115,12 @@ export default function ServicePage() {
               House
             </Link>
             <span className="h-px w-5 bg-ivory-100/20" />
-            <span className="font-sans text-[9px] uppercase tracking-[0.26em] text-gold-300/80">
+            <Link
+              to="/services"
+              className="font-sans text-[9px] uppercase tracking-[0.26em] text-gold-300/80 transition-colors hover:text-gold-200"
+            >
               Services
-            </span>
+            </Link>
             <span className="h-px w-5 bg-ivory-100/20" />
             <span className="font-sans text-[9px] uppercase tracking-[0.26em] text-ivory-200">
               {meta.name}
@@ -199,6 +202,30 @@ export default function ServicePage() {
         </div>
       </section>
 
+      {/* --------------------------------------------------------- options */}
+      {meta.id === 'wigs' ? (
+        <section className="border-b border-ivory-100/[0.07] bg-ink-900">
+          <div className="container-luxe flex flex-col items-start justify-between gap-6 py-9 sm:flex-row sm:items-center">
+            <div>
+              <p className="font-sans text-[9px] uppercase tracking-[0.28em] text-gold-300/80">
+                The options sheet
+              </p>
+              <p className="mt-2 max-w-xl font-display text-xl font-light leading-snug text-ivory-100">
+                Lace, frontpiece, cap, density, length, texture, colour — priced line by line,
+                before anything is ordered.
+              </p>
+            </div>
+            <Link to="/services/wigs/options" className="btn-ghost group shrink-0">
+              Build a unit
+              <ArrowUpRight
+                className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                strokeWidth={1.4}
+              />
+            </Link>
+          </div>
+        </section>
+      ) : null}
+
       {/* ----------------------------------------------------------- index */}
       <section className="bg-ink-950 pb-24 pt-10 sm:pb-32">
         <div className="container-luxe">
@@ -239,13 +266,13 @@ export default function ServicePage() {
                 holds the appointment and comes off your bill.
               </p>
               <Magnetic strength={0.2}>
-                <a href="#book" className="btn-ghost group">
+                <Link to="/#book" className="btn-ghost group">
                   Book {meta.name}
                   <ArrowUpRight
                     className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                     strokeWidth={1.4}
                   />
-                </a>
+                </Link>
               </Magnetic>
             </div>
           </Reveal>

@@ -55,6 +55,14 @@ export default function Footer() {
             <Reveal delay={0.08}>
               <h3 className="eyebrow">The menu</h3>
               <ul className="mt-6 space-y-3.5">
+                <li>
+                  <Link
+                    to="/services"
+                    className="font-sans text-[12px] font-light text-ivory-300/70 transition-colors duration-300 hover:text-gold-200"
+                  >
+                    All services
+                  </Link>
+                </li>
                 {services.map((service) => (
                   <li key={service.id}>
                     <Link
@@ -65,6 +73,14 @@ export default function Footer() {
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <Link
+                    to="/services/wigs/options"
+                    className="font-sans text-[12px] font-light text-gold-300/80 transition-colors duration-300 hover:text-gold-200"
+                  >
+                    Wigs options sheet
+                  </Link>
+                </li>
               </ul>
             </Reveal>
           </div>

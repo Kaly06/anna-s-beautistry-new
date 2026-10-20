@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { AnimatePresence, m } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, X } from 'lucide-react';
 import type { MenuItem } from '../types';
@@ -149,13 +150,13 @@ export default function MenuModal({ item, onClose, onNavigate, indexLabel }: Men
                   </p>
                 </div>
 
-                <a href="#book" onClick={onClose} className="btn-gold group mt-auto self-start">
+                <Link to="/#book" onClick={onClose} className="btn-gold group mt-auto self-start">
                   Book this service
                   <ArrowRight
                     className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"
                     strokeWidth={1.4}
                   />
-                </a>
+                </Link>
               </div>
             </div>
 
