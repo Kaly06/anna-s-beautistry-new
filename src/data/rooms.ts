@@ -15,33 +15,33 @@ export interface RoomMeta {
 export const rooms: Record<ServiceId, RoomMeta> = {
   wigs: {
     id: 'wigs',
-    name: 'Lace & Wigs',
+    name: 'Wigs',
     numeral: '01',
-    headline: 'Lace you cannot find.',
+    headline: 'Made, remade, melted.',
     intro:
-      'Frontals bleached, tinted and plucked by hand, then melted to your own hairline. We will not glue your edges down to save twenty minutes.',
-    note: '13×6 frontal — study drawing',
+      'Installation, construction, reconstruction, revamping and custom styling — the full life of a unit, handled in one chair.',
+    note: 'Lace unit — study drawing',
     signatureVariant: 0,
-  },
-  piercing: {
-    id: 'piercing',
-    name: 'Piercing',
-    numeral: '02',
-    headline: 'Marked twice. Pierced once.',
-    intro:
-      'Needle-only, single-use, implant-grade titanium, placed after you have looked at the marks in the mirror and moved them. No guns, ever.',
-    note: 'Curated stack — study drawing',
-    signatureVariant: 1,
   },
   lashes: {
     id: 'lashes',
     name: 'Lashes',
-    numeral: '03',
+    numeral: '02',
     headline: 'Weight, mapped to your eye.',
     intro:
-      'Korean silk placed one extension at a time, in a density your natural lash can actually carry. We would rather refuse a set than thin your own.',
+      'Classic, hybrid, volume and mega volume sets in Korean silk, plus refill and maintenance in a density your natural lash can actually carry.',
     note: 'Volume fan — study drawing',
     signatureVariant: 2,
+  },
+  piercing: {
+    id: 'piercing',
+    name: 'Piercings',
+    numeral: '03',
+    headline: 'Marked twice. Pierced once.',
+    intro:
+      'Needle-only earlobe, cartilage, Nostril, lip / Medusa and navel piercings in implant-grade titanium. No guns, ever.',
+    note: 'Piercing placement — study drawing',
+    signatureVariant: 1,
   },
   makeup: {
     id: 'makeup',
@@ -49,7 +49,7 @@ export const rooms: Record<ServiceId, RoomMeta> = {
     numeral: '04',
     headline: 'Skin, only better lit.',
     intro:
-      'Bronze, luminous and undetectable at arm’s length. Built for the light you will actually be standing in, and photographed before you leave.',
+      'Soft glam, full glam, bridal makeup and a dedicated bridal trial — built for the light you will actually be standing in.',
     note: 'Soft glam palette — study drawing',
     signatureVariant: 0,
   },

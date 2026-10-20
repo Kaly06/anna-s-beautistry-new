@@ -195,6 +195,11 @@ export default function ServicesPage() {
                             </span>
                           </span>
                           <span className="shrink-0 font-display text-base text-gold-200">
+                            {signature.priceFrom ? (
+                              <span className="mr-2 font-sans text-[8px] uppercase tracking-[0.24em] text-ivory-500">
+                                From
+                              </span>
+                            ) : null}
                             {formatPrice(signature.price)}
                           </span>
                         </Link>
@@ -233,7 +238,7 @@ export default function ServicesPage() {
         <div className="container-luxe relative">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
-              <Eyebrow>Lace &amp; wigs</Eyebrow>
+              <Eyebrow>Wigs</Eyebrow>
               <h2 className="mt-6 font-display text-[clamp(2rem,4vw,3.4rem)] font-light leading-[1.02] text-ivory-50">
                 Building a unit?
                 <span className="block italic text-gold-200">Start on paper.</span>

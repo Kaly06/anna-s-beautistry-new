@@ -124,7 +124,7 @@ export default function MenuModal({ item, onClose, onNavigate, indexLabel }: Men
                 <div className="grid grid-cols-2 gap-6 border-y border-ivory-100/10 py-6">
                   <div>
                     <p className="font-sans text-[9px] uppercase tracking-[0.26em] text-ivory-500">
-                      Price
+                      {item.priceFrom ? 'From' : 'Price'}
                     </p>
                     <p className="mt-2 font-display text-3xl text-gold-200">
                       {formatPrice(item.price)}

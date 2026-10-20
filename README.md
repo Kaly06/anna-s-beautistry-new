@@ -61,7 +61,7 @@ the rings but the grammar, so the grammar is what moved:
 ## Content
 
 All copy and prices live in `src/data/`: `house.ts` (brand, address, hours), `services.ts`
-(the four rooms, signatures, testimonials), `menu.ts` (32 treatments with price, duration
+(the four rooms, signatures, testimonials), `menu.ts` (19 treatments with price, duration
 and aftercare) and `rooms.ts` (the copy above each menu). Prices are illustrative cedi
 figures; `formatPrice` and `formatDuration` in `house.ts` do the formatting.
 
