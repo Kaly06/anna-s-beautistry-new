@@ -3,6 +3,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import HomePage from './pages/HomePage';
 import BookingPage from './pages/BookingPage';
+import GalleryPage from './pages/GalleryPage';
 import ServicesPage from './pages/ServicesPage';
 import ServicePage from './pages/ServicePage';
 import WigsOptionsPage from './pages/WigsOptionsPage';
@@ -81,6 +82,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage introDone={introDone} />} />
         <Route path="/book" element={<BookingPage />} />
+        <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/services/wigs/options" element={<WigsOptionsPage />} />
         <Route path="/services/:serviceId" element={<ServicePage />} />

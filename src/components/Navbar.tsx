@@ -10,6 +10,7 @@ import Logo from './ui/Logo';
 
 const LINKS = [
   { label: 'Services', href: '/services' },
+  { label: 'Gallery', href: '/gallery' },
   { label: 'About me', href: '/#about' },
   { label: 'Contact', href: '/#contact' },
 ];

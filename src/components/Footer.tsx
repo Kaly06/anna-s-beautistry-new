@@ -7,6 +7,7 @@ import Reveal from './ui/Reveal';
 
 const HOUSE_LINKS = [
   { label: 'About me', href: '/#about' },
+  { label: 'Gallery', href: '/gallery' },
   { label: 'Signature treatments', href: '/#signature' },
   { label: 'Book a service', href: '/book' },
 ];
