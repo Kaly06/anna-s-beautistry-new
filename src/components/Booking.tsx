@@ -11,6 +11,7 @@ import SplitText from './ui/SplitText';
 import PiercingConsentForm, {
   createEmptyPiercingConsent,
   inferPiercingPlacement,
+  isPiercingAgeBlocked,
   type PiercingConsent,
 } from './PiercingConsentForm';
 
@@ -46,6 +47,7 @@ export default function Booking() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (form.service === 'piercing' && isPiercingAgeBlocked(piercingConsent)) return;
     if (!form.name.trim() || !form.phone.trim()) return;
     setSent(true);
   };
@@ -54,6 +56,7 @@ export default function Booking() {
     setForm((current) => ({ ...current, [key]: value }));
 
   const isPiercing = form.service === 'piercing';
+  const piercingBlocked = isPiercing && isPiercingAgeBlocked(piercingConsent);
 
   return (
     <section className="relative overflow-hidden bg-ink-950 pb-24 pt-32 sm:pb-28 sm:pt-40">
@@ -113,8 +116,9 @@ export default function Booking() {
                     Piercing bookings
                   </p>
                   <p className="mt-2 font-sans text-[11px] font-light leading-relaxed text-ivory-300/75">
-                    The consent and health form below is required before we can confirm your
-                    piercing. We may verify age, anatomy and suitability in studio.
+                    Piercing bookings are 18+ only. The consent and health form below is required
+                    before we can confirm your piercing, and we may verify age and suitability in
+                    studio.
                   </p>
                 </div>
               ) : null}
@@ -241,10 +245,20 @@ export default function Booking() {
 
                 <div className="mt-10 flex flex-wrap items-center justify-between gap-6">
                   <p className="max-w-xs font-sans text-[9px] uppercase leading-relaxed tracking-[0.2em] text-ivory-500">
-                    No payment taken here. We confirm by message before anything is charged.
+                    {piercingBlocked
+                      ? 'You must be 18 or older to book a piercing. This booking cannot continue.'
+                      : 'No payment taken here. We confirm by message before anything is charged.'}
                   </p>
-                  <button type="submit" className="btn-gold group">
-                    {isPiercing ? 'Submit booking & consent' : 'Request a sitting'}
+                  <button
+                    type="submit"
+                    disabled={piercingBlocked}
+                    className="btn-gold group disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {piercingBlocked
+                      ? '18+ only for piercings'
+                      : isPiercing
+                        ? 'Submit booking & consent'
+                        : 'Request a sitting'}
                     <ArrowRight
                       className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"
                       strokeWidth={1.4}

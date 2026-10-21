@@ -1,5 +1,5 @@
 import { ShieldAlert } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 export type YesNo = '' | 'yes' | 'no';
 
@@ -49,6 +49,12 @@ export function createEmptyPiercingConsent(): PiercingConsent {
     signature: '',
     consentDate: todayISO(),
   };
+}
+
+/** Piercing bookings are 18+ only; under-18 requests cannot be submitted. */
+export function isPiercingAgeBlocked(value: PiercingConsent): boolean {
+  const age = value.age === '' ? null : Number(value.age);
+  return value.isAdult === 'no' || (age !== null && Number.isFinite(age) && age < 18);
 }
 
 export function inferPiercingPlacement(treatment: string | null): string {
@@ -144,13 +150,18 @@ function ConsentCheckbox({ id, checked, onChange, children }: ConsentCheckboxPro
 }
 
 export default function PiercingConsentForm({ value, onChange }: PiercingConsentFormProps) {
+  const [ageTouched, setAgeTouched] = useState(false);
+
   const update = <Key extends keyof PiercingConsent>(key: Key, next: PiercingConsent[Key]) => {
     onChange({ ...value, [key]: next });
   };
 
   const numericAge = value.age === '' ? null : Number(value.age);
-  const needsGuardianNote =
-    value.isAdult === 'no' || (numericAge !== null && Number.isFinite(numericAge) && numericAge < 18);
+  const ageEntered = numericAge !== null && Number.isFinite(numericAge);
+  // Wait for a two-digit age (or blur) so typing “24” does not flash the block on “2”.
+  const ageLooksComplete = ageTouched || value.age.trim().length >= 2;
+  const ageBlocked = ageEntered && ageLooksComplete && numericAge < 18;
+  const adultDeclarationBlocked = value.isAdult === 'no';
 
   return (
     <section
@@ -172,9 +183,9 @@ export default function PiercingConsentForm({ value, onChange }: PiercingConsent
             Piercing Consent &amp; Liability Form
           </h2>
           <p className="mt-3 font-sans text-[11.5px] font-light leading-[1.85] text-ivory-300/70">
-            Please complete this health check and consent form before we can confirm a piercing
-            appointment. Your answers are used only to assess suitability, plan safe placement and
-            provide aftercare.
+            Piercing bookings are for clients aged 18 or older. Please complete this health check
+            and consent form before we can confirm a piercing appointment. Your answers are used
+            only to assess suitability, plan safe placement and provide aftercare.
           </p>
         </div>
       </div>
@@ -185,22 +196,52 @@ export default function PiercingConsentForm({ value, onChange }: PiercingConsent
 
           <div>
             <label htmlFor="piercing-age" className="field-label">
-              Age <span className="text-gold-200">*</span>
+              Age (18+ only) <span className="text-gold-200">*</span>
             </label>
             <input
               id="piercing-age"
               type="number"
               inputMode="numeric"
-              min={1}
+              min={18}
               max={120}
+              step={1}
               required
               value={value.age}
-              onChange={(event) => update('age', event.target.value)}
+              aria-invalid={ageBlocked || undefined}
+              aria-describedby={ageBlocked ? 'piercing-age-error' : 'piercing-age-help'}
+              onBlur={() => setAgeTouched(true)}
+              onChange={(event) => {
+                const nextAge = event.currentTarget.value;
+                const parsedAge = nextAge === '' ? null : Number(nextAge);
+                event.currentTarget.setCustomValidity(
+                  parsedAge !== null && Number.isFinite(parsedAge) && parsedAge < 18
+                    ? 'You must be 18 or older to book a piercing. This booking cannot continue.'
+                    : '',
+                );
+                update('age', nextAge);
+              }}
               placeholder="e.g. 24"
               className="field mt-3"
             />
+            <p
+              id="piercing-age-help"
+              className="mt-2 font-sans text-[10px] font-light leading-relaxed text-ivory-500"
+            >
+              You must be at least 18 years old to book a piercing.
+            </p>
+            {ageBlocked ? (
+              <p
+                id="piercing-age-error"
+                role="alert"
+                className="mt-3 border border-red-300/40 bg-red-400/10 px-4 py-3 font-sans text-[11px] font-light leading-relaxed text-red-100"
+              >
+                You must be 18 or older to book a piercing. This booking cannot continue.
+              </p>
+            ) : null}
           </div>
 
+          {!ageBlocked ? (
+            <>
           <fieldset>
             <legend className="field-label">
               What piercing do you want? <span className="text-gold-200">*</span>
@@ -236,8 +277,12 @@ export default function PiercingConsentForm({ value, onChange }: PiercingConsent
             value={value.hadBefore}
             onChange={(next) => update('hadBefore', next)}
           />
+            </>
+          ) : null}
         </div>
 
+        {!ageBlocked ? (
+          <>
         <div className="space-y-7">
           <SectionHeading>Section 2: Health Check</SectionHeading>
 
@@ -342,13 +387,12 @@ export default function PiercingConsentForm({ value, onChange }: PiercingConsent
             onChange={(next) => update('isAdult', next)}
           />
 
-          {needsGuardianNote ? (
+          {adultDeclarationBlocked ? (
             <p
-              role="note"
-              className="border border-gold-300/35 bg-gold-400/10 px-4 py-3 font-sans text-[11px] font-light leading-relaxed text-gold-100"
+              role="alert"
+              className="border border-red-300/40 bg-red-400/10 px-4 py-3 font-sans text-[11px] font-light leading-relaxed text-red-100"
             >
-              If you are under 18, a parent or legal guardian must attend the appointment, bring
-              valid ID, and sign in studio. We will confirm this with you before holding the slot.
+              You must be 18 or older to book a piercing. This booking cannot continue.
             </p>
           ) : null}
 
@@ -416,6 +460,8 @@ export default function PiercingConsentForm({ value, onChange }: PiercingConsent
             />
           </div>
         </div>
+          </>
+        ) : null}
       </div>
     </section>
   );
