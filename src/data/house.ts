@@ -33,7 +33,11 @@ export const CURRENCY = 'GH₵';
 
 /** Cedi formatting, with the symbol Ghanaians actually read. */
 export function formatPrice(value: number): string {
-  return `${CURRENCY} ${value.toLocaleString('en-US')}`;
+  const formatted = value.toLocaleString('en-US', {
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+    maximumFractionDigits: 2,
+  });
+  return `${CURRENCY} ${formatted}`;
 }
 
 /** GH₵ 90 – 140, without repeating the currency symbol. */
