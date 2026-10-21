@@ -8,11 +8,19 @@ import { services } from '../data/services';
 import Eyebrow from './ui/Eyebrow';
 import Reveal from './ui/Reveal';
 import SplitText from './ui/SplitText';
+import PiercingConsentForm, {
+  createEmptyPiercingConsent,
+  inferPiercingPlacement,
+  type PiercingConsent,
+} from './PiercingConsentForm';
 
 const EMPTY = { name: '', phone: '', service: services[0].id, date: '', notes: '' };
 
 export default function Booking() {
   const [form, setForm] = useState(EMPTY);
+  const [piercingConsent, setPiercingConsent] = useState<PiercingConsent>(() =>
+    createEmptyPiercingConsent(),
+  );
   const [sent, setSent] = useState(false);
   const [searchParams] = useSearchParams();
 
@@ -26,8 +34,13 @@ export default function Booking() {
       service: services.some((service) => service.id === requestedService)
         ? (requestedService as typeof current.service)
         : current.service,
-      notes: treatment ? `Requested option: ${treatment}` : current.notes,
+      notes: treatment ? `Requested: ${treatment}` : current.notes,
     }));
+
+    const placement = inferPiercingPlacement(treatment);
+    if (placement) {
+      setPiercingConsent((current) => ({ ...current, placement }));
+    }
     setSent(false);
   }, [searchParams]);
 
@@ -39,6 +52,8 @@ export default function Booking() {
 
   const set = (key: keyof typeof EMPTY) => (value: string) =>
     setForm((current) => ({ ...current, [key]: value }));
+
+  const isPiercing = form.service === 'piercing';
 
   return (
     <section className="relative overflow-hidden bg-ink-950 pb-24 pt-32 sm:pb-28 sm:pt-40">
@@ -60,8 +75,12 @@ export default function Booking() {
           </span>
         </nav>
 
-        <div className="grid gap-12 border border-ivory-100/10 bg-ink-900/70 px-6 py-14 sm:px-10 lg:grid-cols-2 lg:gap-20 lg:px-16 lg:py-16">
-          <div>
+        <div
+          className={`grid gap-12 border border-ivory-100/10 bg-ink-900/70 px-6 py-14 sm:px-10 lg:gap-20 lg:px-16 lg:py-16 ${
+            isPiercing ? 'lg:grid-cols-[0.82fr_1.18fr]' : 'lg:grid-cols-2'
+          }`}
+        >
+          <div className="lg:sticky lg:top-32 lg:self-start">
             <Reveal>
               <Eyebrow>Book a sitting</Eyebrow>
             </Reveal>
@@ -88,6 +107,17 @@ export default function Booking() {
                   </a>
                 </li>
               </ul>
+              {isPiercing ? (
+                <div className="mt-10 border border-gold-300/25 bg-gold-400/[0.07] px-5 py-4">
+                  <p className="font-sans text-[9px] uppercase tracking-[0.24em] text-gold-200">
+                    Piercing bookings
+                  </p>
+                  <p className="mt-2 font-sans text-[11px] font-light leading-relaxed text-ivory-300/75">
+                    The consent and health form below is required before we can confirm your
+                    piercing. We may verify age, anatomy and suitability in studio.
+                  </p>
+                </div>
+              ) : null}
             </Reveal>
           </div>
 
@@ -107,13 +137,17 @@ export default function Booking() {
                     {HOUSE.greeting}. Your request is in.
                   </p>
                   <p className="mt-2 max-w-sm font-sans text-[11px] font-light leading-relaxed tracking-wide text-ivory-400">
-                    We will message {form.phone || 'you'} within twenty-four hours to confirm
-                    the time. To amend it, reply to that message or call the studio.
+                    {isPiercing
+                      ? `Your piercing consent is included. We will review your health answers and message ${
+                          form.phone || 'you'
+                        } within twenty-four hours to confirm suitability and the time.`
+                      : `We will message ${form.phone || 'you'} within twenty-four hours to confirm the time. To amend it, reply to that message or call the studio.`}
                   </p>
                   <button
                     type="button"
                     onClick={() => {
                       setForm(EMPTY);
+                      setPiercingConsent(createEmptyPiercingConsent());
                       setSent(false);
                     }}
                     className="link-underline mt-6"
@@ -201,12 +235,16 @@ export default function Booking() {
                   />
                 </div>
 
+                {isPiercing ? (
+                  <PiercingConsentForm value={piercingConsent} onChange={setPiercingConsent} />
+                ) : null}
+
                 <div className="mt-10 flex flex-wrap items-center justify-between gap-6">
                   <p className="max-w-xs font-sans text-[9px] uppercase leading-relaxed tracking-[0.2em] text-ivory-500">
                     No payment taken here. We confirm by message before anything is charged.
                   </p>
                   <button type="submit" className="btn-gold group">
-                    Request a sitting
+                    {isPiercing ? 'Submit booking & consent' : 'Request a sitting'}
                     <ArrowRight
                       className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"
                       strokeWidth={1.4}

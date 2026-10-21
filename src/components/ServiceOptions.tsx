@@ -21,7 +21,10 @@ export function optionPriceLabel(option: MenuItemOption): string {
 
 export function bookingSearch(item: MenuItem, option?: MenuItemOption): string {
   const params = new URLSearchParams({ service: item.service });
-  if (option) params.set('treatment', `${item.name} — ${option.name} (${optionPriceLabel(option)})`);
+  params.set(
+    'treatment',
+    option ? `${item.name} — ${option.name} (${optionPriceLabel(option)})` : item.name,
+  );
   return `?${params.toString()}`;
 }
 

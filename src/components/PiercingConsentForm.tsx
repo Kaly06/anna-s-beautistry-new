@@ -1,0 +1,422 @@
+import { ShieldAlert } from 'lucide-react';
+import type { ReactNode } from 'react';
+
+export type YesNo = '' | 'yes' | 'no';
+
+export interface PiercingConsent {
+  age: string;
+  placement: string;
+  hadBefore: YesNo;
+  allergies: YesNo;
+  medicalConditions: string;
+  keloids: YesNo;
+  understandsRisks: boolean;
+  willFollowAftercare: boolean;
+  understandsHealing: boolean;
+  consentsToProcedure: boolean;
+  agreesToLiabilityWaiver: boolean;
+  isAdult: YesNo;
+  jewelryAgreement: boolean;
+  photoConsent: YesNo;
+  signature: string;
+  consentDate: string;
+}
+
+const PLACEMENTS = ['Earlobe', 'Helix', 'Tragus', 'Nostril', 'Lip / Medusa', 'Navel'] as const;
+
+function todayISO(): string {
+  const now = new Date();
+  const local = new Date(now.getTime() - now.getTimezoneOffset() * 60_000);
+  return local.toISOString().slice(0, 10);
+}
+
+export function createEmptyPiercingConsent(): PiercingConsent {
+  return {
+    age: '',
+    placement: '',
+    hadBefore: '',
+    allergies: '',
+    medicalConditions: '',
+    keloids: '',
+    understandsRisks: false,
+    willFollowAftercare: false,
+    understandsHealing: false,
+    consentsToProcedure: false,
+    agreesToLiabilityWaiver: false,
+    isAdult: '',
+    jewelryAgreement: false,
+    photoConsent: '',
+    signature: '',
+    consentDate: todayISO(),
+  };
+}
+
+export function inferPiercingPlacement(treatment: string | null): string {
+  if (!treatment) return '';
+  const text = treatment.toLowerCase();
+
+  if (text.includes('earlobe') || text.includes('lobe')) return 'Earlobe';
+  if (text.includes('helix') && text.includes('tragus')) return '';
+  if (text.includes('helix')) return 'Helix';
+  if (text.includes('tragus')) return 'Tragus';
+  if (text.includes('nostril')) return 'Nostril';
+  if (text.includes('medusa') || text.includes('lip')) return 'Lip / Medusa';
+  if (text.includes('navel')) return 'Navel';
+  return '';
+}
+
+interface PiercingConsentFormProps {
+  value: PiercingConsent;
+  onChange: (next: PiercingConsent) => void;
+}
+
+function SectionHeading({ children }: { children: ReactNode }) {
+  return (
+    <h3 className="border-y border-gold-300/20 bg-gold-400/10 px-4 py-3 font-sans text-[10px] font-semibold uppercase tracking-[0.24em] text-gold-200">
+      {children}
+    </h3>
+  );
+}
+
+interface YesNoGroupProps {
+  id: string;
+  legend: string;
+  value: YesNo;
+  onChange: (value: YesNo) => void;
+}
+
+function YesNoGroup({ id, legend, value, onChange }: YesNoGroupProps) {
+  return (
+    <fieldset>
+      <legend className="field-label">
+        {legend} <span className="text-gold-200">*</span>
+      </legend>
+      <div className="mt-3 flex flex-wrap gap-6">
+        {(['yes', 'no'] as const).map((choice) => (
+          <label
+            key={choice}
+            htmlFor={`${id}-${choice}`}
+            className="inline-flex cursor-pointer items-center gap-2.5 font-sans text-[12px] font-light tracking-wide text-ivory-200"
+          >
+            <input
+              id={`${id}-${choice}`}
+              name={id}
+              type="radio"
+              required
+              checked={value === choice}
+              onChange={() => onChange(choice)}
+              className="h-4 w-4 shrink-0 accent-[#d4af37]"
+            />
+            {choice === 'yes' ? 'Yes' : 'No'}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+interface ConsentCheckboxProps {
+  id: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  children: ReactNode;
+}
+
+function ConsentCheckbox({ id, checked, onChange, children }: ConsentCheckboxProps) {
+  return (
+    <label
+      htmlFor={id}
+      className="flex cursor-pointer items-start gap-3 font-sans text-[12px] font-light leading-relaxed tracking-wide text-ivory-200"
+    >
+      <input
+        id={id}
+        type="checkbox"
+        required
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+        className="mt-0.5 h-4 w-4 shrink-0 accent-[#d4af37]"
+      />
+      <span>
+        {children} <span className="text-gold-200">*</span>
+      </span>
+    </label>
+  );
+}
+
+export default function PiercingConsentForm({ value, onChange }: PiercingConsentFormProps) {
+  const update = <Key extends keyof PiercingConsent>(key: Key, next: PiercingConsent[Key]) => {
+    onChange({ ...value, [key]: next });
+  };
+
+  const numericAge = value.age === '' ? null : Number(value.age);
+  const needsGuardianNote =
+    value.isAdult === 'no' || (numericAge !== null && Number.isFinite(numericAge) && numericAge < 18);
+
+  return (
+    <section
+      aria-labelledby="piercing-consent-title"
+      className="mt-12 border border-gold-300/25 bg-ink-950/55 px-5 py-7 sm:px-6"
+    >
+      <div className="flex items-start gap-3">
+        <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold-300/40 text-gold-200">
+          <ShieldAlert className="h-4 w-4" strokeWidth={1.5} />
+        </span>
+        <div>
+          <p className="font-sans text-[9px] uppercase tracking-[0.28em] text-gold-300/80">
+            Required for piercings
+          </p>
+          <h2
+            id="piercing-consent-title"
+            className="mt-2 font-display text-3xl font-light leading-tight text-ivory-50"
+          >
+            Piercing Consent &amp; Liability Form
+          </h2>
+          <p className="mt-3 font-sans text-[11.5px] font-light leading-[1.85] text-ivory-300/70">
+            Please complete this health check and consent form before we can confirm a piercing
+            appointment. Your answers are used only to assess suitability, plan safe placement and
+            provide aftercare.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-9 space-y-10">
+        <div className="space-y-7">
+          <SectionHeading>1. Client &amp; Placement Information</SectionHeading>
+
+          <div>
+            <label htmlFor="piercing-age" className="field-label">
+              Age <span className="text-gold-200">*</span>
+            </label>
+            <input
+              id="piercing-age"
+              type="number"
+              inputMode="numeric"
+              min={1}
+              max={120}
+              required
+              value={value.age}
+              onChange={(event) => update('age', event.target.value)}
+              placeholder="e.g. 24"
+              className="field mt-3"
+            />
+          </div>
+
+          <fieldset>
+            <legend className="field-label">
+              What piercing do you want? <span className="text-gold-200">*</span>
+            </legend>
+            <div className="mt-4 grid grid-cols-2 gap-x-5 gap-y-3">
+              {PLACEMENTS.map((placement) => {
+                const id = `piercing-placement-${placement.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+                return (
+                  <label
+                    key={placement}
+                    htmlFor={id}
+                    className="inline-flex cursor-pointer items-center gap-2.5 font-sans text-[12px] font-light tracking-wide text-ivory-200"
+                  >
+                    <input
+                      id={id}
+                      name="piercing-placement"
+                      type="radio"
+                      required
+                      checked={value.placement === placement}
+                      onChange={() => update('placement', placement)}
+                      className="h-4 w-4 shrink-0 accent-[#d4af37]"
+                    />
+                    {placement}
+                  </label>
+                );
+              })}
+            </div>
+          </fieldset>
+
+          <YesNoGroup
+            id="piercing-had-before"
+            legend="Have you had this piercing before?"
+            value={value.hadBefore}
+            onChange={(next) => update('hadBefore', next)}
+          />
+        </div>
+
+        <div className="space-y-7">
+          <SectionHeading>Section 2: Health Check</SectionHeading>
+
+          <YesNoGroup
+            id="piercing-allergies"
+            legend="Do you have any allergies?"
+            value={value.allergies}
+            onChange={(next) => update('allergies', next)}
+          />
+
+          <div>
+            <label htmlFor="piercing-medical-conditions" className="field-label">
+              Do you have any medical condition we should know about?
+              {value.allergies === 'yes' ? <span className="text-gold-200"> *</span> : null}
+            </label>
+            <input
+              id="piercing-medical-conditions"
+              type="text"
+              required={value.allergies === 'yes'}
+              value={value.medicalConditions}
+              onChange={(event) => update('medicalConditions', event.target.value)}
+              placeholder="Type 'None' or describe any allergies or conditions..."
+              className="field mt-3"
+            />
+            {value.allergies === 'yes' ? (
+              <p className="mt-2 font-sans text-[10px] font-light leading-relaxed text-gold-200/80">
+                Please describe the allergy above so we can assess suitable jewellery and products.
+              </p>
+            ) : null}
+          </div>
+
+          <YesNoGroup
+            id="piercing-keloids"
+            legend="Do you have a history of keloids (thick scars)?"
+            value={value.keloids}
+            onChange={(next) => update('keloids', next)}
+          />
+        </div>
+
+        <div className="space-y-6">
+          <SectionHeading>Section 3: Consent &amp; Liability</SectionHeading>
+
+          <div className="border border-ivory-100/10 bg-ink-900/70 px-4 py-4">
+            <p className="font-sans text-[11px] font-light leading-[1.9] text-ivory-300/75">
+              I voluntarily request a piercing at Anna&apos;s Beautistry. I understand that
+              piercing carries inherent risks, including pain, bleeding, swelling, infection,
+              scarring, allergic reaction, migration or rejection, and that healing and results
+              vary by person and placement. I confirm that the health information I have provided
+              is true and complete. To the extent permitted by law, I release Anna&apos;s
+              Beautistry from liability for outcomes arising from undisclosed health conditions,
+              unsuitable anatomy that could not reasonably be identified beforehand, or failure to
+              follow the aftercare instructions provided.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <ConsentCheckbox
+              id="piercing-understands-risks"
+              checked={value.understandsRisks}
+              onChange={(checked) => update('understandsRisks', checked)}
+            >
+              I understand piercing risks (infection, swelling, scarring, rejection)
+            </ConsentCheckbox>
+            <ConsentCheckbox
+              id="piercing-aftercare"
+              checked={value.willFollowAftercare}
+              onChange={(checked) => update('willFollowAftercare', checked)}
+            >
+              I will follow aftercare instructions given
+            </ConsentCheckbox>
+            <ConsentCheckbox
+              id="piercing-healing"
+              checked={value.understandsHealing}
+              onChange={(checked) => update('understandsHealing', checked)}
+            >
+              I understand healing takes weeks to months
+            </ConsentCheckbox>
+            <ConsentCheckbox
+              id="piercing-procedure-consent"
+              checked={value.consentsToProcedure}
+              onChange={(checked) => update('consentsToProcedure', checked)}
+            >
+              I consent to the piercing procedure
+            </ConsentCheckbox>
+            <ConsentCheckbox
+              id="piercing-liability-waiver"
+              checked={value.agreesToLiabilityWaiver}
+              onChange={(checked) => update('agreesToLiabilityWaiver', checked)}
+            >
+              I have read and agree to the consent and liability acknowledgement above
+            </ConsentCheckbox>
+          </div>
+        </div>
+
+        <div className="space-y-7">
+          <SectionHeading>Section 4: Age &amp; Agreement</SectionHeading>
+
+          <YesNoGroup
+            id="piercing-is-adult"
+            legend="Are you 18 years or older?"
+            value={value.isAdult}
+            onChange={(next) => update('isAdult', next)}
+          />
+
+          {needsGuardianNote ? (
+            <p
+              role="note"
+              className="border border-gold-300/35 bg-gold-400/10 px-4 py-3 font-sans text-[11px] font-light leading-relaxed text-gold-100"
+            >
+              If you are under 18, a parent or legal guardian must attend the appointment, bring
+              valid ID, and sign in studio. We will confirm this with you before holding the slot.
+            </p>
+          ) : null}
+
+          <div className="border border-ivory-100/10 bg-ink-900/70 px-4 py-4">
+            <p className="font-sans text-[9px] font-semibold uppercase tracking-[0.24em] text-gold-200">
+              Jewelry Agreement
+            </p>
+            <p className="mt-3 font-sans text-[11px] font-light leading-[1.85] text-ivory-300/75">
+              I understand that jewelry used is sterile and suitable for initial piercing, titanium
+              is recommended for healing, and I will not change jewelry too early. I will return
+              for downsizing if required at a cost.
+            </p>
+            <div className="mt-4">
+              <ConsentCheckbox
+                id="piercing-jewelry-agreement"
+                checked={value.jewelryAgreement}
+                onChange={(checked) => update('jewelryAgreement', checked)}
+              >
+                I agree
+              </ConsentCheckbox>
+            </div>
+          </div>
+
+          <YesNoGroup
+            id="piercing-photo-consent"
+            legend="May we take photos for portfolio/social media?"
+            value={value.photoConsent}
+            onChange={(next) => update('photoConsent', next)}
+          />
+        </div>
+
+        <div className="space-y-7">
+          <SectionHeading>Final Section</SectionHeading>
+
+          <div>
+            <label htmlFor="piercing-signature" className="field-label">
+              Full Name (Signature) <span className="text-gold-200">*</span>
+            </label>
+            <input
+              id="piercing-signature"
+              type="text"
+              autoComplete="name"
+              required
+              value={value.signature}
+              onChange={(event) => update('signature', event.target.value)}
+              placeholder="Type your full name..."
+              className="field mt-3"
+            />
+            <p className="mt-2 font-sans text-[10px] font-light leading-relaxed text-ivory-500">
+              Typing your full name acts as your electronic signature for this booking request.
+            </p>
+          </div>
+
+          <div>
+            <label htmlFor="piercing-consent-date" className="field-label">
+              Date <span className="text-gold-200">*</span>
+            </label>
+            <input
+              id="piercing-consent-date"
+              type="date"
+              required
+              value={value.consentDate}
+              onChange={(event) => update('consentDate', event.target.value)}
+              className="field mt-3"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
