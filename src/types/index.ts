@@ -27,7 +27,7 @@ export interface MenuItem {
   service: ServiceId;
   name: string;
   price: number;
-  /** True when `price` is the starting price for a service with options. */
+  /** True when `price` is a starting price. */
   priceFrom?: boolean;
   /** Duration in minutes — drives the label and the sort. */
   duration: number;
