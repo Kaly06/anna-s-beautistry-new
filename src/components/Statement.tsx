@@ -1,58 +1,78 @@
-import { useRef } from 'react';
-import { m, useScroll, useTransform, type MotionValue } from 'framer-motion';
+import { m, type Variants } from 'framer-motion';
+import { EASE } from '../lib/animations';
 
 const TEXT =
   'Nothing we do should be noticed. Only you should be — in the photograph, and in daylight.';
 
-interface WordProps {
-  children: string;
-  progress: MotionValue<number>;
-  range: [number, number];
-}
+const words: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.15,
+      staggerChildren: 0.085,
+    },
+  },
+};
 
-function Word({ children, progress, range }: WordProps) {
-  const opacity = useTransform(progress, range, [0.18, 1]);
-  return (
-    <m.span style={{ opacity }} className="mr-[0.24em] inline-block">
-      {children}
-    </m.span>
-  );
-}
+const word: Variants = {
+  hidden: { opacity: 0.16, y: 10, filter: 'blur(4px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.7, ease: EASE },
+  },
+};
 
-/** A manifesto line that lights up word-by-word as it crosses the viewport. */
+const signature: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, ease: EASE, delay: 1.55 },
+  },
+};
+
+/**
+ * A manifesto line that plays once, word by word, when it enters view.
+ * The timing is intentionally independent of scroll position.
+ */
 export default function Statement() {
-  const ref = useRef<HTMLParagraphElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start 0.85', 'end 0.4'],
-  });
-
-  const words = TEXT.split(' ');
-
   return (
     <section className="border-t border-ivory-100/[0.06] bg-ink-950 py-24 sm:py-32">
       <div className="container-luxe">
         <div className="mx-auto max-w-4xl text-center">
-          <p
-            ref={ref}
+          <m.p
+            variants={words}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.55 }}
+            aria-label={TEXT}
             className="font-display text-[clamp(1.9rem,4.2vw,3.6rem)] font-light leading-[1.25] tracking-[-0.01em] text-ivory-100"
           >
-            {words.map((word, index) => (
-              <Word
-                key={`${word}-${index}`}
-                progress={scrollYProgress}
-                range={[index / words.length, (index + 1) / words.length]}
+            {TEXT.split(' ').map((text, index) => (
+              <m.span
+                key={`${text}-${index}`}
+                variants={word}
+                aria-hidden="true"
+                className="mr-[0.24em] inline-block will-change-[opacity,transform,filter]"
               >
-                {word}
-              </Word>
+                {text}
+              </m.span>
             ))}
-          </p>
+          </m.p>
 
-          <div className="mt-10 flex items-center justify-center gap-4">
+          <m.div
+            variants={signature}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.55 }}
+            className="mt-10 flex items-center justify-center gap-4"
+          >
             <span className="h-px w-8 bg-gold-400/50" />
             <span className="eyebrow">Anna&apos;s Beautistry</span>
             <span className="h-px w-8 bg-gold-400/50" />
-          </div>
+          </m.div>
         </div>
       </div>
     </section>
