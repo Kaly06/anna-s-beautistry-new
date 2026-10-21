@@ -16,8 +16,13 @@ import Magnetic from '../components/ui/Magnetic';
 
 type Selection = Record<string, string[]>;
 
-/** Every group starts on the house recommendation. */
-const INITIAL: Selection = Object.fromEntries(
+/** The sheet opens blank — the estimate counts only what the client picks. */
+const EMPTY_SELECTION: Selection = Object.fromEntries(
+  WIG_GROUPS.map((group) => [group.id, []])
+);
+
+/** One-tap shortcut: the combination the house reaches for first. */
+const HOUSE_BUILD: Selection = Object.fromEntries(
   WIG_GROUPS.map((group) => [
     group.id,
     group.options.filter((option) => option.recommended).map((option) => option.id),
@@ -27,7 +32,7 @@ const INITIAL: Selection = Object.fromEntries(
 const room = rooms.wigs;
 
 export default function WigsOptionsPage() {
-  const [selection, setSelection] = useState<Selection>(INITIAL);
+  const [selection, setSelection] = useState<Selection>(EMPTY_SELECTION);
   const [copied, setCopied] = useState(false);
 
   const toggle = (group: WigOptionGroup, optionId: string) => {
@@ -41,7 +46,9 @@ export default function WigsOptionsPage() {
             : [...chosen, optionId],
         };
       }
-      return { ...current, [group.id]: [optionId] };
+      // Single-choice lines toggle too — tapping the active card clears it,
+      // so a line can go back to "not chosen yet".
+      return { ...current, [group.id]: chosen.includes(optionId) ? [] : [optionId] };
     });
   };
 
@@ -64,6 +71,8 @@ export default function WigsOptionsPage() {
     [build]
   );
 
+  const chosenCount = build.reduce((count, row) => count + row.chosen.length, 0);
+
   /** The sheet as plain text — for the clipboard, an email, or WhatsApp. */
   const sheetText = useMemo(() => {
     const lines = build
@@ -72,6 +81,9 @@ export default function WigsOptionsPage() {
         (row) =>
           `${row.group.name} — ${row.chosen.map((option) => `${option.name} (${option.spec})`).join(', ')}`
       );
+    if (lines.length === 0) {
+      lines.push('No lines chosen yet — happy to decide together in the consultation.');
+    }
     return [`Wig build — ${formatPrice(total)}`, '', ...lines, '', WIG_BASE.note].join('\n');
   }, [build, total]);
 
@@ -209,7 +221,7 @@ export default function WigsOptionsPage() {
                       Your build
                     </p>
                     <span className="font-sans text-[9px] uppercase tracking-[0.28em] text-ivory-500">
-                      {build.reduce((count, row) => count + row.chosen.length, 0)} chosen
+                      {chosenCount} chosen
                     </span>
                   </div>
 
@@ -217,7 +229,9 @@ export default function WigsOptionsPage() {
                     {formatPrice(total)}
                   </p>
                   <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.24em] text-ivory-500">
-                    Estimate · install, hair &amp; finishing
+                    {chosenCount === 0
+                      ? 'Base install only — pick a line to start your build'
+                      : 'Estimate · install, hair & finishing'}
                   </p>
 
                   <dl className="mt-7 space-y-2.5 border-t border-ivory-100/15 pt-6">
@@ -226,10 +240,14 @@ export default function WigsOptionsPage() {
                         <dt className="font-sans text-[9px] uppercase tracking-[0.2em] text-ivory-500">
                           {row.group.name}
                         </dt>
-                        <dd className="text-right font-sans text-[11px] font-light leading-snug text-ivory-200">
+                        <dd
+                          className={`text-right font-sans text-[11px] font-light leading-snug ${
+                            row.chosen.length > 0 ? 'text-ivory-200' : 'italic text-ivory-500'
+                          }`}
+                        >
                           {row.chosen.length > 0
                             ? row.chosen.map((option) => option.spec).join(' · ')
-                            : '—'}
+                            : 'Not chosen yet'}
                         </dd>
                       </div>
                     ))}
@@ -370,9 +388,18 @@ export default function WigsOptionsPage() {
                               </span>
                             ) : null}
 
-                            {option.meta ? (
-                              <span className="mt-3 inline-flex w-fit border border-ivory-100/15 px-2 py-0.5 font-sans text-[8px] uppercase tracking-[0.2em] text-gold-300/70">
-                                {option.meta}
+                            {option.meta || option.recommended ? (
+                              <span className="mt-3 flex flex-wrap gap-2">
+                                {option.recommended ? (
+                                  <span className="inline-flex w-fit border border-gold-300/40 bg-gold-300/[0.08] px-2 py-0.5 font-sans text-[8px] uppercase tracking-[0.2em] text-gold-200">
+                                    House pick
+                                  </span>
+                                ) : null}
+                                {option.meta ? (
+                                  <span className="inline-flex w-fit border border-ivory-100/15 px-2 py-0.5 font-sans text-[8px] uppercase tracking-[0.2em] text-gold-300/70">
+                                    {option.meta}
+                                  </span>
+                                ) : null}
                               </span>
                             ) : null}
                           </button>
@@ -385,16 +412,25 @@ export default function WigsOptionsPage() {
 
               <div className="flex flex-col items-start justify-between gap-5 border-t border-ivory-100/10 pt-8 sm:flex-row sm:items-center">
                 <p className="max-w-md font-sans text-[11px] font-light leading-relaxed text-ivory-400">
-                  Undecided on any line? Leave it on the house recommendation and we will take
-                  it through in the consultation.
+                  Undecided on any line? Leave it blank — the estimate only counts what you
+                  choose, and we can finish the sheet together in the consultation.
                 </p>
-                <button
-                  type="button"
-                  onClick={() => setSelection(INITIAL)}
-                  className="link-underline shrink-0"
-                >
-                  Reset to the house build
-                </button>
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <button
+                    type="button"
+                    onClick={() => setSelection(HOUSE_BUILD)}
+                    className="link-underline shrink-0"
+                  >
+                    Use the house build
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelection(EMPTY_SELECTION)}
+                    className="link-underline shrink-0"
+                  >
+                    Clear all selections
+                  </button>
+                </div>
               </div>
             </div>
           </div>
