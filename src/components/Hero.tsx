@@ -95,9 +95,9 @@ export default function Hero({ introDone }: { introDone: boolean }) {
               </a>
             </Magnetic>
             <Magnetic strength={0.2}>
-              <a href="#studio" className="group inline-flex items-center gap-3 px-2 py-4">
+              <a href="#about" className="group inline-flex items-center gap-3 px-2 py-4">
                 <span className="font-sans text-[10px] font-medium uppercase tracking-widest2 text-ivory-200 transition-colors duration-300 group-hover:text-gold-200">
-                  Inside the studio
+                  Meet Anna
                 </span>
                 <span className="flex h-9 w-9 items-center justify-center rounded-full border border-ivory-100/25 text-ivory-200 transition-colors duration-500 group-hover:border-gold-300/70 group-hover:text-gold-200">
                   <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.4} />

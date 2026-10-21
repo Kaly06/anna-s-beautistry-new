@@ -11,23 +11,23 @@ import SplitText from './ui/SplitText';
 const STEPS = [
   {
     n: '01',
-    title: 'Consultation',
-    body: 'Ten minutes before anything touches you: your hairline, your ear, your skin, your calendar. We will tell you when an idea will not work.',
+    title: 'I listen first',
+    body: 'Every appointment starts with a consultation. I take time to understand what you want, look at your hair, skin or piercing placement, and I will be honest when an idea needs adjusting.',
   },
   {
     n: '02',
-    title: 'Prep & hygiene',
-    body: 'Single-use needles, opened in front of you. Surfaces wiped between clients, tools through the autoclave overnight, hands washed twice.',
+    title: 'Clean & careful',
+    body: 'Hygiene is part of my craft. I use single-use needles opened in front of you, clean between clients, sterilise my tools properly and prepare carefully before your service begins.',
   },
   {
     n: '03',
-    title: 'The work',
-    body: 'We do not double-book. The chair is yours for the length of the appointment and nobody is waiting behind you.',
+    title: 'Your time is yours',
+    body: 'I work with one client at a time and do not double-book. When you reserve a service with me, that appointment time is fully yours from start to finish.',
   },
   {
     n: '04',
-    title: 'Aftercare',
-    body: 'You leave with written aftercare and a number to message. A service is not finished at the door — it is finished when it has healed.',
+    title: "I'm here after",
+    body: 'You leave with clear aftercare and a way to reach me. For me, a service is not finished at the door — it is finished when you feel confident caring for and maintaining the result.',
   },
 ];
 
@@ -40,51 +40,65 @@ const STATS = [
 
 export default function Studio() {
   return (
-    <section id="studio" className="scroll-mt-24 bg-ivory-100 py-24 text-ink-950 sm:py-32">
+    <section id="about" className="scroll-mt-24 bg-ivory-100 py-24 text-ink-950 sm:py-32">
       <div className="container-luxe">
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-6">
-            <div className="relative">
+            {/*
+              The in-view trigger lives on this un-clipped wrapper: browsers fold an
+              element's own clip-path into its IntersectionObserver rect, so a
+              fully-clipped element observes as "not intersecting" and a whileInView
+              on the clipped element itself would never fire.
+            */}
+            <m.div
+              className="relative"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-10%' }}
+            >
               <div className="absolute -left-4 -top-4 h-28 w-28 border-l border-t border-gold-700/40" />
 
               <m.div
                 className="relative aspect-[4/5] overflow-hidden bg-ivory-200"
-                initial={{ clipPath: 'inset(0 0 100% 0)' }}
-                whileInView={{ clipPath: 'inset(0 0 0% 0)' }}
-                viewport={{ once: true, margin: '-10%' }}
-                transition={{ duration: 1.5, ease: EASE }}
+                variants={{
+                  hidden: { clipPath: 'inset(0 0 100% 0)' },
+                  visible: {
+                    clipPath: 'inset(0 0 0% 0)',
+                    transition: { duration: 1.5, ease: EASE },
+                  },
+                }}
               >
                 <m.img
                   src="/images/studio.webp"
-                  alt="The studio at Anna's Beautistry in Cape Coast"
+                  alt="Inside the Anna's Beautistry studio in Cape Coast"
                   loading="lazy"
                   className="h-full w-full object-cover"
-                  initial={{ scale: 1.15 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true, margin: '-10%' }}
-                  transition={{ duration: 1.8, ease: EASE }}
+                  variants={{
+                    hidden: { scale: 1.15 },
+                    visible: { scale: 1, transition: { duration: 1.8, ease: EASE } },
+                  }}
                 />
                 <div className="absolute inset-0 bg-ink-950/10" />
               </m.div>
 
               <div className="absolute -bottom-6 -right-3 hidden border border-ink-950/15 bg-ivory-100 px-6 py-5 sm:block lg:-right-8">
-                <p className="font-display text-2xl">Studio No. 12</p>
+                <p className="font-display text-2xl">My studio</p>
                 <p className="eyebrow-dark mt-1.5">{HOUSE.city}, Ghana</p>
               </div>
-            </div>
+            </m.div>
           </div>
 
           <div className="lg:col-span-6 lg:pl-4 xl:pl-10">
             <Reveal>
               <Eyebrow index="03" tone="dark">
-                The studio
+                About me
               </Eyebrow>
             </Reveal>
 
             <h2 className="mt-7">
-              <SplitText text="One chair." className="display-2 block text-ink-950" />
+              <SplitText text="I'm Anna." className="display-2 block text-ink-950" />
               <SplitText
-                text="No queue."
+                text="Beauty is personal."
                 delay={0.15}
                 className="display-2 block italic text-ink-950/60"
               />
@@ -92,14 +106,16 @@ export default function Studio() {
 
             <Reveal delay={0.2}>
               <p className="mt-8 max-w-xl font-sans text-[13px] font-light leading-[1.95] text-ink-950/65">
-                Since {HOUSE.founded} the house has worked the slow way: a consultation before
-                every service, one client in the building at a time, and materials we will name
-                to your face. No double bookings, no needle guns, no adhesive on your edges
-                because it is faster.
+                I&apos;m Anna, the beauty artist behind Anna&apos;s Beautistry. Since{' '}
+                {HOUSE.founded}, I&apos;ve been helping clients in {HOUSE.city} look and feel
+                confident through Wigs, lashes, piercings and makeup — always one client at a
+                time, never rushed and never double-booked.
               </p>
               <p className="mt-5 max-w-xl font-sans text-[13px] font-light leading-[1.95] text-ink-950/65">
-                Most of our work comes from someone asking a friend where they had it done.
-                That is the only advertising we have ever paid for.
+                For me, beauty is not about copying a trend. It is about listening first,
+                understanding what suits you and creating a finish that still feels like you.
+                Most of my clients find me through someone they trust, and I never take that
+                lightly.
               </p>
             </Reveal>
 
