@@ -1,31 +1,23 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AnimatePresence, m } from 'framer-motion';
-import { ArrowRight, ChevronDown } from 'lucide-react';
-import type { MenuItem, MenuItemOption } from '../types';
+import { m } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import type { MenuItem } from '../types';
 import { formatDuration, formatPrice } from '../data/house';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
 import Specimen from './ui/Specimen';
-import ServiceOptions, { bookingSearch, optionPriceLabel } from './ServiceOptions';
+import { bookingSearch, optionPriceLabel } from './ServiceOptions';
 
 interface MenuCardProps {
   item: MenuItem;
   index: number;
   selectedOption?: string;
-  onSelectOption?: (option: MenuItemOption) => void;
 }
 
-export default function MenuCard({
-  item,
-  index,
-  selectedOption,
-  onSelectOption,
-}: MenuCardProps) {
-  const [optionsOpen, setOptionsOpen] = useState(Boolean(item.options?.length));
+export default function MenuCard({ item, index, selectedOption }: MenuCardProps) {
   const selected = item.options?.find((option) => option.name === selectedOption);
-  const optionsId = `${item.slug}-options`;
   const serviceHref = `/services/${item.service}/${item.slug}`;
+  const hasOptions = Boolean(item.options?.length);
 
   return (
     <m.article
@@ -38,9 +30,11 @@ export default function MenuCard({
       <Link
         to={serviceHref}
         data-cursor="view"
-        data-cursor-label="View"
+        data-cursor-label={hasOptions ? 'Choose' : 'View'}
         className="block w-full text-left"
-        aria-label={`View ${item.name}, ${item.priceFrom ? 'from ' : ''}${formatPrice(item.price)}`}
+        aria-label={`${hasOptions ? 'Choose an option for' : 'View'} ${item.name}, ${
+          item.priceFrom ? 'from ' : ''
+        }${formatPrice(item.price)}`}
       >
         <div className="relative overflow-hidden border border-ivory-100/[0.08] bg-[radial-gradient(120%_100%_at_50%_0%,#341b4e_0%,#200b35_52%,#170429_100%)] transition-colors duration-700 ease-luxe group-hover:border-gold-300/35">
           <div className="pointer-events-none absolute inset-4 border border-ivory-100/[0.06] transition-colors duration-700 group-hover:border-gold-300/20" />
@@ -88,7 +82,7 @@ export default function MenuCard({
 
           <div className="absolute inset-x-0 bottom-0 flex translate-y-2 items-center justify-between px-5 pb-5 opacity-0 transition-all duration-500 ease-luxe group-hover:translate-y-0 group-hover:opacity-100">
             <span className="font-sans text-[9px] uppercase tracking-[0.3em] text-gold-200">
-              View service
+              {hasOptions ? 'Choose an option' : 'View service'}
             </span>
             <span className="h-px w-8 bg-gold-300/60" />
           </div>
@@ -122,71 +116,29 @@ export default function MenuCard({
         </span>
       </div>
 
-      {item.options?.length ? (
+      {hasOptions ? (
         <div className="mt-5 border-t border-ivory-100/10 pt-4">
-          <button
-            type="button"
-            aria-expanded={optionsOpen}
-            aria-controls={optionsId}
-            onClick={() => setOptionsOpen((open) => !open)}
-            className="flex w-full items-center justify-between gap-4 font-sans text-[9px] uppercase tracking-[0.26em] text-gold-200 transition-colors duration-300 hover:text-gold-100"
-          >
-            <span>{optionsOpen ? 'Hide options' : `Show ${item.options.length} options`}</span>
-            <ChevronDown
-              className={`h-4 w-4 transition-transform duration-500 ease-luxe ${
-                optionsOpen ? 'rotate-180' : ''
-              }`}
-              strokeWidth={1.4}
-            />
-          </button>
-
-          <AnimatePresence initial={false}>
-            {optionsOpen ? (
-              <m.div
-                id={optionsId}
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.45, ease: EASE }}
-                className="overflow-hidden"
-              >
-                <div className="pt-4">
-                  <ServiceOptions
-                    item={item}
-                    selectedOption={selectedOption}
-                    onSelectOption={onSelectOption}
-                    idPrefix={`${item.slug}-card-option`}
-                  />
-                </div>
-              </m.div>
-            ) : null}
-          </AnimatePresence>
-
           {selected ? (
-            <div className="mt-4 border border-gold-300/25 bg-gold-400/[0.06] px-4 py-3">
-              <p className="font-sans text-[9px] uppercase tracking-[0.22em] text-ivory-500">
-                Selected option
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="font-sans text-[10px] font-light tracking-wide text-ivory-400">
+                <span className="uppercase tracking-[0.2em] text-gold-300/80">Selected · </span>
+                {selected.name}
               </p>
-              <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-                <p className="font-sans text-[11px] font-light tracking-wide text-ivory-100">
-                  {selected.name}
-                  <span className="text-ivory-500"> · {optionPriceLabel(selected)}</span>
-                </p>
-                <Link
-                  to={{ pathname: '/', search: bookingSearch(item, selected), hash: '#book' }}
-                  className="group/book inline-flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.24em] text-gold-200 transition-colors hover:text-gold-100"
-                >
-                  Book selected
-                  <ArrowRight
-                    className="h-3 w-3 transition-transform duration-500 ease-luxe group-hover/book:translate-x-1"
-                    strokeWidth={1.5}
-                  />
-                </Link>
-              </div>
+              <Link
+                to={{ pathname: '/', search: bookingSearch(item, selected), hash: '#book' }}
+                className="group/book inline-flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.24em] text-gold-200 transition-colors hover:text-gold-100"
+              >
+                Book selected
+                <ArrowRight
+                  className="h-3 w-3 transition-transform duration-500 ease-luxe group-hover/book:translate-x-1"
+                  strokeWidth={1.5}
+                />
+              </Link>
             </div>
           ) : (
-            <p className="mt-3 font-sans text-[9px] uppercase tracking-[0.2em] text-ivory-600">
-              Select an option above
+            <p className="flex items-center justify-between gap-4 font-sans text-[9px] uppercase tracking-[0.22em] text-ivory-500">
+              <span>{item.options!.length} options</span>
+              <span className="text-gold-300/80">Click the image to choose</span>
             </p>
           )}
         </div>

@@ -269,7 +269,6 @@ export default function ServicePage() {
                 item={item}
                 index={index}
                 selectedOption={selectedOptions[item.slug]}
-                onSelectOption={(option) => selectOption(item, option)}
               />
             ))}
           </div>
