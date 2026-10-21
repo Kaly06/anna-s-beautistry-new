@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { m } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { EASE } from '../lib/animations';
@@ -121,14 +122,14 @@ export default function Studio() {
             </div>
 
             <Reveal delay={0.2}>
-              <a href="#book" className="group mt-10 inline-flex items-center gap-3">
+              <Link to="/book" className="group mt-10 inline-flex items-center gap-3">
                 <span className="font-sans text-[10px] font-medium uppercase tracking-widest2 text-ink-950">
                   Book a sitting
                 </span>
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-ink-950/25 text-ink-950 transition-all duration-500 ease-luxe group-hover:border-gold-700 group-hover:bg-gold-700 group-hover:text-ivory-50">
                   <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.4} />
                 </span>
-              </a>
+              </Link>
             </Reveal>
           </div>
         </div>

@@ -293,7 +293,7 @@ export default function ServicesPage() {
             </p>
           </div>
           <Magnetic strength={0.16}>
-            <Link to="/#book" className="btn-gold group">
+            <Link to="/book" className="btn-gold group">
               Book a sitting
               <ArrowRight
                 className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"

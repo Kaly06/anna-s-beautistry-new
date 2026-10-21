@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import HomePage from './pages/HomePage';
+import BookingPage from './pages/BookingPage';
 import ServicesPage from './pages/ServicesPage';
 import ServicePage from './pages/ServicePage';
 import WigsOptionsPage from './pages/WigsOptionsPage';
@@ -17,9 +18,17 @@ const prefersReducedMotion =
 
 /** Route changes should always start at the top of the new page. */
 function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash, search } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Booking used to live at /#book. Send old links to the dedicated page,
+    // preserving any preselected service or treatment in the query string.
+    if (hash === '#book') {
+      navigate({ pathname: '/book', search }, { replace: true });
+      return;
+    }
+
     if (hash) {
       // Wait a frame so the destination section exists before measuring.
       const id = hash.slice(1);
@@ -35,7 +44,7 @@ function ScrollToTop() {
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     return undefined;
-  }, [pathname, hash]);
+  }, [pathname, hash, search, navigate]);
 
   return null;
 }
@@ -71,6 +80,7 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<HomePage introDone={introDone} />} />
+        <Route path="/book" element={<BookingPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/services/wigs/options" element={<WigsOptionsPage />} />
         <Route path="/services/:serviceId" element={<ServicePage />} />

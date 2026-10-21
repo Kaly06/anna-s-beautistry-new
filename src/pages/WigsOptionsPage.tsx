@@ -245,7 +245,7 @@ export default function WigsOptionsPage() {
                   </div>
 
                   <div className="mt-7 space-y-3">
-                    <Link to="/#book" className="btn-gold w-full !px-5 !py-3.5">
+                    <Link to="/book" className="btn-gold w-full !px-5 !py-3.5">
                       Book this build
                       <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.4} />
                     </Link>
@@ -531,7 +531,7 @@ export default function WigsOptionsPage() {
               </Link>
             </Magnetic>
             <Magnetic strength={0.16}>
-              <Link to="/#book" className="btn-gold group">
+              <Link to="/book" className="btn-gold group">
                 Book a sitting
                 <ArrowRight
                   className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"

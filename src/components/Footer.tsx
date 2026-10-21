@@ -10,7 +10,7 @@ const HOUSE_LINKS = [
   { label: 'The studio', href: '/#studio' },
   { label: 'The looks', href: '/#lookbook' },
   { label: 'Signature treatments', href: '/#signature' },
-  { label: 'Book a sitting', href: '/#book' },
+  { label: 'Book a sitting', href: '/book' },
 ];
 
 const SOCIALS = [

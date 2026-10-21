@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { m } from 'framer-motion';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { EASE } from '../lib/animations';
 import { HOUSE } from '../data/house';
 import { services } from '../data/services';
@@ -41,24 +41,38 @@ export default function Booking() {
     setForm((current) => ({ ...current, [key]: value }));
 
   return (
-    <section id="book" className="relative scroll-mt-24 overflow-hidden bg-ink-900 py-24 sm:py-28">
+    <section className="relative overflow-hidden bg-ink-950 pb-24 pt-32 sm:pb-28 sm:pt-40">
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-gold-500/[0.06] blur-[120px]" />
       <div className="pointer-events-none absolute -right-40 bottom-0 h-[420px] w-[420px] rounded-full bg-royal-600/[0.16] blur-[130px]" />
 
       <div className="container-luxe relative">
-        <div className="grid gap-12 border border-ivory-100/10 px-6 py-14 sm:px-10 lg:grid-cols-2 lg:gap-20 lg:px-16 lg:py-16">
+        <nav aria-label="Breadcrumb" className="mb-10 flex items-center gap-3">
+          <Link
+            to="/"
+            className="flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.26em] text-ivory-400 transition-colors hover:text-gold-200"
+          >
+            <ArrowLeft className="h-3 w-3" strokeWidth={1.4} />
+            House
+          </Link>
+          <span className="h-px w-5 bg-ivory-100/20" />
+          <span className="font-sans text-[9px] uppercase tracking-[0.26em] text-ivory-200">
+            Book
+          </span>
+        </nav>
+
+        <div className="grid gap-12 border border-ivory-100/10 bg-ink-900/70 px-6 py-14 sm:px-10 lg:grid-cols-2 lg:gap-20 lg:px-16 lg:py-16">
           <div>
             <Reveal>
-              <Eyebrow index="05">Book a sitting</Eyebrow>
+              <Eyebrow>Book a sitting</Eyebrow>
             </Reveal>
-            <h2 className="mt-6">
+            <h1 className="mt-6">
               <SplitText text="Take the chair," className="display-3 block text-ivory-50" />
               <SplitText
                 text="we will hold it."
                 delay={0.1}
                 className="display-3 block italic text-gold-200"
               />
-            </h2>
+            </h1>
             <Reveal delay={0.15}>
               <p className="mt-5 max-w-sm font-sans text-[12px] font-light leading-[1.9] text-ivory-300/60">
                 Send the details and we reply on WhatsApp within twenty-four hours with two

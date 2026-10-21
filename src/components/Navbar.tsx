@@ -76,7 +76,7 @@ export default function Navbar() {
 
           <div className="hidden lg:block">
             <Magnetic strength={0.2}>
-              <Link to="/#book" className="btn-ghost !px-6 !py-3">
+              <Link to="/book" className="btn-ghost !px-6 !py-3">
                 Book a sitting
                 <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.4} />
               </Link>

@@ -123,7 +123,7 @@ export default function MenuCard({ item, index, selectedOption }: MenuCardProps)
                 {selected.name}
               </p>
               <Link
-                to={{ pathname: '/', search: bookingSearch(item, selected), hash: '#book' }}
+                to={{ pathname: '/book', search: bookingSearch(item, selected) }}
                 className="group/book inline-flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.24em] text-gold-200 transition-colors hover:text-gold-100"
               >
                 Book selected

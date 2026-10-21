@@ -280,7 +280,7 @@ export default function ServicePage() {
                 holds the appointment and comes off your bill.
               </p>
               <Magnetic strength={0.2}>
-                <Link to="/#book" className="btn-ghost group">
+                <Link to="/book" className="btn-ghost group">
                   Book {meta.name}
                   <ArrowUpRight
                     className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
@@ -355,13 +355,13 @@ export default function ServicePage() {
         ).padStart(2, '0')}`}
       />
 
-      {/* The booking section lives on the home page; send people there. */}
+      {/* Booking has its own page, so this opens at the top of the form. */}
       <section className="bg-ink-900 py-16">
         <div className="container-luxe flex flex-col items-center justify-between gap-6 sm:flex-row">
           <p className="font-display text-2xl font-light text-ivory-100">
             Ready when you are.
           </p>
-          <Link to="/#book" className="btn-gold group">
+          <Link to="/book" className="btn-gold group">
             Book a sitting
             <ArrowRight
               className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"

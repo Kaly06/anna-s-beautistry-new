@@ -34,10 +34,10 @@ export default function Signatures() {
           </div>
 
           <Reveal delay={0.2} className="shrink-0">
-            <a href="#book" className="link-underline">
+            <Link to="/book" className="link-underline">
               Book a sitting
               <ArrowRight className="h-3 w-3" strokeWidth={1.4} />
-            </a>
+            </Link>
           </Reveal>
         </div>
 

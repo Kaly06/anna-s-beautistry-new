@@ -234,7 +234,7 @@ export default function MenuModal({
                   </button>
                 ) : (
                   <Link
-                    to={{ pathname: '/', search: bookingSearch(item, selected), hash: '#book' }}
+                    to={{ pathname: '/book', search: bookingSearch(item, selected) }}
                     onClick={onClose}
                     className="btn-gold group mt-auto self-start"
                   >
