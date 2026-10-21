@@ -29,8 +29,6 @@ export default function MenuCard({ item, index, selectedOption }: MenuCardProps)
     >
       <Link
         to={serviceHref}
-        data-cursor="view"
-        data-cursor-label={hasOptions ? 'Choose' : 'View'}
         className="block w-full text-left"
         aria-label={`${hasOptions ? 'Choose an option for' : 'View'} ${item.name}, ${
           item.priceFrom ? 'from ' : ''

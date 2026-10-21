@@ -53,8 +53,6 @@ export default function Signatures() {
             >
               <Link
                 to={signature.href}
-                data-cursor="view"
-                data-cursor-label="View"
                 className="block"
                 aria-label={`${signature.name} — ${signature.detail}`}
               >

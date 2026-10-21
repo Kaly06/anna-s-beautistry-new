@@ -7,6 +7,8 @@ interface ServiceOptionsProps {
   selectedOption?: string;
   onSelectOption?: (option: MenuItemOption) => void;
   idPrefix: string;
+  invalid?: boolean;
+  errorId?: string;
 }
 
 export function optionPriceLabel(option: MenuItemOption): string {
@@ -28,13 +30,19 @@ export default function ServiceOptions({
   selectedOption,
   onSelectOption,
   idPrefix,
+  invalid = false,
+  errorId,
 }: ServiceOptionsProps) {
   if (!item.options?.length) return null;
 
   return (
     <div>
       <div className="flex items-center justify-between gap-4">
-        <p className="font-sans text-[9px] uppercase tracking-[0.26em] text-gold-300/80">
+        <p
+          className={`font-sans text-[9px] uppercase tracking-[0.26em] ${
+            invalid ? 'text-rose-200' : 'text-gold-300/80'
+          }`}
+        >
           Choose an option
         </p>
         <p className="font-sans text-[9px] uppercase tracking-[0.2em] text-ivory-500">
@@ -43,9 +51,14 @@ export default function ServiceOptions({
       </div>
 
       <ul
-        className="mt-3 space-y-2"
+        className={`mt-3 space-y-2 transition-shadow duration-300 ${
+          invalid ? 'shadow-[0_0_0_1px_rgba(253,164,175,0.55),0_0_28px_rgba(244,63,94,0.12)]' : ''
+        }`}
         role="radiogroup"
         aria-label={`Options for ${item.name}`}
+        aria-invalid={invalid}
+        aria-describedby={invalid ? errorId : undefined}
+        aria-required="true"
       >
         {item.options.map((option) => {
           const selected = selectedOption === option.name;
@@ -57,8 +70,6 @@ export default function ServiceOptions({
                 role="radio"
                 aria-checked={selected}
                 onClick={() => onSelectOption?.(option)}
-                data-cursor="view"
-                data-cursor-label="Choose"
                 className={`flex w-full items-center gap-3 border px-3.5 py-3 text-left transition-all duration-300 ease-luxe sm:px-4 ${
                   selected
                     ? 'border-gold-300/70 bg-gold-400/[0.12] shadow-[0_0_24px_rgba(212,175,55,0.08)]'

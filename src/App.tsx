@@ -8,7 +8,6 @@ import WigsOptionsPage from './pages/WigsOptionsPage';
 import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Cursor from './components/ui/Cursor';
 import Loader from './components/ui/Loader';
 import ScrollProgress from './components/ui/ScrollProgress';
 
@@ -61,7 +60,6 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-ink-950">
-      <Cursor />
       <ScrollProgress />
       <ScrollToTop />
 

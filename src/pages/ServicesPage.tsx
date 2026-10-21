@@ -125,8 +125,6 @@ export default function ServicesPage() {
                   >
                     <Link
                       to={`/services/${room.id}`}
-                      data-cursor="view"
-                      data-cursor-label="View"
                       aria-label={`See the ${room.name} menu`}
                       className="group relative block w-full shrink-0 overflow-hidden border border-ivory-100/10 lg:w-[44%]"
                     >
