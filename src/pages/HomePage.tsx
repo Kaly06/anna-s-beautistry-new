@@ -4,8 +4,6 @@ import Marquee from '../components/ui/Marquee';
 import Services from '../components/Services';
 import Signatures from '../components/Signatures';
 import Studio from '../components/Studio';
-import Codex from '../components/Codex';
-import Lookbook from '../components/Lookbook';
 import Statement from '../components/Statement';
 import Testimonials from '../components/Testimonials';
 import Footer from '../components/Footer';
@@ -21,8 +19,6 @@ export default function HomePage({ introDone }: { introDone: boolean }) {
         <Services />
         <Signatures />
         <Studio />
-        <Codex />
-        <Lookbook />
         <Statement />
         <Testimonials />
       </main>

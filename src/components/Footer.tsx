@@ -6,11 +6,9 @@ import Logo from './ui/Logo';
 import Reveal from './ui/Reveal';
 
 const HOUSE_LINKS = [
-  { label: 'The materials', href: '/#materials' },
   { label: 'The studio', href: '/#studio' },
-  { label: 'The looks', href: '/#lookbook' },
   { label: 'Signature treatments', href: '/#signature' },
-  { label: 'Book a sitting', href: '/book' },
+  { label: 'Book a service', href: '/book' },
 ];
 
 const SOCIALS = [

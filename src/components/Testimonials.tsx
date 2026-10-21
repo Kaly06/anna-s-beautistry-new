@@ -36,7 +36,7 @@ export default function Testimonials() {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">
             <Reveal>
-              <Eyebrow index="06">In their words</Eyebrow>
+              <Eyebrow index="04">In their words</Eyebrow>
             </Reveal>
             <h2 className="mt-7">
               <SplitText text="What people" className="display-3 block text-ivory-50" />

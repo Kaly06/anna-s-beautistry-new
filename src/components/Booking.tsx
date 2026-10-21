@@ -85,21 +85,21 @@ export default function Booking() {
         >
           <div className="lg:sticky lg:top-32 lg:self-start">
             <Reveal>
-              <Eyebrow>Book a sitting</Eyebrow>
+              <Eyebrow>Book a service</Eyebrow>
             </Reveal>
             <h1 className="mt-6">
-              <SplitText text="Take the chair," className="display-3 block text-ivory-50" />
+              <SplitText text="Book your service," className="display-3 block text-ivory-50" />
               <SplitText
-                text="we will hold it."
+                text="pay part to secure it."
                 delay={0.1}
                 className="display-3 block italic text-gold-200"
               />
             </h1>
             <Reveal delay={0.15}>
               <p className="mt-5 max-w-sm font-sans text-[12px] font-light leading-[1.9] text-ivory-300/60">
-                Send the details and we reply on WhatsApp within twenty-four hours with two
-                times that suit. A card holds the slot — it comes off your bill, not on top
-                of it.
+                Tell us the service you want and your preferred date. We reply on WhatsApp
+                within twenty-four hours to confirm availability and the partial payment
+                needed to secure your booking.
               </p>
               <ul className="mt-8 space-y-2.5 font-sans text-[11px] font-light tracking-wide text-ivory-400">
                 <li>{HOUSE.address[0]}, {HOUSE.address[1]}</li>
@@ -110,8 +110,18 @@ export default function Booking() {
                   </a>
                 </li>
               </ul>
+              <div className="mt-10 border border-gold-300/25 bg-gold-400/[0.07] px-5 py-4">
+                <p className="font-sans text-[9px] uppercase tracking-[0.24em] text-gold-200">
+                  Partial payment
+                </p>
+                <p className="mt-2 font-sans text-[11px] font-light leading-relaxed text-ivory-300/75">
+                  This form starts your booking. Once we confirm the service and date, we send
+                  the partial-payment details. Your booking is secured when that payment is
+                  received, and the balance is paid at your appointment.
+                </p>
+              </div>
               {isPiercing ? (
-                <div className="mt-10 border border-gold-300/25 bg-gold-400/[0.07] px-5 py-4">
+                <div className="mt-5 border border-gold-300/25 bg-gold-400/[0.07] px-5 py-4">
                   <p className="font-sans text-[9px] uppercase tracking-[0.24em] text-gold-200">
                     Piercing bookings
                   </p>
@@ -138,14 +148,14 @@ export default function Booking() {
                 </span>
                 <div>
                   <p className="font-display text-2xl text-ivory-50">
-                    {HOUSE.greeting}. Your request is in.
+                    {HOUSE.greeting}. Your booking request is in.
                   </p>
                   <p className="mt-2 max-w-sm font-sans text-[11px] font-light leading-relaxed tracking-wide text-ivory-400">
                     {isPiercing
                       ? `Your piercing consent is included. We will review your health answers and message ${
                           form.phone || 'you'
-                        } within twenty-four hours to confirm suitability and the time.`
-                      : `We will message ${form.phone || 'you'} within twenty-four hours to confirm the time. To amend it, reply to that message or call the studio.`}
+                        } within twenty-four hours to confirm suitability, the time and the partial payment needed to secure the service. The balance is due at your appointment.`
+                      : `We will message ${form.phone || 'you'} within twenty-four hours to confirm availability and send the partial-payment details. Your service is secured once that payment is received; the balance is due at your appointment.`}
                   </p>
                   <button
                     type="button"
@@ -156,7 +166,7 @@ export default function Booking() {
                     }}
                     className="link-underline mt-6"
                   >
-                    Book another sitting
+                    Book another service
                     <ArrowRight className="h-3 w-3" strokeWidth={1.4} />
                   </button>
                 </div>
@@ -247,7 +257,7 @@ export default function Booking() {
                   <p className="max-w-xs font-sans text-[9px] uppercase leading-relaxed tracking-[0.2em] text-ivory-500">
                     {piercingBlocked
                       ? 'You must be 18 or older to book a piercing. This booking cannot continue.'
-                      : 'No payment taken here. We confirm by message before anything is charged.'}
+                      : 'A partial payment secures your service. The balance is due at your appointment.'}
                   </p>
                   <button
                     type="submit"
@@ -257,8 +267,8 @@ export default function Booking() {
                     {piercingBlocked
                       ? '18+ only for piercings'
                       : isPiercing
-                        ? 'Submit booking & consent'
-                        : 'Request a sitting'}
+                        ? 'Book service & submit consent'
+                        : 'Book service'}
                     <ArrowRight
                       className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"
                       strokeWidth={1.4}

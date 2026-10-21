@@ -35,7 +35,7 @@ export default function Signatures() {
 
           <Reveal delay={0.2} className="shrink-0">
             <Link to="/book" className="link-underline">
-              Book a sitting
+              Book a service
               <ArrowRight className="h-3 w-3" strokeWidth={1.4} />
             </Link>
           </Reveal>

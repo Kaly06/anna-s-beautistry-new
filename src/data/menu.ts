@@ -17,7 +17,7 @@ export const menu: MenuItem[] = [
     priceFrom: true,
     duration: 120,
     tagline: 'Professional installation tailored to your preferred style.',
-    note: 'Closure, frontal, pony and sew-in installations are priced by style. Your final quote is confirmed before the sitting begins.',
+    note: 'Closure, frontal, pony and sew-in installations are priced by style. Your final quote is confirmed before the appointment begins.',
     variant: 0,
     tag: 'Popular',
     focus: 'attention',

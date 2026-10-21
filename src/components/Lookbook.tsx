@@ -74,7 +74,7 @@ export default function Lookbook() {
           >
             <Magnetic>
               <Link to="/book" className="btn-ghost group">
-                Book a sitting
+                Book a service
                 <ArrowUpRight
                   className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                   strokeWidth={1.4}

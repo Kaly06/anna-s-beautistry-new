@@ -10,9 +10,7 @@ import Logo from './ui/Logo';
 
 const LINKS = [
   { label: 'Services', href: '/services' },
-  { label: 'Materials', href: '/#materials' },
   { label: 'Studio', href: '/#studio' },
-  { label: 'The Looks', href: '/#lookbook' },
   { label: 'Contact', href: '/#contact' },
 ];
 
@@ -77,7 +75,7 @@ export default function Navbar() {
           <div className="hidden lg:block">
             <Magnetic strength={0.2}>
               <Link to="/book" className="btn-ghost !px-6 !py-3">
-                Book a sitting
+                Book a service
                 <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.4} />
               </Link>
             </Magnetic>

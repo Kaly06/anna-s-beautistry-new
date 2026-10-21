@@ -92,9 +92,9 @@ export default function ServicesPage() {
           >
             {[
               { value: String(totalTreatments), label: 'Treatments on the menu' },
-              { value: formatPrice(cheapest), label: 'Cheapest sitting' },
-              { value: formatDuration(quickest), label: 'Shortest sitting' },
-              { value: 'Tue – Sat', label: 'In the chair' },
+              { value: formatPrice(cheapest), label: 'Lowest starting price' },
+              { value: formatDuration(quickest), label: 'Shortest service' },
+              { value: 'Tue – Sat', label: 'Studio days' },
             ].map((stat) => (
               <div key={stat.label} className="min-w-[7rem]">
                 <p className="font-display text-4xl font-light text-gold-200">{stat.value}</p>
@@ -294,7 +294,7 @@ export default function ServicesPage() {
           </div>
           <Magnetic strength={0.16}>
             <Link to="/book" className="btn-gold group">
-              Book a sitting
+              Book a service
               <ArrowRight
                 className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"
                 strokeWidth={1.4}

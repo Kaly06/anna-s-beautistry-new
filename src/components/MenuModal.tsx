@@ -179,7 +179,7 @@ export default function MenuModal({
                   <div>
                     <p className="flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.26em] text-ivory-500">
                       <Clock className="h-3 w-3" strokeWidth={1.4} />
-                      In the chair
+                      Duration
                     </p>
                     <p className="mt-2 font-display text-3xl text-ivory-100">
                       {formatDuration(item.duration)}
