@@ -52,7 +52,7 @@ export default function Navbar() {
         <nav
           aria-label="Primary"
           className={`container-luxe flex items-center justify-between transition-all duration-500 ease-luxe ${
-            scrolled ? 'h-16' : 'h-20 md:h-24'
+            scrolled ? 'h-[72px] md:h-20' : 'h-24 md:h-[104px]'
           }`}
         >
           <Link to="/" className="group flex items-center" aria-label="Anna's Beautistry — home">
@@ -105,7 +105,7 @@ export default function Navbar() {
             exit={{ clipPath: 'inset(0 0 100% 0)' }}
             transition={{ duration: 0.75, ease: EASE }}
           >
-            <div className="container-luxe flex h-20 items-center justify-between">
+            <div className="container-luxe flex h-24 items-center justify-between">
               <Logo size="menu" />
               <button
                 type="button"

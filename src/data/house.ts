@@ -5,14 +5,15 @@ export const HOUSE = {
   /** Full name split for the stacked logo lockup: ANNA'S over BEAUTISTRY. */
   wordmarkLines: ["ANNA'S", 'BEAUTISTRY'] as const,
   /**
-   * Uploaded logo file (drop the new logo at this path to use it).
-   * Preferred: transparent SVG, otherwise transparent PNG (gold/ivory on
-   * transparent — her colours are purple and gold, and the site
+   * Her uploaded logo, processed to gold line art on transparency
+   * (the original was black on blush; gold is her colour and the site
    * background is deep royal plum #170429).
-   * Set to the uploaded path once the file arrives; until then the
-   * Logo component renders the typographic lockup with the house mark.
+   * logoSrc     — the mark only (face + AB script) for the header, where
+   *               the name stays in type beside it.
+   * logoFullSrc — the complete lockup incl. name + tagline, for the footer.
    */
-  logoSrc: null as string | null,
+  logoSrc: '/images/logo-mark.png' as string | null,
+  logoFullSrc: '/images/logo-full.png' as string | null,
   city: 'Cape Coast',
   region: 'Central Region, Ghana',
   founded: 2016,

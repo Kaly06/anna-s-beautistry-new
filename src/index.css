@@ -160,6 +160,20 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    /* A slow sheen drifts through the metal — 8s, barely-there luxe. */
+    animation: gold-shine 8s linear infinite;
+  }
+
+  @keyframes gold-shine {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gold-text {
+      animation: none;
+    }
   }
 
   /* Soft lilac-violet gradient text (formerly blush — now in her purple). */

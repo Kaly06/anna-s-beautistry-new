@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { m, useScroll, useTransform } from 'framer-motion';
+import { m, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { EASE } from '../lib/animations';
 import { HOUSE } from '../data/house';
@@ -8,6 +8,7 @@ import SplitText from './ui/SplitText';
 
 export default function Hero({ introDone }: { introDone: boolean }) {
   const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
@@ -31,9 +32,13 @@ export default function Hero({ introDone }: { introDone: boolean }) {
       className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink-950"
     >
       <m.div className="absolute inset-0" style={{ y: imageY, scale: imageScale }}>
-        <img
+        {/* Slow ken-burns settle as the curtain lifts — the portrait breathes in. */}
+        <m.img
           src="/images/hero.webp"
           alt=""
+          initial={{ scale: 1.14 }}
+          animate={introDone ? { scale: 1 } : { scale: 1.14 }}
+          transition={{ duration: reduce ? 0 : 6.5, ease: EASE }}
           className="h-full w-full object-cover object-[62%_center]"
         />
       </m.div>
@@ -41,9 +46,20 @@ export default function Hero({ introDone }: { introDone: boolean }) {
       <div className="absolute inset-0 bg-gradient-to-b from-ink-950/90 via-ink-950/35 to-ink-950" />
       <div className="absolute inset-0 bg-gradient-to-r from-ink-950/85 via-ink-950/20 to-transparent" />
       <div className="vignette absolute inset-0" />
-      {/* Royal-purple radiance behind the headline — her colour, felt as light. */}
-      <div className="pointer-events-none absolute -left-40 bottom-0 h-[520px] w-[520px] rounded-full bg-royal-500/35 blur-[130px]" />
-      <div className="pointer-events-none absolute -right-32 top-0 h-[380px] w-[380px] rounded-full bg-royal-400/20 blur-[120px]" />
+      {/* Royal-purple radiance behind the headline — her colour, felt as light,
+          breathing slowly so the still portrait never feels frozen. */}
+      <m.div
+        aria-hidden="true"
+        animate={reduce ? undefined : { opacity: [0.55, 1, 0.55], scale: [1, 1.1, 1] }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute -left-40 bottom-0 h-[520px] w-[520px] rounded-full bg-royal-500/35 blur-[130px]"
+      />
+      <m.div
+        aria-hidden="true"
+        animate={reduce ? undefined : { opacity: [0.5, 0.95, 0.5], scale: [1, 1.08, 1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute -right-32 top-0 h-[380px] w-[380px] rounded-full bg-royal-400/20 blur-[120px]"
+      />
       <div className="noise pointer-events-none absolute inset-0 opacity-[0.055]" />
 
       <div className="container-luxe relative flex flex-1 flex-col justify-end pb-10 pt-36 sm:pb-14 md:pt-40">
@@ -107,9 +123,11 @@ export default function Hero({ introDone }: { introDone: boolean }) {
           </m.div>
         </m.div>
 
+        {/* The block rides 13vh above the bottom strip, so the copy meets the
+            eye sooner under the taller header instead of hugging the floor. */}
         <m.div
           {...fade(0.85)}
-          className="mt-14 flex items-end justify-between gap-6 border-t border-ivory-100/15 pt-6 sm:mt-20"
+          className="mt-[13vh] flex items-end justify-between gap-6 border-t border-ivory-100/15 pt-6"
         >
           <a href="#services" className="group flex items-center gap-3">
             <span className="relative flex h-10 w-px overflow-hidden bg-ivory-100/15">
