@@ -154,9 +154,7 @@ export default function Footer() {
                   </a>
                 ))}
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                    "Nunoo's Heights Hostel, Ayesu, Cape Coast, Ghana",
-                  )}`}
+                  href={HOUSE.mapsHref}
                   target="_blank"
                   rel="noreferrer"
                   className="group flex flex-col items-start gap-3 rounded-2xl border border-ivory-100/10 bg-ivory-100/[0.03] p-3.5 transition-colors duration-500 hover:border-gold-300/50 hover:bg-ivory-100/[0.05] sm:flex-row sm:items-center sm:gap-4 sm:p-4"

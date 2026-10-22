@@ -21,6 +21,8 @@ export const HOUSE = {
   phone: '+233 54 218 4583',
   phoneHref: 'tel:+233542184583',
   whatsappHref: 'https://wa.me/233542184583',
+  /** Anna's own Google Maps share link for the studio landmark (Nunoo's Heights Hostel). */
+  mapsHref: 'https://share.google/WyBIyATMSmuUDBAMi',
   email: 'annasbeautistry@gmail.com',
   hours: 'Mon – Fri 9am – 7pm · Sat 10am – 4pm · Sun closed',
   cities: 'Cape Coast · Elmina · Takoradi',
