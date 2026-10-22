@@ -46,6 +46,7 @@ import PiercingConsentForm, {
   type PiercingConsent,
 } from './PiercingConsentForm';
 import ServiceOptions, { optionPriceLabel } from './ServiceOptions';
+import BookingCalendar from './BookingCalendar';
 
 const PENDING_BOOKING_KEY = 'annas-beautistry-pending-booking';
 
@@ -906,18 +907,15 @@ export default function Booking() {
                       <label htmlFor="booking-date" className="field-label">
                         Appointment date
                       </label>
-                      <input
+                      <BookingCalendar
                         id="booking-date"
-                        type="date"
-                        required
-                        min={todayInGhanaISO()}
                         value={bookingDate}
-                        onChange={(event) => {
-                          setBookingDate(event.target.value);
+                        min={todayInGhanaISO()}
+                        onChange={(dateISO) => {
+                          setBookingDate(dateISO);
                           setSelectedStart('');
                           setSubmitError('');
                         }}
-                        className="field mt-3"
                       />
                     </div>
                     <p className="max-w-sm font-sans text-[11px] font-light leading-relaxed text-ivory-400">
