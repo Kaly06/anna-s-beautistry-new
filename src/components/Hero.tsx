@@ -29,7 +29,7 @@ export default function Hero({ introDone }: { introDone: boolean }) {
     <section
       id="home"
       ref={ref}
-      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink-950"
+      className="relative flex min-h-[90svh] flex-col overflow-hidden bg-ink-950 md:min-h-[85svh]"
     >
       <m.div className="absolute inset-0" style={{ y: imageY, scale: imageScale }}>
         {/* Slow ken-burns settle as the curtain lifts — the portrait breathes in. */}
