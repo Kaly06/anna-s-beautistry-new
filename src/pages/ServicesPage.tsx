@@ -7,6 +7,7 @@ import { services, signatures } from '../data/services';
 import { WIG_BASE, WIG_GROUPS } from '../data/wigOptions';
 import { formatDuration, formatPrice, HOUSE } from '../data/house';
 import { EASE } from '../lib/animations';
+import { FEATURES } from '../lib/features';
 import Eyebrow from '../components/ui/Eyebrow';
 import Reveal from '../components/ui/Reveal';
 import SplitText from '../components/ui/SplitText';
@@ -214,7 +215,7 @@ export default function ServicesPage() {
                           </Link>
                         </Magnetic>
 
-                        {room.id === 'wigs' ? (
+                        {room.id === 'wigs' && FEATURES.wigOptionsSheet ? (
                           <Link to="/services/wigs/options" className="link-underline">
                             The options sheet
                             <ArrowUpRight className="h-3 w-3" strokeWidth={1.4} />
@@ -230,7 +231,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* --------------------------------------------------------- options */}
+      {/* ------------------------------------------- options (not live yet) */}
+      {FEATURES.wigOptionsSheet ? (
       <section className="relative overflow-hidden border-y border-gold-300/20 bg-ink-900 py-20 sm:py-24">
         <div className="pointer-events-none absolute -right-32 top-0 h-[420px] w-[420px] rounded-full bg-royal-500/20 blur-[120px]" />
         <div className="container-luxe relative">
@@ -280,6 +282,7 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
+      ) : null}
 
       {/* ------------------------------------------------------------- cta */}
       <section className="bg-ink-950 py-16">

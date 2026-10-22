@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import HomePage from './pages/HomePage';
 import BookingPage from './pages/BookingPage';
@@ -9,6 +9,11 @@ import ServicePage from './pages/ServicePage';
 import WigsOptionsPage from './pages/WigsOptionsPage';
 import AdminClosures from './pages/AdminClosures';
 import NotFound from './pages/NotFound';
+import {
+  FEATURES,
+  WIG_OPTIONS_PREVIEW_KEY,
+  WIG_OPTIONS_STORAGE_KEY,
+} from './lib/features';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Loader from './components/ui/Loader';
@@ -51,6 +56,29 @@ function ScrollToTop() {
   return null;
 }
 
+/**
+ * The wigs options sheet is built but not live. While the feature is off it
+ * answers 404 like any unknown page — unless this browser has unlocked the
+ * private preview with ?preview=<key> (remembered in localStorage).
+ */
+function WigOptionsGate() {
+  const [searchParams] = useSearchParams();
+  const previewParam = searchParams.get('preview');
+
+  useEffect(() => {
+    if (previewParam === WIG_OPTIONS_PREVIEW_KEY) {
+      window.localStorage.setItem(WIG_OPTIONS_STORAGE_KEY, '1');
+    }
+  }, [previewParam]);
+
+  const unlocked =
+    FEATURES.wigOptionsSheet ||
+    previewParam === WIG_OPTIONS_PREVIEW_KEY ||
+    window.localStorage.getItem(WIG_OPTIONS_STORAGE_KEY) === '1';
+
+  return unlocked ? <WigsOptionsPage /> : <NotFound />;
+}
+
 export default function App() {
   const [loading, setLoading] = useState(!prefersReducedMotion);
   const [introDone, setIntroDone] = useState(prefersReducedMotion);
@@ -85,7 +113,7 @@ export default function App() {
         <Route path="/book" element={<BookingPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/services" element={<ServicesPage />} />
-        <Route path="/services/wigs/options" element={<WigsOptionsPage />} />
+        <Route path="/services/wigs/options" element={<WigOptionsGate />} />
         <Route path="/services/:serviceId" element={<ServicePage />} />
         <Route path="/services/:serviceId/:slug" element={<ServicePage />} />
         <Route path="/admin" element={<AdminClosures />} />

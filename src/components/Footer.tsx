@@ -10,6 +10,7 @@ import {
   Phone,
 } from 'lucide-react';
 import { HOUSE, OPENING_HOURS } from '../data/house';
+import { FEATURES } from '../lib/features';
 import Logo from './ui/Logo';
 import Reveal from './ui/Reveal';
 
@@ -17,7 +18,9 @@ const QUICK_LINKS = [
   { label: 'All services', href: '/services' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'About me', href: '/#about' },
-  { label: 'Wigs options sheet', href: '/services/wigs/options' },
+  ...(FEATURES.wigOptionsSheet
+    ? [{ label: 'Wigs options sheet', href: '/services/wigs/options' }]
+    : []),
   { label: 'Book a service', href: '/book' },
 ];
 

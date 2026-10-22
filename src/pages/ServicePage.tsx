@@ -7,6 +7,7 @@ import { rooms, roomsMeta } from '../data/rooms';
 import { formatPrice, HOUSE } from '../data/house';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
+import { FEATURES } from '../lib/features';
 import type { MenuItem, MenuItemOption, ServiceId } from '../types';
 import Specimen from '../components/ui/Specimen';
 import MenuCard from '../components/MenuCard';
@@ -212,7 +213,7 @@ export default function ServicePage() {
       </section>
 
       {/* --------------------------------------------------------- options */}
-      {meta.id === 'wigs' ? (
+      {meta.id === 'wigs' && FEATURES.wigOptionsSheet ? (
         <section className="border-b border-ivory-100/[0.07] bg-ink-900">
           <div className="container-luxe flex flex-col items-start justify-between gap-6 py-9 sm:flex-row sm:items-center">
             <div>

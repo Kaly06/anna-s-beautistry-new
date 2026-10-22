@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { EASE } from '../lib/animations';
 import { HOUSE } from '../data/house';
+import { FEATURES } from '../lib/features';
 import { services } from '../data/services';
 import Magnetic from './ui/Magnetic';
 import Logo from './ui/Logo';
@@ -162,14 +163,16 @@ export default function Navbar() {
                     </Link>
                   ))}
                 </div>
-                <Link
-                  to="/services/wigs/options"
-                  onClick={() => setOpen(false)}
-                  className="mt-4 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.2em] text-gold-200 transition-colors hover:text-gold-100"
-                >
-                  Wigs options sheet
-                  <ArrowUpRight className="h-3 w-3" strokeWidth={1.4} />
-                </Link>
+                {FEATURES.wigOptionsSheet ? (
+                  <Link
+                    to="/services/wigs/options"
+                    onClick={() => setOpen(false)}
+                    className="mt-4 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.2em] text-gold-200 transition-colors hover:text-gold-100"
+                  >
+                    Wigs options sheet
+                    <ArrowUpRight className="h-3 w-3" strokeWidth={1.4} />
+                  </Link>
+                ) : null}
               </m.div>
 
               <m.div
