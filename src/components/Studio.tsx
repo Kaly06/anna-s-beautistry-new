@@ -132,7 +132,7 @@ export default function Studio() {
             </Reveal>
 
             <Reveal delay={0.2} className="mt-auto">
-              <Link to="/book" className="group mt-10 inline-flex items-center gap-3">
+              <Link to="/services" className="group mt-10 inline-flex items-center gap-3">
                 <span className="font-sans text-[10px] font-medium uppercase tracking-widest2 text-ink-950">
                   Book a service
                 </span>
