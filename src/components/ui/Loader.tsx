@@ -13,7 +13,8 @@ const WORDMARK = WORDMARK_LINE_ONE.split('');
  *  2. The full lockup RESTS — name fully formed and still for ~4 seconds
  *     while the counter climbs slowly (6.4s count).
  *  3. The face resumes growing to 4x, pushing the name, the rule and the
- *     corner notes away until only the big logo remains.
+ *     top notes away until only the big logo remains. (The city and the
+ *     % counter never fade — they leave with the curtain itself.)
  *  4. The curtain lifts; the logo grows a little more and dissolves.
  *
  * All `animate` timelines below are 6.4s long (matching COUNT_MS) with the
@@ -146,11 +147,9 @@ export default function Loader({ onDone }: { onDone: () => void }) {
         </m.div>
       </div>
 
-      <m.div
-        className="flex items-end justify-between"
-        animate={{ opacity: [1, 1, 0] }}
-        transition={{ duration: 6.4, ease: EASE, delay: 0.1, times: [0, 0.83, 1] }}
-      >
+      {/* The city and the counter never fade — they stay readable to 100%
+          and leave only when the curtain itself lifts. */}
+      <div className="flex items-end justify-between">
         <span className="max-w-[180px] font-sans text-[9px] uppercase leading-relaxed tracking-[0.25em] text-ivory-400">
           {HOUSE.city}, Ghana
         </span>
@@ -160,7 +159,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
           </span>
           <span className="font-sans text-[9px] tracking-[0.3em] text-ivory-400">%</span>
         </div>
-      </m.div>
+      </div>
     </m.div>
   );
 }
