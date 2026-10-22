@@ -17,11 +17,12 @@ export const HOUSE = {
   city: 'Cape Coast',
   region: 'Central Region, Ghana',
   founded: 2016,
-  address: ['12 Second Commercial Street', 'Cape Coast, Central Region'],
-  phone: '+233 33 213 0455',
-  phoneHref: 'tel:+233332130455',
-  email: 'hello@annasbeautistry.gh',
-  hours: 'Tue – Sat · 9am – 7pm GMT',
+  address: ['Yaba', "Behind Nunoo's Height Hostel"],
+  phone: '+233 54 218 4583',
+  phoneHref: 'tel:+233542184583',
+  whatsappHref: 'https://wa.me/233542184583',
+  email: 'annasbeautistry@gmail.com',
+  hours: 'Mon – Wed 9am – 6pm · Thu – Fri 9am – 7pm · Sat 10am – 4pm',
   cities: 'Cape Coast · Elmina · Takoradi',
   greeting: 'Akwaaba',
   est: 'Est. 2016',
@@ -29,6 +30,17 @@ export const HOUSE = {
   clients: '2,400+ faces',
   line: 'A beauty house in Cape Coast — lace, needles, lashes and skin, since 2016.',
 } as const;
+
+/** The week's opening hours, Monday first. `dayIndex` matches Date.getDay(). */
+export const OPENING_HOURS = [
+  { day: 'Monday', dayIndex: 1, time: '9:00 AM to 6:00 PM' },
+  { day: 'Tuesday', dayIndex: 2, time: '9:00 AM to 6:00 PM' },
+  { day: 'Wednesday', dayIndex: 3, time: '9:00 AM to 6:00 PM' },
+  { day: 'Thursday', dayIndex: 4, time: '9:00 AM to 7:00 PM' },
+  { day: 'Friday', dayIndex: 5, time: '9:00 AM to 7:00 PM' },
+  { day: 'Saturday', dayIndex: 6, time: '10:00 AM to 4:00 PM' },
+  { day: 'Sunday', dayIndex: 0, time: 'Closed' },
+] as const;
 
 export const CURRENCY = 'GH₵';
 
