@@ -131,23 +131,23 @@ export default function Footer() {
               <p className="mt-3 font-sans text-[12px] font-light leading-relaxed text-ivory-300/60">
                 Follow along for new sets, transformations and studio days.
               </p>
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="mt-6 grid grid-cols-2 gap-2.5 sm:gap-3">
                 {SOCIALS.map(({ label, handle, href, Icon }) => (
                   <a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noreferrer"
-                    className="group flex items-center gap-4 rounded-2xl border border-ivory-100/10 bg-ivory-100/[0.03] p-4 transition-colors duration-500 hover:border-gold-300/50 hover:bg-ivory-100/[0.05]"
+                    className="group flex flex-col items-start gap-3 rounded-2xl border border-ivory-100/10 bg-ivory-100/[0.03] p-3.5 transition-colors duration-500 hover:border-gold-300/50 hover:bg-ivory-100/[0.05] sm:flex-row sm:items-center sm:gap-4 sm:p-4"
                   >
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ink-600 text-gold-200 transition-colors duration-500 group-hover:text-gold-100">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink-600 text-gold-200 transition-colors duration-500 group-hover:text-gold-100 sm:h-11 sm:w-11">
                       <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} />
                     </span>
                     <span>
                       <span className="block font-sans text-[13px] font-semibold text-ivory-50">
                         {label}
                       </span>
-                      <span className="mt-0.5 block font-sans text-[12px] font-light text-ivory-300/60">
+                      <span className="mt-0.5 block font-sans text-[11px] font-light text-ivory-300/60 sm:text-[12px]">
                         {handle}
                       </span>
                     </span>
@@ -159,16 +159,16 @@ export default function Footer() {
                   )}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="group flex items-center gap-4 rounded-2xl border border-ivory-100/10 bg-ivory-100/[0.03] p-4 transition-colors duration-500 hover:border-gold-300/50 hover:bg-ivory-100/[0.05]"
+                  className="group flex flex-col items-start gap-3 rounded-2xl border border-ivory-100/10 bg-ivory-100/[0.03] p-3.5 transition-colors duration-500 hover:border-gold-300/50 hover:bg-ivory-100/[0.05] sm:flex-row sm:items-center sm:gap-4 sm:p-4"
                 >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ink-600 text-gold-200 transition-colors duration-500 group-hover:text-gold-100">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink-600 text-gold-200 transition-colors duration-500 group-hover:text-gold-100 sm:h-11 sm:w-11">
                     <MapPin className="h-[18px] w-[18px]" strokeWidth={1.5} />
                   </span>
                   <span>
                     <span className="block font-sans text-[13px] font-semibold text-ivory-50">
                       Location
                     </span>
-                    <span className="mt-0.5 block font-sans text-[12px] font-light leading-relaxed text-ivory-300/60">
+                    <span className="mt-0.5 block font-sans text-[11px] font-light leading-relaxed text-ivory-300/60 sm:text-[12px]">
                       {HOUSE.address.join(', ')}
                     </span>
                   </span>
