@@ -39,7 +39,7 @@ export default function Hero({ introDone }: { introDone: boolean }) {
           initial={{ scale: 1.14 }}
           animate={introDone ? { scale: 1 } : { scale: 1.14 }}
           transition={{ duration: reduce ? 0 : 6.5, ease: EASE }}
-          className="h-full w-full object-cover object-[62%_center]"
+          className="h-full w-full object-cover object-[62%_20%]"
         />
       </m.div>
 
@@ -62,8 +62,8 @@ export default function Hero({ introDone }: { introDone: boolean }) {
       />
       <div className="noise pointer-events-none absolute inset-0 opacity-[0.055]" />
 
-      <div className="container-luxe relative flex flex-1 flex-col justify-end pb-10 pt-36 sm:pb-14 md:pt-40">
-        <m.div style={{ y: contentY, opacity: contentOpacity }} className="max-w-4xl">
+      <div className="container-luxe relative flex flex-1 flex-col pb-10 pt-32 sm:pb-14 md:pt-40">
+        <m.div style={{ y: contentY, opacity: contentOpacity }} className="mb-16 max-w-4xl">
           <m.div {...fade(0.05)} className="flex items-center gap-4">
             <span className="h-px w-10 bg-gold-300/60" />
             <span className="eyebrow">
@@ -123,11 +123,11 @@ export default function Hero({ introDone }: { introDone: boolean }) {
           </m.div>
         </m.div>
 
-        {/* The block rides 13vh above the bottom strip, so the copy meets the
-            eye sooner under the taller header instead of hugging the floor. */}
+        {/* Copy is anchored under the header and this strip pins to the floor,
+            so taller screens grow portrait between them — not a void up top. */}
         <m.div
           {...fade(0.85)}
-          className="mt-[13vh] flex items-end justify-between gap-6 border-t border-ivory-100/15 pt-6"
+          className="mt-auto flex items-end justify-between gap-6 border-t border-ivory-100/15 pt-6"
         >
           <a href="#services" className="group flex items-center gap-3">
             <span className="relative flex h-10 w-px overflow-hidden bg-ivory-100/15">
