@@ -61,9 +61,10 @@ export default function WigsOptionsPage() {
     [selection]
   );
 
+  // No hidden base: the estimate is purely the sum of what was picked,
+  // so a blank sheet reads GH₵0.
   const total = useMemo(
     () =>
-      WIG_BASE.price +
       build.reduce(
         (sum, row) => sum + row.chosen.reduce((lineSum, option) => lineSum + option.add, 0),
         0
@@ -165,7 +166,7 @@ export default function WigsOptionsPage() {
               >
                 {[
                   { value: String(WIG_GROUPS.length), label: 'Lines to choose' },
-                  { value: formatPrice(WIG_BASE.price), label: 'Install, from' },
+                  { value: formatPrice(WIG_BASE.price), label: 'Sheet starts at' },
                   { value: '2–4 hrs', label: 'In the chair' },
                 ].map((stat, index) => (
                   <div key={stat.label} className="flex items-center gap-x-10">
@@ -230,7 +231,7 @@ export default function WigsOptionsPage() {
                   </p>
                   <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.24em] text-ivory-500">
                     {chosenCount === 0
-                      ? 'Base install only — pick a line to start your build'
+                      ? 'Nothing chosen yet — the estimate starts at GH₵0'
                       : 'Estimate · install, hair & finishing'}
                   </p>
 
@@ -255,7 +256,7 @@ export default function WigsOptionsPage() {
 
                   <div className="mt-6 flex items-center justify-between border-t border-ivory-100/15 pt-4">
                     <span className="font-sans text-[9px] uppercase tracking-[0.2em] text-ivory-500">
-                      Base install
+                      Sheet base
                     </span>
                     <span className="font-sans text-[11px] text-ivory-300">
                       {formatPrice(WIG_BASE.price)}

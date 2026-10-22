@@ -10,11 +10,20 @@ import type { WigOptionGroup } from '../types';
  * on the page is the sum of them, so nothing is revealed at the till.
  */
 
-/** The floor of every quote: a glueless closure install, hair excluded. */
+/**
+ * The old GH₵620 base no longer sits underneath the sheet. It has been
+ * divided equally across the ten cards that used to read "Included"
+ * (GH₵620 ÷ 10 = GH₵62 each), so the estimate can start at GH₵0 and every
+ * single pick — standard choices included — visibly moves the price.
+ */
+export const WIG_INCLUDED_TOTAL = 620;
+export const WIG_INCLUDED_SHARE = 62;
+
+/** The sheet starts empty: no base charge until the client chooses a line. */
 export const WIG_BASE = {
-  price: 620,
-  label: 'Glueless closure install',
-  note: 'Wash, braid-down, install and style. Hair is priced by the inch, below.',
+  price: 0,
+  label: 'Start from scratch',
+  note: 'The sheet starts at GH₵0. Every line you choose adds its price — the standard choices each carry GH₵62 of the old GH₵620 base.',
 } as const;
 
 export const WIG_GROUPS: WigOptionGroup[] = [
@@ -29,7 +38,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
         id: 'glueless',
         name: 'Glueless closure install',
         spec: '5×5 closure · elastic band',
-        add: 0,
+        add: WIG_INCLUDED_SHARE,
         detail:
           'Braided down, banded, and held with an adjustable strap. No adhesive anywhere near your hairline.',
         note: 'The one we fit first-timers and anyone growing their edges back.',
@@ -69,7 +78,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
         id: 'transparent',
         name: 'Transparent lace',
         spec: 'standard',
-        add: 0,
+        add: WIG_INCLUDED_SHARE,
         detail:
           'The everyday lace. Melts well on deep and medium skin tones and survives two or three installs.',
         note: 'The safe read, and the one most clients leave with.',
@@ -109,7 +118,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
         id: 'closure-4x4',
         name: '4×4 closure',
         spec: '4 × 4',
-        add: 0,
+        add: WIG_INCLUDED_SHARE,
         detail: 'A small square at the crown of the head. One part, no ear-to-ear finish.',
         note: 'The most discreet footprint, and the cheapest to replace.',
         meta: '8 services deep',
@@ -118,7 +127,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
         id: 'closure-5x5',
         name: '5×5 closure',
         spec: '5 × 5',
-        add: 0,
+        add: WIG_INCLUDED_SHARE,
         detail: 'More room to part than a 4×4, without committing to lace at the temples.',
         recommended: true,
         meta: 'Standard',
@@ -162,7 +171,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
         id: 'standard',
         name: 'Standard cap',
         spec: 'combs + strap',
-        add: 0,
+        add: WIG_INCLUDED_SHARE,
         detail: 'Combs at the sides and an adjustable strap at the nape. The default on most stock units.',
         note: 'Fine for an evening. Less so for a full day in the sun.',
       },
@@ -197,7 +206,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
         id: '150',
         name: '150% density',
         spec: 'natural',
-        add: 0,
+        add: WIG_INCLUDED_SHARE,
         detail: 'Reads as your own hair from across a room, and behaves like it in wind.',
         note: 'What we put on clients who work in offices and churches.',
       },
@@ -238,7 +247,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
         id: '14',
         name: '14 inches',
         spec: "14″",
-        add: 0,
+        add: WIG_INCLUDED_SHARE,
         detail: 'Lob length — at the jaw on most frames.',
       },
       {
@@ -312,7 +321,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
         id: 'straight',
         name: 'Bone straight',
         spec: '1A',
-        add: 0,
+        add: WIG_INCLUDED_SHARE,
         detail: 'Mirror straight. The easiest to style and the least forgiving of a cheap bundle.',
         note: 'Ask for it if you straighten your own hair anyway.',
       },
@@ -320,7 +329,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
         id: 'body-wave',
         name: 'Body wave',
         spec: 'loose S',
-        add: 0,
+        add: WIG_INCLUDED_SHARE,
         detail: 'Loose S-wave that holds its shape through humidity and brushes out in the morning.',
         note: 'The house texture. If you do not want to think about it, this is it.',
         recommended: true,
@@ -375,7 +384,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
         id: '1b',
         name: 'Natural black',
         spec: '1B',
-        add: 0,
+        add: WIG_INCLUDED_SHARE,
         detail: 'Off-black with a warm undertone. The default, and the easiest to match.',
         recommended: true,
       },
@@ -424,7 +433,7 @@ export const WIG_GROUPS: WigOptionGroup[] = [
     name: 'The finishing',
     question: 'Anything else?',
     intro:
-      'The finishing is what separates a unit from a hairline. Choose as many as your lace needs — we will tell you which are already included.',
+      'The finishing is what separates a unit from a hairline. Choose as many as your lace needs — each one adds its own line to the sheet.',
     multi: true,
     options: [
       {

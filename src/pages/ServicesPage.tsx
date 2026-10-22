@@ -274,7 +274,7 @@ export default function ServicesPage() {
                 ))}
               </ul>
               <p className="mt-4 font-sans text-[10px] font-light leading-relaxed text-ivory-500">
-                From {formatPrice(WIG_BASE.price)} for a glueless closure install · hair priced by the inch
+                Sheet starts at {formatPrice(WIG_BASE.price)} · every chosen line adds its price, standard choices included
               </p>
             </div>
           </div>
