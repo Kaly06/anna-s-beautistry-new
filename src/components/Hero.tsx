@@ -62,7 +62,7 @@ export default function Hero({ introDone }: { introDone: boolean }) {
       />
       <div className="noise pointer-events-none absolute inset-0 opacity-[0.055]" />
 
-      <div className="container-luxe relative flex flex-1 flex-col pb-10 pt-32 sm:pb-14 md:pt-40">
+      <div className="container-luxe relative flex flex-1 flex-col pb-10 pt-[148px] sm:pb-14 md:pt-[180px]">
         <m.div style={{ y: contentY, opacity: contentOpacity }} className="mb-16 max-w-4xl">
           <m.div {...fade(0.05)} className="flex items-center gap-4">
             <span className="h-px w-10 bg-gold-300/60" />
