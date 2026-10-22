@@ -17,7 +17,7 @@ export const HOUSE = {
   city: 'Cape Coast',
   region: 'Central Region, Ghana',
   founded: 2016,
-  address: ['Yaba', "Behind Nunoo's Height Hostel"],
+  address: ["Ayesu, Behind Nunoo's Height Hostel", 'Cape Coast, Ghana'],
   phone: '+233 54 218 4583',
   phoneHref: 'tel:+233542184583',
   whatsappHref: 'https://wa.me/233542184583',

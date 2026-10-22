@@ -4,7 +4,7 @@
  * Four of them are the materials the studio will and will not work with —
  * lace, titanium, silk and pigment. The fifth is the mark on the door: the
  * Halo, an eye ringed with lashes, printed on every appointment card and
- * struck into the mirror frame at Yaba.
+ * struck into the mirror frame at Ayesu.
  */
 
 export type MarkName = 'halo' | 'lace' | 'titanium' | 'silk' | 'pigment';

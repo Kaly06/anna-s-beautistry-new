@@ -61,9 +61,9 @@ export default function Footer() {
       <div className="container-luxe">
         <div
           id="contact"
-          className="grid scroll-mt-28 gap-12 border-b border-ivory-100/10 pb-16 md:grid-cols-2 lg:grid-cols-3"
+          className="grid scroll-mt-28 gap-12 border-b border-ivory-100/10 pb-16 md:grid-cols-2 lg:grid-cols-12"
         >
-          <div>
+          <div className="lg:col-span-3">
             <Reveal>
               <Link to="/" className="group flex items-center" aria-label="Anna's Beautistry home">
                 <Logo size="footer" />
@@ -92,7 +92,7 @@ export default function Footer() {
             </Reveal>
           </div>
 
-          <div>
+          <div className="lg:col-span-3">
             <Reveal delay={0.08}>
               <h3 className="font-display text-[26px] font-medium text-ivory-50">
                 Opening hours
@@ -125,13 +125,13 @@ export default function Footer() {
             </Reveal>
           </div>
 
-          <div className="md:col-span-2 lg:col-span-1">
+          <div className="md:col-span-2 lg:col-span-6">
             <Reveal delay={0.14}>
               <h3 className="font-display text-[26px] font-medium text-ivory-50">Socials</h3>
               <p className="mt-3 font-sans text-[12px] font-light leading-relaxed text-ivory-300/60">
                 Follow along for new sets, transformations and studio days.
               </p>
-              <div className="mt-6 space-y-3">
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 {SOCIALS.map(({ label, handle, href, Icon }) => (
                   <a
                     key={label}
@@ -155,7 +155,7 @@ export default function Footer() {
                 ))}
                 <a
                   href={`https://www.google.com/maps/search/${encodeURIComponent(
-                    `${HOUSE.address[0]}, ${HOUSE.address[1]}, ${HOUSE.city}, Ghana`,
+                    HOUSE.address.join(', '),
                   )}`}
                   target="_blank"
                   rel="noreferrer"
@@ -168,8 +168,8 @@ export default function Footer() {
                     <span className="block font-sans text-[13px] font-semibold text-ivory-50">
                       Location
                     </span>
-                    <span className="mt-0.5 block font-sans text-[12px] font-light text-ivory-300/60">
-                      {HOUSE.address[0]}, {HOUSE.address[1]}
+                    <span className="mt-0.5 block font-sans text-[12px] font-light leading-relaxed text-ivory-300/60">
+                      {HOUSE.address.join(', ')}
                     </span>
                   </span>
                 </a>
