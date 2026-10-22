@@ -8,11 +8,19 @@ const [WORDMARK_LINE_ONE, WORDMARK_LINE_TWO] = HOUSE.wordmarkLines;
 const WORDMARK = WORDMARK_LINE_ONE.split('');
 
 /**
- * Opening curtain. Her face grows in and never stops: through the count it
- * swells to four times its size, pushing the name, the rule and the corner
- * notes away until only the big logo remains — then the curtain lifts and
- * the logo dissolves as it goes up.
+ * Opening curtain, in four beats:
+ *  1. Her face grows in and the name spells itself out (~1.5s).
+ *  2. The full lockup RESTS — name fully formed and still for ~4 seconds
+ *     while the counter climbs slowly (6.4s count).
+ *  3. The face resumes growing to 4x, pushing the name, the rule and the
+ *     corner notes away until only the big logo remains.
+ *  4. The curtain lifts; the logo grows a little more and dissolves.
+ *
+ * All `animate` timelines below are 6.4s long (matching COUNT_MS) with the
+ * take-over keyed to the final ~19% so everything stays in sync.
  */
+const COUNT_MS = 6400;
+
 export default function Loader({ onDone }: { onDone: () => void }) {
   const [progress, setProgress] = useState(0);
 
@@ -20,10 +28,9 @@ export default function Loader({ onDone }: { onDone: () => void }) {
     let frame = 0;
     let timeout = 0;
     const start = performance.now();
-    const DURATION = 1500;
 
     const tick = (now: number) => {
-      const p = Math.min(100, ((now - start) / DURATION) * 100);
+      const p = Math.min(100, ((now - start) / COUNT_MS) * 100);
       setProgress(Math.round(p));
       if (p < 100) {
         frame = requestAnimationFrame(tick);
@@ -46,11 +53,11 @@ export default function Loader({ onDone }: { onDone: () => void }) {
       exit={{ y: '-100%' }}
       transition={{ duration: 1.05, ease: EASE }}
     >
-      {/* Corner notes hold, then clear the stage for the logo. */}
+      {/* Corner notes stay for the whole rest, then clear the stage. */}
       <m.div
         className="flex items-center justify-between"
         animate={{ opacity: [1, 1, 0] }}
-        transition={{ duration: 1.75, ease: EASE, delay: 0.1, times: [0, 0.6, 1] }}
+        transition={{ duration: 6.4, ease: EASE, delay: 0.1, times: [0, 0.83, 1] }}
       >
         <span className="eyebrow">Wigs · piercing · lashes · makeup</span>
         <span className="font-sans text-[10px] tracking-widest2 text-ivory-400">
@@ -59,12 +66,12 @@ export default function Loader({ onDone }: { onDone: () => void }) {
       </m.div>
 
       <div className="flex flex-col items-center">
-        {/* The mark: enters at 0.85, reaches life-size midway, then keeps
-            growing to 4x and settles into the centre of the screen. As the
+        {/* The mark: enters to life-size (~1.1s), rests beside the name for
+            ~4s, then swells to 4x into the centre of the screen. As the
             curtain lifts it grows a little more and dissolves. */}
         <m.div
           initial={{ opacity: 0, scale: 0.85, y: 10 }}
-          animate={{ opacity: 1, scale: [0.85, 1, 4], y: [10, 0, 80] }}
+          animate={{ opacity: 1, scale: [0.85, 1, 1, 4], y: [10, 0, 0, 80] }}
           exit={{
             scale: 4.6,
             y: 110,
@@ -77,8 +84,8 @@ export default function Loader({ onDone }: { onDone: () => void }) {
           }}
           transition={{
             opacity: { duration: 1.0, ease: EASE, delay: 0.1 },
-            scale: { duration: 1.75, ease: EASE, delay: 0.1, times: [0, 0.5, 1] },
-            y: { duration: 1.75, ease: EASE, delay: 0.1, times: [0, 0.5, 1] },
+            scale: { duration: 6.4, ease: EASE, delay: 0.1, times: [0, 0.16, 0.81, 1] },
+            y: { duration: 6.4, ease: EASE, delay: 0.1, times: [0, 0.16, 0.81, 1] },
           }}
           className="mb-8"
         >
@@ -97,13 +104,13 @@ export default function Loader({ onDone }: { onDone: () => void }) {
           )}
         </m.div>
 
-        {/* The name is pushed away as the logo takes the stage: it sinks
-            and dissolves through the second half of the count. */}
+        {/* The name stays, fully formed, for ~4 seconds — then, as the logo
+            swells past it, it sinks and dissolves away. */}
         <m.div
           data-loader="wordmark"
           className="flex flex-col items-center"
           animate={{ opacity: [1, 1, 0], y: [0, 0, 72] }}
-          transition={{ duration: 1.75, ease: EASE, delay: 0.1, times: [0, 0.6, 1] }}
+          transition={{ duration: 6.4, ease: EASE, delay: 0.1, times: [0, 0.83, 1] }}
         >
           <div className="overflow-hidden">
             <div className="flex justify-center" aria-label="Anna's Beautistry">
@@ -142,7 +149,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
       <m.div
         className="flex items-end justify-between"
         animate={{ opacity: [1, 1, 0] }}
-        transition={{ duration: 1.75, ease: EASE, delay: 0.1, times: [0, 0.6, 1] }}
+        transition={{ duration: 6.4, ease: EASE, delay: 0.1, times: [0, 0.83, 1] }}
       >
         <span className="max-w-[180px] font-sans text-[9px] uppercase leading-relaxed tracking-[0.25em] text-ivory-400">
           {HOUSE.city}, Ghana
