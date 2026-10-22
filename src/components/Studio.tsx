@@ -88,7 +88,7 @@ export default function Studio() {
             </m.div>
           </div>
 
-          <div className="lg:col-span-6 lg:pl-4 xl:pl-10">
+          <div className="flex flex-col lg:col-span-6 lg:pl-4 xl:pl-10">
             <Reveal>
               <Eyebrow index="03" tone="dark">
                 About me
@@ -117,27 +117,21 @@ export default function Studio() {
                 Most of my clients find me through someone they trust, and I never take that
                 lightly.
               </p>
+              <p className="mt-5 max-w-xl font-sans text-[13px] font-light leading-[1.95] text-ink-950/65">
+                I am particular about the small things. A hairline should melt, not sit. A
+                lash set should be mapped for your eye shape, not copied from a chart. A
+                piercing should be placed to heal beautifully, not only to look right on the
+                first day. Those millimetres are where my work lives.
+              </p>
+              <p className="mt-5 max-w-xl font-sans text-[13px] font-light leading-[1.95] text-ink-950/65">
+                Whether it is your first wig, the piercing you have been thinking about for
+                months, or makeup for the biggest day of your life, you will get the same
+                from me: honest advice, clean tools, and my full attention from the moment
+                you sit down. This is personal to me — because it is personal to you.
+              </p>
             </Reveal>
 
-            <div className="mt-12 space-y-0 border-t border-ink-950/15">
-              {STEPS.map((step, index) => (
-                <Reveal key={step.n} delay={0.1 * index}>
-                  <div className="group grid grid-cols-[auto_1fr] gap-6 border-b border-ink-950/15 py-6">
-                    <span className="font-display text-lg italic text-gold-700">{step.n}</span>
-                    <div>
-                      <h3 className="font-display text-2xl leading-none transition-colors duration-300 group-hover:text-gold-700">
-                        {step.title}
-                      </h3>
-                      <p className="mt-3 max-w-md font-sans text-[12px] font-light leading-relaxed text-ink-950/55">
-                        {step.body}
-                      </p>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-
-            <Reveal delay={0.2}>
+            <Reveal delay={0.2} className="mt-auto">
               <Link to="/book" className="group mt-10 inline-flex items-center gap-3">
                 <span className="font-sans text-[10px] font-medium uppercase tracking-widest2 text-ink-950">
                   Book a service
@@ -148,6 +142,22 @@ export default function Studio() {
               </Link>
             </Reveal>
           </div>
+        </div>
+
+        <div className="mt-20 grid gap-x-10 gap-y-10 border-t border-ink-950/15 pt-12 sm:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map((step, index) => (
+            <Reveal key={step.n} delay={0.08 * index}>
+              <div className="group">
+                <span className="font-display text-lg italic text-gold-700">{step.n}</span>
+                <h3 className="mt-4 font-display text-2xl leading-none transition-colors duration-300 group-hover:text-gold-700">
+                  {step.title}
+                </h3>
+                <p className="mt-3 font-sans text-[12px] font-light leading-relaxed text-ink-950/55">
+                  {step.body}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
 
         <div className="mt-20 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-ink-950/15 pt-12 md:grid-cols-4">
