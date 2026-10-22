@@ -7,6 +7,7 @@ import GalleryPage from './pages/GalleryPage';
 import ServicesPage from './pages/ServicesPage';
 import ServicePage from './pages/ServicePage';
 import WigsOptionsPage from './pages/WigsOptionsPage';
+import AdminClosures from './pages/AdminClosures';
 import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -87,6 +88,7 @@ export default function App() {
         <Route path="/services/wigs/options" element={<WigsOptionsPage />} />
         <Route path="/services/:serviceId" element={<ServicePage />} />
         <Route path="/services/:serviceId/:slug" element={<ServicePage />} />
+        <Route path="/admin" element={<AdminClosures />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

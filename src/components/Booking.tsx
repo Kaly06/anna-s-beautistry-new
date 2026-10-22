@@ -69,8 +69,11 @@ function friendlierBookingError(error: unknown): string {
   if (lower.includes('already booked') || lower.includes('overlap')) {
     return 'That time was just taken. Please choose another available start time.';
   }
-  if (lower.includes('closed') || lower.includes('tuesday') || lower.includes('saturday')) {
-    return 'The studio is open Tuesday to Saturday. Please choose another day.';
+  if (lower.includes('busy') || lower.includes('studio_busy')) {
+    return 'Anna is busy or the studio is closed at that time. Please choose another start time.';
+  }
+  if (lower.includes('closed')) {
+    return 'The studio is closed on Sundays. Please choose Monday to Saturday.';
   }
   if (lower.includes('outside') || lower.includes('opening') || lower.includes('closing')) {
     return 'That service would run outside studio hours. Please choose an earlier start time.';
@@ -187,6 +190,7 @@ export default function Booking() {
   );
   const selectedSlot = slots.find((slot) => slot.value === selectedStart);
   const availableSlotCount = slots.filter((slot) => slot.available).length;
+  const dayClosures = busySlots.filter((slot) => slot.kind === 'closure');
 
   useEffect(() => {
     const itemParam = searchParams.get('item');
@@ -395,7 +399,7 @@ export default function Booking() {
       return;
     }
     if (closedDay) {
-      setSubmitError('The studio is closed on Sundays and Mondays. Please choose Tuesday to Saturday.');
+      setSubmitError('The studio is closed on Sundays. Please choose Monday to Saturday.');
       return;
     }
     if (!selectedStart) {
@@ -917,8 +921,9 @@ export default function Booking() {
                       />
                     </div>
                     <p className="max-w-sm font-sans text-[11px] font-light leading-relaxed text-ivory-400">
-                      Open Tuesday–Saturday, 9:00 AM–7:00 PM Ghana time. Starts are
-                      every 30 minutes, and a booking blocks its whole service duration.
+                      Open Monday–Friday, 9:00 AM–7:00 PM and Saturday, 10:00 AM–4:00 PM
+                      Ghana time (closed Sundays). Starts are every 30 minutes, and a
+                      booking blocks its whole service duration.
                     </p>
                   </div>
 
@@ -939,7 +944,7 @@ export default function Booking() {
 
                   {closedDay ? (
                     <p className="mt-4 border border-rose-300/20 bg-rose-400/[0.06] px-4 py-3 font-sans text-[11px] font-light leading-relaxed text-rose-100">
-                      The studio is closed on Sundays and Mondays. Please choose Tuesday to Saturday.
+                      The studio is closed on Sundays. Please choose Monday to Saturday.
                     </p>
                   ) : slotsLoading ? (
                     <p className="mt-4 flex items-center gap-3 font-sans text-[11px] font-light text-ivory-400">
@@ -966,6 +971,20 @@ export default function Booking() {
                     </p>
                   ) : (
                     <>
+                      {dayClosures.length > 0 ? (
+                        <div className="mt-4 border border-gold-300/25 bg-gold-400/[0.07] px-4 py-3">
+                          {dayClosures.map((closure) => (
+                            <p
+                              key={`${closure.startsAt}-${closure.endsAt}`}
+                              className="font-sans text-[11px] font-light leading-relaxed text-gold-100"
+                            >
+                              Anna is {closure.reason?.trim() || 'Busy'} —{' '}
+                              {formatAppointmentWindow(closure.startsAt, closure.endsAt)}.
+                              Those times are blocked below.
+                            </p>
+                          ))}
+                        </div>
+                      ) : null}
                       <div
                         className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4"
                         role="radiogroup"
@@ -1000,7 +1019,9 @@ export default function Booking() {
                                   ? `Ends ${slot.endLabel}`
                                   : slot.reason === 'past'
                                     ? 'Passed'
-                                    : 'Booked'}
+                                    : slot.reason === 'busy'
+                                      ? 'Busy'
+                                      : 'Booked'}
                               </span>
                             </button>
                           );

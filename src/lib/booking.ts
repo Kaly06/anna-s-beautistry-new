@@ -6,12 +6,22 @@ export const PARTIAL_PAYMENT_RATE = 0.3;
 export const BOOKING_HOLD_MINUTES = 30;
 export const SLOT_STEP_MINUTES = 30;
 
-const OPEN_MINUTES = 9 * 60;
-const CLOSE_MINUTES = 19 * 60;
-
 export interface BusySlot {
   startsAt: string;
   endsAt: string;
+  /** 'booking' for a client booking/hold, 'closure' for a period Anna blocked off herself. */
+  kind?: 'booking' | 'closure';
+  /** For closures: the label she chose, e.g. 'Busy' or 'Closed'. */
+  reason?: string | null;
+}
+
+/** Opening hours per weekday (Date.getDay): weekdays 9–7, Saturday 10–4, Sunday closed. */
+export function openingHoursForDate(dateISO: string): { open: number; close: number } | null {
+  if (!dateISO) return null;
+  const day = new Date(`${dateISO}T00:00:00.000Z`).getUTCDay();
+  if (Number.isNaN(day) || day === 0) return null; // Sunday
+  if (day === 6) return { open: 10 * 60, close: 16 * 60 }; // Saturday
+  return { open: 9 * 60, close: 19 * 60 }; // Monday–Friday
 }
 
 export type BookingStatus =
@@ -43,6 +53,8 @@ export interface BookingHold {
 interface RpcBusySlot {
   starts_at: string;
   ends_at: string;
+  kind?: 'booking' | 'closure' | null;
+  reason?: string | null;
 }
 
 interface RpcBookingHold {
@@ -76,7 +88,7 @@ export interface StartSlot {
   label: string;
   endLabel: string;
   available: boolean;
-  reason?: 'past' | 'booked';
+  reason?: 'past' | 'booked' | 'busy';
 }
 
 function pad2(value: number): string {
@@ -115,9 +127,7 @@ export function addDaysISO(dateISO: string, days: number): string {
 }
 
 export function isClosedDate(dateISO: string): boolean {
-  if (!dateISO) return false;
-  const day = new Date(`${dateISO}T00:00:00.000Z`).getUTCDay();
-  return day === 0 || day === 1; // Sunday or Monday
+  return openingHoursForDate(dateISO) === null && Boolean(dateISO);
 }
 
 export function formatMinutesLabel(totalMinutes: number): string {
@@ -181,31 +191,42 @@ export function generateStartSlots(
   busySlots: BusySlot[],
   now = new Date(),
 ): StartSlot[] {
-  if (!dateISO || durationMinutes <= 0 || isClosedDate(dateISO)) return [];
+  const hours = openingHoursForDate(dateISO);
+  if (!dateISO || durationMinutes <= 0 || !hours) return [];
 
   const dayStartMs = Date.parse(`${dateISO}T00:00:00.000Z`);
   if (!Number.isFinite(dayStartMs)) return [];
 
   const busyRanges = busySlots
-    .map((slot) => ({ start: Date.parse(slot.startsAt), end: Date.parse(slot.endsAt) }))
+    .map((slot) => ({
+      start: Date.parse(slot.startsAt),
+      end: Date.parse(slot.endsAt),
+      kind: slot.kind ?? 'booking',
+    }))
     .filter((range) => Number.isFinite(range.start) && Number.isFinite(range.end));
 
   const slots: StartSlot[] = [];
   for (
-    let startMinutes = OPEN_MINUTES;
-    startMinutes + durationMinutes <= CLOSE_MINUTES;
+    let startMinutes = hours.open;
+    startMinutes + durationMinutes <= hours.close;
     startMinutes += SLOT_STEP_MINUTES
   ) {
     const startMs = dayStartMs + startMinutes * 60_000;
     const endMs = startMs + durationMinutes * 60_000;
     const isPast = startMs <= now.getTime();
-    const overlaps = busyRanges.some((range) => startMs < range.end && range.start < endMs);
+    const overlapsBooking = busyRanges.some(
+      (range) => range.kind === 'booking' && startMs < range.end && range.start < endMs,
+    );
+    const overlapsClosure = busyRanges.some(
+      (range) => range.kind === 'closure' && startMs < range.end && range.start < endMs,
+    );
+    const overlaps = overlapsBooking || overlapsClosure;
     slots.push({
       value: `${pad2(Math.floor(startMinutes / 60))}:${pad2(startMinutes % 60)}`,
       label: formatMinutesLabel(startMinutes),
       endLabel: formatMinutesLabel(startMinutes + durationMinutes),
       available: !isPast && !overlaps,
-      reason: isPast ? 'past' : overlaps ? 'booked' : undefined,
+      reason: isPast ? 'past' : overlapsClosure ? 'busy' : overlapsBooking ? 'booked' : undefined,
     });
   }
   return slots;
@@ -225,15 +246,52 @@ export function calculatePartialPayment(totalStartingPrice: number): {
 }
 
 export async function fetchBusySlots(dateISO: string): Promise<BusySlot[]> {
+  const rangeStart = `${dateISO}T00:00:00.000Z`;
+  const rangeEnd = `${addDaysISO(dateISO, 1)}T00:00:00.000Z`;
   const { data, error } = await supabase.rpc('get_busy_slots', {
-    p_range_start: `${dateISO}T00:00:00.000Z`,
-    p_range_end: `${addDaysISO(dateISO, 1)}T00:00:00.000Z`,
+    p_range_start: rangeStart,
+    p_range_end: rangeEnd,
   });
   if (error) throw new Error(error.message);
-  return ((data ?? []) as RpcBusySlot[]).map((slot) => ({
+
+  const slots: BusySlot[] = ((data ?? []) as RpcBusySlot[]).map((slot) => ({
     startsAt: slot.starts_at,
     endsAt: slot.ends_at,
+    kind: slot.kind === 'closure' ? 'closure' : 'booking',
+    reason: slot.reason ?? null,
   }));
+
+  // Anna's own blocked-off periods live in studio_closures. The newer
+  // get_busy_slots already unions them in; reading the table directly keeps
+  // closures working even before that database update is applied. If the
+  // table does not exist yet, booking simply falls back to bookings only.
+  try {
+    const { data: closures, error: closureError } = await supabase
+      .from('studio_closures')
+      .select('starts_at, ends_at, reason')
+      .lt('starts_at', rangeEnd)
+      .gt('ends_at', rangeStart);
+    if (!closureError && closures) {
+      for (const closure of closures as { starts_at: string; ends_at: string; reason: string | null }[]) {
+        slots.push({
+          startsAt: closure.starts_at,
+          endsAt: closure.ends_at,
+          kind: 'closure',
+          reason: closure.reason ?? 'Busy',
+        });
+      }
+    }
+  } catch {
+    // Table not created yet — ignore and use bookings only.
+  }
+
+  const seen = new Set<string>();
+  return slots.filter((slot) => {
+    const key = `${slot.kind}|${slot.startsAt}|${slot.endsAt}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 export interface CreateBookingHoldInput {
