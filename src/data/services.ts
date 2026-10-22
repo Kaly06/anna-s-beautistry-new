@@ -96,24 +96,80 @@ export const testimonials: Testimonial[] = [
       'I have worn lace for eleven years and no one has ever matched my hairline like Anna. Three weeks in, nobody could find the line — including my sister, who was looking for it.',
     name: 'Efua Baidoo',
     role: 'Wigs · client since 2019',
+    service: 'Wig Installation',
+    image: '/images/clients/client-Efua-wig-installation.jpg',
   },
   {
     quote:
-      'She talked me out of the third hoop and was right. It healed in six weeks with no irritation at all, and I have since brought my daughter for her first lobes.',
-    name: 'Ama Serwaa',
-    role: 'Piercings · earlobe & cartilage',
+      'I wanted drama and I said so plainly. She gave me the fullest set I have ever worn and it still feels like nothing on my eyes. Three weeks on, strangers are still stopping me to ask who does my lashes.',
+    name: 'Abena Frimpong',
+    role: 'Lashes · Mega Volume',
+    service: 'Mega Volume Lashes',
+    image: '/images/clients/client-Abena-mega-volume.jpg',
   },
   {
     quote:
       'My bridal trial ran twenty minutes over because she kept adjusting the light. On the day, the makeup held through the ceremony, the heat and the reception.',
     name: 'Akosua Mensima',
     role: 'Makeup · bridal, Elmina',
+    service: 'Bridal Makeup',
+    image: '/images/clients/client-Akosua-bridal-makeup.jpg',
+  },
+  {
+    quote:
+      'I was shaking in the chair and she simply slowed everything down. She marked the spot twice, handed me the mirror, and the piercing was finished before the deep breath she asked me to take.',
+    name: 'Adjoa Quarshie',
+    role: 'Piercings · nostril',
+    service: 'Nostril Piercing',
+    image: '/images/clients/client-Adjoa-nostril.jpg',
+  },
+  {
+    quote:
+      'I told her I have five minutes in the morning, not fifty. She built me a glueless unit I shake out and wear — no glue, no salon visit — and it still looks like I spent the whole morning on it.',
+    name: 'Yaa Owusu',
+    role: 'Wigs · custom glueless unit',
+    service: 'Wig Construction / Making',
+    image: '/images/clients/client-Yaa-glueless-unit.jpg',
   },
   {
     quote:
       'The lash set is so light I forget it is there until someone asks. That is the compliment I wanted — not "your lashes are lovely", but "your eyes are lovely".',
     name: 'Zainab Yakubu',
     role: 'Lashes · Volume Lash Extensions',
+    service: 'Volume Lash Extensions',
+    image: '/images/clients/client-Zainab-volume-lashes.jpg',
+  },
+  {
+    quote:
+      'For my mother’s 60th I wanted to look like myself on my best-rested day. That is exactly what she did — my own skin, but lit. I did not want to wash it off that night.',
+    name: 'Nana Ama Agyemang',
+    role: 'Makeup · soft glam',
+    service: 'Soft Glam Makeup',
+    image: '/images/clients/client-Nana-ama-soft-glam.jpg',
+  },
+  {
+    quote:
+      'She talked me out of the third hoop and was right. It healed in six weeks with no irritation at all, and I have since brought my daughter for her first lobes.',
+    name: 'Ama Serwaa',
+    role: 'Piercings · earlobe & cartilage',
+    service: 'Earlobe & Cartilage Piercing',
+    image: '/images/clients/client-Ama-piercings.jpg',
+  },
+  {
+    quote:
+      'My old unit was dry, tangled and honestly embarrassing. She treated it, re-curled it and sent it back looking like the day I bought it. I nearly wasted money on a new one.',
+    name: 'Maame Grant',
+    role: 'Wigs · revamping',
+    service: 'Wig Revamping',
+    image: '/images/clients/client-Maame-wig-revamping.jpg',
+  },
+  {
+    quote:
+      'The pixie changed my whole mood. She cut it on my head, not on a stand, so it sits exactly the way my face needs. I walk differently in it — I am serious.',
+    name: 'Araba Mensah',
+    role: 'Wigs · pixie styling',
+    service: 'Wig Styling & Custom Services',
+    image: '/images/clients/client-Araba-pixie.jpg',
   },
 ];
 

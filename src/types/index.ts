@@ -62,6 +62,10 @@ export interface Testimonial {
   quote: string;
   name: string;
   role: string;
+  /** The exact service this client booked, shown as the portrait caption. */
+  service: string;
+  /** Portrait showing the booked service, e.g. /images/clients/client-Efua-wig-installation.jpg */
+  image: string;
 }
 
 /** One choice on a wig's options sheet. */
