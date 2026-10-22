@@ -50,12 +50,24 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 
       <div className="flex flex-col items-center">
         <m.div
-          initial={{ opacity: 0, scale: 0.7, rotate: -60 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          initial={{ opacity: 0, scale: 0.85, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1.3, ease: EASE, delay: 0.1 }}
-          className="mb-8 h-12 w-12 text-gold-300 sm:h-14 sm:w-14"
+          className="mb-8"
         >
-          <Monogram className="h-full w-full" />
+          {HOUSE.logoSrc ? (
+            <img
+              src={HOUSE.logoSrc}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              className="h-24 w-auto object-contain drop-shadow-[0_0_24px_rgba(212,175,55,0.35)] sm:h-28"
+            />
+          ) : (
+            <span className="block h-12 w-12 text-gold-300 sm:h-14 sm:w-14">
+              <Monogram className="h-full w-full" />
+            </span>
+          )}
         </m.div>
         <div className="overflow-hidden">
           <div className="flex justify-center" aria-label="Anna's Beautistry">

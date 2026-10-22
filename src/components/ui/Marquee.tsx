@@ -1,5 +1,3 @@
-import Mark from './Mark';
-
 /**
  * Infinite ticker. Two identical halves translating -50% give a seamless loop;
  * the second copy is hidden from assistive tech.
@@ -19,7 +17,7 @@ export default function Marquee({ phrases }: { phrases: string[] }) {
                 <span className="whitespace-nowrap font-display text-xl italic text-ivory-200/85 sm:text-2xl">
                   {phrase}
                 </span>
-                <Mark name="halo" strokeWidth={1.4} className="h-4 w-4 shrink-0 text-gold-400/70" />
+                <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rotate-45 bg-gold-400/70" />
               </div>
             ))}
           </div>

@@ -1,11 +1,22 @@
 import { Link } from 'react-router-dom';
+import { HOUSE } from '../data/house';
 import Monogram from '../components/ui/Monogram';
 
 export default function NotFound() {
   return (
     <section className="flex min-h-[80svh] items-center bg-ink-950 py-32">
       <div className="container-luxe text-center">
-        <Monogram className="mx-auto h-10 w-10 text-gold-300" />
+        {HOUSE.logoSrc ? (
+          <img
+            src={HOUSE.logoSrc}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="mx-auto h-16 w-auto object-contain"
+          />
+        ) : (
+          <Monogram className="mx-auto h-10 w-10 text-gold-300" />
+        )}
         <p className="eyebrow mt-8">404</p>
         <h1 className="mt-6 font-display text-[clamp(2.4rem,6vw,4.5rem)] font-light leading-tight text-ivory-50">
           Nothing booked here.
