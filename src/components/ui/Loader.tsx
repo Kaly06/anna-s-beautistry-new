@@ -49,9 +49,13 @@ export default function Loader({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className="flex flex-col items-center">
+        {/* Her face steps forward as the curtain lifts: while the curtain
+            slides up, the mark grows toward the viewer and drifts gently
+            down against the rise, then leaves with the curtain. */}
         <m.div
           initial={{ opacity: 0, scale: 0.85, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ scale: 1.75, y: 24, transition: { duration: 1.05, ease: EASE } }}
           transition={{ duration: 1.3, ease: EASE, delay: 0.1 }}
           className="mb-8"
         >
