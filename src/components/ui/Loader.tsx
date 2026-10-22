@@ -7,7 +7,12 @@ import Monogram from './Monogram';
 const [WORDMARK_LINE_ONE, WORDMARK_LINE_TWO] = HOUSE.wordmarkLines;
 const WORDMARK = WORDMARK_LINE_ONE.split('');
 
-/** Opening curtain: wordmark reveal, gold rule and a percentage counter. */
+/**
+ * Opening curtain. Her face grows in and never stops: through the count it
+ * swells to four times its size, pushing the name, the rule and the corner
+ * notes away until only the big logo remains — then the curtain lifts and
+ * the logo dissolves as it goes up.
+ */
 export default function Loader({ onDone }: { onDone: () => void }) {
   const [progress, setProgress] = useState(0);
 
@@ -41,22 +46,40 @@ export default function Loader({ onDone }: { onDone: () => void }) {
       exit={{ y: '-100%' }}
       transition={{ duration: 1.05, ease: EASE }}
     >
-      <div className="flex items-center justify-between">
+      {/* Corner notes hold, then clear the stage for the logo. */}
+      <m.div
+        className="flex items-center justify-between"
+        animate={{ opacity: [1, 1, 0] }}
+        transition={{ duration: 1.75, ease: EASE, delay: 0.1, times: [0, 0.6, 1] }}
+      >
         <span className="eyebrow">Wigs · piercing · lashes · makeup</span>
         <span className="font-sans text-[10px] tracking-widest2 text-ivory-400">
           Est. {HOUSE.founded}
         </span>
-      </div>
+      </m.div>
 
       <div className="flex flex-col items-center">
-        {/* Her face steps forward as the curtain lifts: while the curtain
-            slides up, the mark grows toward the viewer and drifts gently
-            down against the rise, then leaves with the curtain. */}
+        {/* The mark: enters at 0.85, reaches life-size midway, then keeps
+            growing to 4x and settles into the centre of the screen. As the
+            curtain lifts it grows a little more and dissolves. */}
         <m.div
           initial={{ opacity: 0, scale: 0.85, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ scale: 1.75, y: 24, transition: { duration: 1.05, ease: EASE } }}
-          transition={{ duration: 1.3, ease: EASE, delay: 0.1 }}
+          animate={{ opacity: 1, scale: [0.85, 1, 4], y: [10, 0, 80] }}
+          exit={{
+            scale: 4.6,
+            y: 110,
+            opacity: 0,
+            transition: {
+              duration: 1.05,
+              ease: EASE,
+              opacity: { duration: 0.7, delay: 0.3, ease: 'easeIn' },
+            },
+          }}
+          transition={{
+            opacity: { duration: 1.0, ease: EASE, delay: 0.1 },
+            scale: { duration: 1.75, ease: EASE, delay: 0.1, times: [0, 0.5, 1] },
+            y: { duration: 1.75, ease: EASE, delay: 0.1, times: [0, 0.5, 1] },
+          }}
           className="mb-8"
         >
           {HOUSE.logoSrc ? (
@@ -73,40 +96,54 @@ export default function Loader({ onDone }: { onDone: () => void }) {
             </span>
           )}
         </m.div>
-        <div className="overflow-hidden">
-          <div className="flex justify-center" aria-label="Anna's Beautistry">
-            {WORDMARK.map((letter, i) => (
-              <m.span
-                key={`${letter}-${i}`}
-                aria-hidden="true"
-                className="font-display text-[11vw] font-light leading-none tracking-[0.12em] text-ivory-50 sm:text-[7.5vw]"
-                initial={{ y: '110%' }}
-                animate={{ y: '0%' }}
-                transition={{ duration: 1.1, ease: EASE, delay: 0.08 + i * 0.045 }}
-              >
-                {letter}
-              </m.span>
-            ))}
-          </div>
-        </div>
-        <m.p
-          aria-hidden="true"
-          className="mt-4 text-center font-sans text-[10px] font-medium uppercase tracking-[0.62em] text-gold-300/90 sm:text-xs"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE, delay: 0.45 }}
-        >
-          {WORDMARK_LINE_TWO}
-        </m.p>
+
+        {/* The name is pushed away as the logo takes the stage: it sinks
+            and dissolves through the second half of the count. */}
         <m.div
-          className="mt-7 h-px w-[min(70vw,520px)] origin-left bg-gradient-to-r from-gold-600 via-gold-300 to-gold-600"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1.45, ease: EASE, delay: 0.15 }}
-        />
+          data-loader="wordmark"
+          className="flex flex-col items-center"
+          animate={{ opacity: [1, 1, 0], y: [0, 0, 72] }}
+          transition={{ duration: 1.75, ease: EASE, delay: 0.1, times: [0, 0.6, 1] }}
+        >
+          <div className="overflow-hidden">
+            <div className="flex justify-center" aria-label="Anna's Beautistry">
+              {WORDMARK.map((letter, i) => (
+                <m.span
+                  key={`${letter}-${i}`}
+                  aria-hidden="true"
+                  className="font-display text-[11vw] font-light leading-none tracking-[0.12em] text-ivory-50 sm:text-[7.5vw]"
+                  initial={{ y: '110%' }}
+                  animate={{ y: '0%' }}
+                  transition={{ duration: 1.1, ease: EASE, delay: 0.08 + i * 0.045 }}
+                >
+                  {letter}
+                </m.span>
+              ))}
+            </div>
+          </div>
+          <m.p
+            aria-hidden="true"
+            className="mt-4 text-center font-sans text-[10px] font-medium uppercase tracking-[0.62em] text-gold-300/90 sm:text-xs"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE, delay: 0.45 }}
+          >
+            {WORDMARK_LINE_TWO}
+          </m.p>
+          <m.div
+            className="mt-7 h-px w-[min(70vw,520px)] origin-left bg-gradient-to-r from-gold-600 via-gold-300 to-gold-600"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1.45, ease: EASE, delay: 0.15 }}
+          />
+        </m.div>
       </div>
 
-      <div className="flex items-end justify-between">
+      <m.div
+        className="flex items-end justify-between"
+        animate={{ opacity: [1, 1, 0] }}
+        transition={{ duration: 1.75, ease: EASE, delay: 0.1, times: [0, 0.6, 1] }}
+      >
         <span className="max-w-[180px] font-sans text-[9px] uppercase leading-relaxed tracking-[0.25em] text-ivory-400">
           {HOUSE.city}, Ghana
         </span>
@@ -116,7 +153,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
           </span>
           <span className="font-sans text-[9px] tracking-[0.3em] text-ivory-400">%</span>
         </div>
-      </div>
+      </m.div>
     </m.div>
   );
 }
