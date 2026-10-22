@@ -69,8 +69,8 @@ export default function Studio() {
                 }}
               >
                 <m.img
-                  src="/images/studio.webp"
-                  alt="Inside the Anna's Beautistry studio in Cape Coast"
+                  src="/images/Anna-about.jpg"
+                  alt="Anna, founder of Anna's Beautistry, smiling with her styling tools in hand"
                   loading="lazy"
                   className="h-full w-full object-cover"
                   variants={{
@@ -82,8 +82,8 @@ export default function Studio() {
               </m.div>
 
               <div className="absolute -bottom-6 -right-3 hidden border border-ink-950/15 bg-ivory-100 px-6 py-5 sm:block lg:-right-8">
-                <p className="font-display text-2xl">My studio</p>
-                <p className="eyebrow-dark mt-1.5">{HOUSE.city}, Ghana</p>
+                <p className="font-display text-2xl">Anna</p>
+                <p className="eyebrow-dark mt-1.5">Founder &amp; artist — {HOUSE.city}</p>
               </div>
             </m.div>
           </div>
