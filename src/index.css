@@ -168,6 +168,20 @@
     position: relative;
     isolation: isolate;
     overflow: clip;
+    /* The steady star population: painted once into the surface itself,
+       never animated — half the sky simply stays lit. */
+    background-image:
+      radial-gradient(circle at 64% 30%, rgba(247, 231, 172, 0.5) 0 1.6px, transparent 2.5px),
+      radial-gradient(circle at 28% 74%, rgba(246, 240, 252, 0.4) 0 1.5px, transparent 2.4px),
+      radial-gradient(circle at 84% 82%, rgba(212, 175, 55, 0.42) 0 1.6px, transparent 2.5px);
+    background-position:
+      30px 10px,
+      90px 60px,
+      10px 120px;
+    background-size:
+      300px 300px,
+      390px 390px,
+      470px 470px;
   }
 
   :where(section, footer, main):where(
@@ -183,10 +197,10 @@
     z-index: -1;
     pointer-events: none;
     background-image:
-      radial-gradient(circle at 18% 24%, rgba(247, 231, 172, 0.95) 0 1px, transparent 1.6px),
-      radial-gradient(circle at 72% 68%, rgba(246, 240, 252, 0.78) 0 1px, transparent 1.5px),
-      radial-gradient(circle at 42% 82%, rgba(212, 175, 55, 0.72) 0 1.2px, transparent 1.8px),
-      radial-gradient(circle at 86% 18%, rgba(189, 160, 212, 0.62) 0 1.4px, transparent 2px);
+      radial-gradient(circle at 18% 24%, rgba(247, 231, 172, 0.95) 0 1.7px, transparent 2.7px),
+      radial-gradient(circle at 72% 68%, rgba(246, 240, 252, 0.85) 0 1.6px, transparent 2.6px),
+      radial-gradient(circle at 42% 82%, rgba(212, 175, 55, 0.82) 0 1.9px, transparent 3px),
+      radial-gradient(circle at 86% 18%, rgba(189, 160, 212, 0.72) 0 1.8px, transparent 2.8px);
     background-position:
       0 0,
       42px 64px,
@@ -197,8 +211,32 @@
       270px 270px,
       330px 330px,
       430px 430px;
-    /* Twinkle = opacity only. The starfield itself never repaints. */
-    animation: ambient-twinkle 7s ease-in-out infinite alternate;
+    /* Twinkle = opacity only, on an irregular multi-peak rhythm with a
+       negative delay, so this population is never mid-pulse in step with
+       anything else. The starfield itself never repaints. */
+    animation: ambient-twinkle 7.5s ease-in-out -2.4s infinite;
+  }
+
+  /* Neighbouring sections pulse out of phase with each other, so the whole
+     page never breathes in unison — it shimmers. */
+  :where(section):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):nth-of-type(even)::before {
+    animation-duration: 9.4s;
+    animation-delay: -5.3s;
+  }
+
+  :where(footer):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    )::before {
+    animation-duration: 8.6s;
+    animation-delay: -4.2s;
   }
 
   :where(section, footer, main):where(
@@ -235,12 +273,29 @@
     will-change: transform;
   }
 
+  /* Irregular shimmer: brighten, dip, flare, settle — and the last frame
+     matches the first so the loop never jumps. */
   @keyframes ambient-twinkle {
-    from {
-      opacity: 0.34;
+    0% {
+      opacity: 0.14;
     }
-    to {
-      opacity: 0.54;
+    18% {
+      opacity: 0.52;
+    }
+    33% {
+      opacity: 0.22;
+    }
+    52% {
+      opacity: 0.64;
+    }
+    70% {
+      opacity: 0.3;
+    }
+    86% {
+      opacity: 0.56;
+    }
+    100% {
+      opacity: 0.14;
     }
   }
 
