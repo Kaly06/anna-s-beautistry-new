@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Lets the spiral sheen rotate its gradient without rotating (and
-   overflowing) the element box that carries it. */
-@property --ambient-spiral-angle {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
-
 @layer base {
   :root {
     color-scheme: dark;
@@ -150,30 +142,41 @@
   }
 
   /*
-    Living light for the solid purple surfaces.
+    Living light for the solid purple surfaces — performance-tuned edition.
 
     Every large ink-purple surface gets the same quiet night-sky treatment:
-    tiny gold/ivory stars drift and twinkle, while a soft spiral sheen turns
-    very slowly in the corner. The effects live on pseudo-elements behind the
-    content (never above text or controls), and the global reduced-motion
-    rule stills them for visitors who ask for less motion.
+    tiny gold/ivory stars twinkle, and a soft spiral sheen turns very slowly
+    in the corner. The first version of this effect animated
+    background-position, an animated gradient angle and a blur filter, which
+    forced full repaints of every surface on every frame and made the whole
+    site lag. This edition only animates the two properties the GPU can
+    composite for free — opacity (twinkle) and transform (spiral rotation) —
+    with the starfield and spiral painted once into their layers. It also
+    applies only to big surfaces (sections, footers, mains, plus anything
+    opted in with .ambient-surface), never to nested cards, and
+    `overflow: clip` keeps the rotating spiral's corners from ever
+    widening the page (clip, unlike hidden, does not break sticky children).
+    The global reduced-motion rule stills everything.
   */
-  :where(section, footer, main, div, article, figure, a):where(
+  :where(section, footer, main):where(
       .bg-ink-950,
       .bg-ink-900,
       .bg-ink-850,
       .bg-ink-800
-    ):not(.fixed):not(.absolute):not(.sticky) {
+    ):not(.fixed):not(.absolute):not(.sticky),
+  .ambient-surface {
     position: relative;
     isolation: isolate;
+    overflow: clip;
   }
 
-  :where(section, footer, main, div, article, figure, a):where(
+  :where(section, footer, main):where(
       .bg-ink-950,
       .bg-ink-900,
       .bg-ink-850,
       .bg-ink-800
-    ):not(.fixed):not(.absolute):not(.sticky)::before {
+    ):not(.fixed):not(.absolute):not(.sticky)::before,
+  .ambient-surface::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -194,32 +197,30 @@
       270px 270px,
       330px 330px,
       430px 430px;
-    opacity: 0.46;
-    animation:
-      ambient-twinkle 6.5s ease-in-out infinite alternate,
-      ambient-star-drift 28s ease-in-out infinite alternate;
-    will-change: opacity, background-position;
+    /* Twinkle = opacity only. The starfield itself never repaints. */
+    animation: ambient-twinkle 7s ease-in-out infinite alternate;
   }
 
-  :where(section, footer, main, div, article, figure, a):where(
+  :where(section, footer, main):where(
       .bg-ink-950,
       .bg-ink-900,
       .bg-ink-850,
       .bg-ink-800
-    ):not(.fixed):not(.absolute):not(.sticky)::after {
+    ):not(.fixed):not(.absolute):not(.sticky)::after,
+  .ambient-surface::after {
     content: '';
     position: absolute;
     top: 0;
     right: 0;
     z-index: -1;
-    width: min(58vw, 46rem);
+    width: min(46vw, 32rem);
     aspect-ratio: 1;
     border-radius: 9999px;
     pointer-events: none;
     background:
       radial-gradient(circle at center, rgba(212, 175, 55, 0.13) 0%, transparent 58%),
       repeating-conic-gradient(
-        from var(--ambient-spiral-angle) at 50% 50%,
+        from 0deg at 50% 50%,
         rgba(212, 175, 55, 0.16) 0deg 9deg,
         transparent 9deg 32deg,
         rgba(189, 160, 212, 0.09) 32deg 39deg,
@@ -227,56 +228,43 @@
       );
     -webkit-mask-image: radial-gradient(circle, transparent 0 15%, #000 18% 56%, transparent 72%);
     mask-image: radial-gradient(circle, transparent 0 15%, #000 18% 56%, transparent 72%);
-    opacity: 0.34;
-    filter: blur(0.4px);
-    animation: ambient-spiral 84s linear infinite;
+    opacity: 0.3;
+    /* Rotation = transform only, so the spiral spins on the GPU. The
+       gradient is painted once; no blur filter, no animated angle. */
+    animation: ambient-spiral 90s linear infinite;
+    will-change: transform;
   }
 
   @keyframes ambient-twinkle {
     from {
-      opacity: 0.32;
+      opacity: 0.34;
     }
     to {
-      opacity: 0.58;
-    }
-  }
-
-  @keyframes ambient-star-drift {
-    from {
-      background-position:
-        0 0,
-        42px 64px,
-        96px 18px,
-        128px 88px;
-    }
-    to {
-      background-position:
-        28px 18px,
-        10px 92px,
-        130px 44px,
-        84px 122px;
+      opacity: 0.54;
     }
   }
 
   @keyframes ambient-spiral {
     to {
-      --ambient-spiral-angle: 360deg;
+      transform: rotate(360deg);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    :where(section, footer, main, div, article, figure, a):where(
+    :where(section, footer, main):where(
         .bg-ink-950,
         .bg-ink-900,
         .bg-ink-850,
         .bg-ink-800
       ):not(.fixed):not(.absolute):not(.sticky)::before,
-    :where(section, footer, main, div, article, figure, a):where(
+    :where(section, footer, main):where(
         .bg-ink-950,
         .bg-ink-900,
         .bg-ink-850,
         .bg-ink-800
-      ):not(.fixed):not(.absolute):not(.sticky)::after {
+      ):not(.fixed):not(.absolute):not(.sticky)::after,
+    .ambient-surface::before,
+    .ambient-surface::after {
       animation: none;
     }
   }

@@ -4,7 +4,7 @@
  */
 export default function Marquee({ phrases }: { phrases: string[] }) {
   return (
-    <div className="relative overflow-hidden border-y border-ivory-100/10 bg-ink-900 py-5">
+    <div className="ambient-surface relative overflow-hidden border-y border-ivory-100/10 bg-ink-900 py-5">
       <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
         {[0, 1].map((copy) => (
           <div
