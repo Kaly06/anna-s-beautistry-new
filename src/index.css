@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Lets the spiral sheen rotate its gradient without rotating (and
+   overflowing) the element box that carries it. */
+@property --ambient-spiral-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
 @layer base {
   :root {
     color-scheme: dark;
@@ -139,6 +147,138 @@
 
   .field-label {
     @apply block font-sans text-[9px] font-medium uppercase tracking-[0.28em] text-ivory-500;
+  }
+
+  /*
+    Living light for the solid purple surfaces.
+
+    Every large ink-purple surface gets the same quiet night-sky treatment:
+    tiny gold/ivory stars drift and twinkle, while a soft spiral sheen turns
+    very slowly in the corner. The effects live on pseudo-elements behind the
+    content (never above text or controls), and the global reduced-motion
+    rule stills them for visitors who ask for less motion.
+  */
+  :where(section, footer, main, div, article, figure, a):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):not(.fixed):not(.absolute):not(.sticky) {
+    position: relative;
+    isolation: isolate;
+  }
+
+  :where(section, footer, main, div, article, figure, a):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):not(.fixed):not(.absolute):not(.sticky)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 18% 24%, rgba(247, 231, 172, 0.95) 0 1px, transparent 1.6px),
+      radial-gradient(circle at 72% 68%, rgba(246, 240, 252, 0.78) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 42% 82%, rgba(212, 175, 55, 0.72) 0 1.2px, transparent 1.8px),
+      radial-gradient(circle at 86% 18%, rgba(189, 160, 212, 0.62) 0 1.4px, transparent 2px);
+    background-position:
+      0 0,
+      42px 64px,
+      96px 18px,
+      128px 88px;
+    background-size:
+      190px 190px,
+      270px 270px,
+      330px 330px,
+      430px 430px;
+    opacity: 0.46;
+    animation:
+      ambient-twinkle 6.5s ease-in-out infinite alternate,
+      ambient-star-drift 28s ease-in-out infinite alternate;
+    will-change: opacity, background-position;
+  }
+
+  :where(section, footer, main, div, article, figure, a):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):not(.fixed):not(.absolute):not(.sticky)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: min(58vw, 46rem);
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at center, rgba(212, 175, 55, 0.13) 0%, transparent 58%),
+      repeating-conic-gradient(
+        from var(--ambient-spiral-angle) at 50% 50%,
+        rgba(212, 175, 55, 0.16) 0deg 9deg,
+        transparent 9deg 32deg,
+        rgba(189, 160, 212, 0.09) 32deg 39deg,
+        transparent 39deg 64deg
+      );
+    -webkit-mask-image: radial-gradient(circle, transparent 0 15%, #000 18% 56%, transparent 72%);
+    mask-image: radial-gradient(circle, transparent 0 15%, #000 18% 56%, transparent 72%);
+    opacity: 0.34;
+    filter: blur(0.4px);
+    animation: ambient-spiral 84s linear infinite;
+  }
+
+  @keyframes ambient-twinkle {
+    from {
+      opacity: 0.32;
+    }
+    to {
+      opacity: 0.58;
+    }
+  }
+
+  @keyframes ambient-star-drift {
+    from {
+      background-position:
+        0 0,
+        42px 64px,
+        96px 18px,
+        128px 88px;
+    }
+    to {
+      background-position:
+        28px 18px,
+        10px 92px,
+        130px 44px,
+        84px 122px;
+    }
+  }
+
+  @keyframes ambient-spiral {
+    to {
+      --ambient-spiral-angle: 360deg;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(section, footer, main, div, article, figure, a):where(
+        .bg-ink-950,
+        .bg-ink-900,
+        .bg-ink-850,
+        .bg-ink-800
+      ):not(.fixed):not(.absolute):not(.sticky)::before,
+    :where(section, footer, main, div, article, figure, a):where(
+        .bg-ink-950,
+        .bg-ink-900,
+        .bg-ink-850,
+        .bg-ink-800
+      ):not(.fixed):not(.absolute):not(.sticky)::after {
+      animation: none;
+    }
   }
 }
 
