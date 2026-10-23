@@ -107,7 +107,7 @@ export default function Statement() {
       ref={sectionRef}
       aria-roledescription="carousel"
       aria-label="House quotes"
-      className="border-t border-ivory-100/[0.06] bg-ink-950 py-24 sm:py-32"
+      className="ambient-calm border-t border-ivory-100/[0.06] bg-ink-950 py-24 sm:py-32"
     >
       <div className="container-luxe">
         <div className="mx-auto max-w-4xl text-center">

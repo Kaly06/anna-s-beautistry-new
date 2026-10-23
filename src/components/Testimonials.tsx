@@ -38,7 +38,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative overflow-hidden bg-ink-900 py-24 sm:py-32"
+      className="ambient-calm relative overflow-hidden bg-ink-900 py-24 sm:py-32"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
