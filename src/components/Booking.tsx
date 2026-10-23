@@ -47,6 +47,7 @@ import PiercingConsentForm, {
 } from './PiercingConsentForm';
 import ServiceOptions, { optionPriceLabel } from './ServiceOptions';
 import BookingCalendar from './BookingCalendar';
+import BookingSelect from './BookingSelect';
 
 const PENDING_BOOKING_KEY = 'annas-beautistry-pending-booking';
 
@@ -838,36 +839,33 @@ export default function Booking() {
                     <label htmlFor="booking-room" className="field-label">
                       Category
                     </label>
-                    <select
+                    <BookingSelect
                       id="booking-room"
+                      ariaLabel="Category"
                       value={selectedRoom}
-                      onChange={(event) => handleRoomChange(event.target.value as ServiceId)}
-                      className="field mt-3 cursor-pointer"
-                    >
-                      {(Object.keys(ROOM_LABELS) as ServiceId[]).map((room) => (
-                        <option key={room} value={room} className="bg-ink-900">
-                          {ROOM_LABELS[room]}
-                        </option>
-                      ))}
-                    </select>
+                      onChange={(next) => handleRoomChange(next as ServiceId)}
+                      options={(Object.keys(ROOM_LABELS) as ServiceId[]).map((room) => ({
+                        value: room,
+                        label: ROOM_LABELS[room],
+                      }))}
+                    />
                   </div>
 
                   <div>
                     <label htmlFor="booking-service" className="field-label">
                       Exact service
                     </label>
-                    <select
+                    <BookingSelect
                       id="booking-service"
+                      ariaLabel="Exact service"
                       value={selectedSlug}
-                      onChange={(event) => handleServiceChange(event.target.value)}
-                      className="field mt-3 cursor-pointer"
-                    >
-                      {itemsInRoom.map((item) => (
-                        <option key={item.slug} value={item.slug} className="bg-ink-900">
-                          {item.name} · {formatDuration(item.duration)} · from {formatPrice(item.price)}
-                        </option>
-                      ))}
-                    </select>
+                      onChange={handleServiceChange}
+                      options={itemsInRoom.map((item) => ({
+                        value: item.slug,
+                        label: item.name,
+                        meta: `${formatDuration(item.duration)} · from ${formatPrice(item.price)}`,
+                      }))}
+                    />
                   </div>
                 </div>
 
