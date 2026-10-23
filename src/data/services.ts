@@ -97,7 +97,7 @@ export const testimonials: Testimonial[] = [
     name: 'Efua Baidoo',
     role: 'Wigs · client since 2019',
     service: 'Wig Installation',
-    image: '/images/clients/client-Efua-wig-installation.jpg',
+    image: '/images/clients/client-Efua-wig-installation.webp',
   },
   {
     quote:
@@ -105,7 +105,7 @@ export const testimonials: Testimonial[] = [
     name: 'Abena Frimpong',
     role: 'Lashes · Mega Volume',
     service: 'Mega Volume Lashes',
-    image: '/images/clients/client-Abena-mega-volume.jpg',
+    image: '/images/clients/client-Abena-mega-volume.webp',
   },
   {
     quote:
@@ -113,7 +113,7 @@ export const testimonials: Testimonial[] = [
     name: 'Akosua Mensima',
     role: 'Makeup · bridal, Elmina',
     service: 'Bridal Makeup',
-    image: '/images/clients/client-Akosua-bridal-makeup.jpg',
+    image: '/images/clients/client-Akosua-bridal-makeup.webp',
   },
   {
     quote:
@@ -121,7 +121,7 @@ export const testimonials: Testimonial[] = [
     name: 'Adjoa Quarshie',
     role: 'Piercings · nostril',
     service: 'Nostril Piercing',
-    image: '/images/clients/client-Adjoa-nostril.jpg',
+    image: '/images/clients/client-Adjoa-nostril.webp',
   },
   {
     quote:
@@ -129,7 +129,7 @@ export const testimonials: Testimonial[] = [
     name: 'Yaa Owusu',
     role: 'Wigs · custom glueless unit',
     service: 'Wig Construction / Making',
-    image: '/images/clients/client-Yaa-glueless-unit.jpg',
+    image: '/images/clients/client-Yaa-glueless-unit.webp',
   },
   {
     quote:
@@ -137,7 +137,7 @@ export const testimonials: Testimonial[] = [
     name: 'Zainab Yakubu',
     role: 'Lashes · Volume Lash Extensions',
     service: 'Volume Lash Extensions',
-    image: '/images/clients/client-Zainab-volume-lashes.jpg',
+    image: '/images/clients/client-Zainab-volume-lashes.webp',
   },
   {
     quote:
@@ -145,7 +145,7 @@ export const testimonials: Testimonial[] = [
     name: 'Nana Ama Agyemang',
     role: 'Makeup · soft glam',
     service: 'Soft Glam Makeup',
-    image: '/images/clients/client-Nana-ama-soft-glam.jpg',
+    image: '/images/clients/client-Nana-ama-soft-glam.webp',
   },
   {
     quote:
@@ -153,7 +153,7 @@ export const testimonials: Testimonial[] = [
     name: 'Ama Serwaa',
     role: 'Piercings · earlobe & cartilage',
     service: 'Earlobe & Cartilage Piercing',
-    image: '/images/clients/client-Ama-piercings.jpg',
+    image: '/images/clients/client-Ama-piercings.webp',
   },
   {
     quote:
@@ -161,7 +161,7 @@ export const testimonials: Testimonial[] = [
     name: 'Maame Grant',
     role: 'Wigs · revamping',
     service: 'Wig Revamping',
-    image: '/images/clients/client-Maame-wig-revamping.jpg',
+    image: '/images/clients/client-Maame-wig-revamping.webp',
   },
   {
     quote:
@@ -169,7 +169,7 @@ export const testimonials: Testimonial[] = [
     name: 'Araba Mensah',
     role: 'Wigs · pixie styling',
     service: 'Wig Styling & Custom Services',
-    image: '/images/clients/client-Araba-pixie.jpg',
+    image: '/images/clients/client-Araba-pixie.webp',
   },
 ];
 

@@ -6,7 +6,7 @@ import { formatDuration, formatPrice } from '../data/house';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
 import Specimen from './ui/Specimen';
-import { bookingSearch, optionPriceLabel } from './ServiceOptions';
+import { bookingSearch, optionPriceLabel } from '../lib/serviceOptions';
 
 interface MenuCardProps {
   item: MenuItem;

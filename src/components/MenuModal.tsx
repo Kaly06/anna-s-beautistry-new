@@ -8,7 +8,8 @@ import { rooms } from '../data/rooms';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
 import Specimen from './ui/Specimen';
-import ServiceOptions, { bookingSearch, optionPriceLabel } from './ServiceOptions';
+import ServiceOptions from './ServiceOptions';
+import { bookingSearch, optionPriceLabel } from '../lib/serviceOptions';
 
 interface MenuModalProps {
   item: MenuItem | null;

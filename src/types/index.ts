@@ -64,7 +64,7 @@ export interface Testimonial {
   role: string;
   /** The exact service this client booked, shown as the portrait caption. */
   service: string;
-  /** Portrait showing the booked service, e.g. /images/clients/client-Efua-wig-installation.jpg */
+  /** Portrait showing the booked service, e.g. /images/clients/client-Efua-wig-installation.webp */
   image: string;
 }
 

@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { HOUSE } from '../data/house';
+import { usePageTitle } from '../lib/usePageTitle';
 import Monogram from '../components/ui/Monogram';
 
 export default function NotFound() {
+  usePageTitle('Page not found');
   return (
     <section className="flex min-h-[80svh] items-center bg-ink-950 py-32">
       <div className="container-luxe text-center">

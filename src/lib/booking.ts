@@ -1,5 +1,5 @@
 import type { MenuItem, MenuItemOption } from '../types';
-import type { PiercingConsent } from '../components/PiercingConsentForm';
+import type { PiercingConsent } from './piercingConsent';
 import { supabase } from './supabase';
 
 export const PARTIAL_PAYMENT_RATE = 0.3;

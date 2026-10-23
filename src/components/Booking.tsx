@@ -39,13 +39,15 @@ import type { MenuItemOption, ServiceId } from '../types';
 import Eyebrow from './ui/Eyebrow';
 import Reveal from './ui/Reveal';
 import SplitText from './ui/SplitText';
-import PiercingConsentForm, {
+import PiercingConsentForm from './PiercingConsentForm';
+import {
   createEmptyPiercingConsent,
   inferPiercingPlacement,
   isPiercingAgeBlocked,
   type PiercingConsent,
-} from './PiercingConsentForm';
-import ServiceOptions, { optionPriceLabel } from './ServiceOptions';
+} from '../lib/piercingConsent';
+import ServiceOptions from './ServiceOptions';
+import { optionPriceLabel } from '../lib/serviceOptions';
 import BookingCalendar from './BookingCalendar';
 import BookingSelect from './BookingSelect';
 
@@ -959,6 +961,18 @@ export default function Booking() {
                       >
                         Try again
                       </button>
+                      <p className="mt-3 font-sans text-[11px] font-light leading-relaxed text-ivory-300">
+                        You can also book on WhatsApp instead — message{' '}
+                        <a
+                          href={HOUSE.whatsappHref}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-gold-200 underline decoration-gold-300/40 underline-offset-4 transition-colors hover:text-gold-100"
+                        >
+                          {HOUSE.phone}
+                        </a>{' '}
+                        and we will book you in.
+                      </p>
                     </div>
                   ) : slots.length === 0 ? (
                     <p className="mt-4 font-sans text-[11px] font-light leading-relaxed text-ivory-400">

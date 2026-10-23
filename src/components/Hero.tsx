@@ -35,7 +35,7 @@ export default function Hero({ introDone }: { introDone: boolean }) {
         {/* Slow ken-burns settle as the curtain lifts — the portrait breathes in. */}
         <m.img
           src="/images/hero.webp"
-          alt=""
+          alt="Portrait of a client wearing a hand-laid lace wig at Anna's Beautistry in Cape Coast"
           initial={{ scale: 1.14 }}
           animate={introDone ? { scale: 1 } : { scale: 1.14 }}
           transition={{ duration: reduce ? 0 : 6.5, ease: EASE }}

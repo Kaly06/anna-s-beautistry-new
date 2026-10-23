@@ -7,6 +7,7 @@ import {
   galleryItems,
   type GalleryItem,
 } from '../data/gallery';
+import { usePageTitle } from '../lib/usePageTitle';
 import Eyebrow from '../components/ui/Eyebrow';
 import Reveal from '../components/ui/Reveal';
 import SplitText from '../components/ui/SplitText';
@@ -67,6 +68,7 @@ function GalleryTile({ item, index }: { item: GalleryItem; index: number }) {
 }
 
 export default function GalleryPage() {
+  usePageTitle('Gallery');
   const [filter, setFilter] = useState<Filter>('All');
 
   const visibleItems = useMemo(

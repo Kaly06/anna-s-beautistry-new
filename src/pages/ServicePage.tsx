@@ -8,6 +8,7 @@ import { formatPrice, HOUSE } from '../data/house';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
 import { FEATURES } from '../lib/features';
+import { usePageTitle } from '../lib/usePageTitle';
 import type { MenuItem, MenuItemOption, ServiceId } from '../types';
 import Specimen from '../components/ui/Specimen';
 import MenuCard from '../components/MenuCard';
@@ -35,6 +36,7 @@ export default function ServicePage() {
   const valid = isServiceId(serviceId);
 
   const meta = valid ? rooms[serviceId] : null;
+  usePageTitle(meta ? meta.name : 'Services');
   const items = useMemo(
     () => (valid ? menu.filter((item) => item.service === serviceId) : []),
     [valid, serviceId]

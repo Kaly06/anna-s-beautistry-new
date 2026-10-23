@@ -12,8 +12,8 @@ export const HOUSE = {
    *               the name stays in type beside it.
    * logoFullSrc — the complete lockup incl. name + tagline, for the footer.
    */
-  logoSrc: '/images/logo-mark.png' as string | null,
-  logoFullSrc: '/images/logo-full.png' as string | null,
+  logoSrc: '/images/logo-mark.webp' as string | null,
+  logoFullSrc: '/images/logo-full.webp' as string | null,
   city: 'Cape Coast',
   region: 'Central Region, Ghana',
   founded: 2016,

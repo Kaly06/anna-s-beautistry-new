@@ -69,7 +69,7 @@ export default function Studio() {
                 }}
               >
                 <m.img
-                  src="/images/Anna-about.jpg"
+                  src="/images/Anna-about.webp"
                   alt="Anna, founder of Anna's Beautistry, smiling with her styling tools in hand"
                   loading="lazy"
                   className="h-full w-full object-cover"

@@ -1,6 +1,6 @@
 import { Check } from 'lucide-react';
 import type { MenuItem, MenuItemOption } from '../types';
-import { formatPriceRange } from '../data/house';
+import { optionPriceLabel } from '../lib/serviceOptions';
 
 interface ServiceOptionsProps {
   item: MenuItem;
@@ -9,24 +9,6 @@ interface ServiceOptionsProps {
   idPrefix: string;
   invalid?: boolean;
   errorId?: string;
-}
-
-export function optionPriceLabel(option: MenuItemOption): string {
-  if (option.priceNote) return option.priceNote;
-  if (typeof option.minPrice === 'number') {
-    return formatPriceRange(option.minPrice, option.maxPrice);
-  }
-  return 'Varies';
-}
-
-export function bookingSearch(item: MenuItem, option?: MenuItemOption): string {
-  const params = new URLSearchParams({ service: item.service, item: item.slug });
-  if (option) params.set('option', option.name);
-  params.set(
-    'treatment',
-    option ? `${item.name} — ${option.name} (${optionPriceLabel(option)})` : item.name,
-  );
-  return `?${params.toString()}`;
 }
 
 export default function ServiceOptions({

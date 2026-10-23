@@ -1,14 +1,17 @@
-import { useCallback, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import HomePage from './pages/HomePage';
-import BookingPage from './pages/BookingPage';
-import GalleryPage from './pages/GalleryPage';
-import ServicesPage from './pages/ServicesPage';
-import ServicePage from './pages/ServicePage';
-import WigsOptionsPage from './pages/WigsOptionsPage';
-import AdminClosures from './pages/AdminClosures';
-import NotFound from './pages/NotFound';
+
+/* Each page is its own download: a visitor's phone only fetches the code
+   for the page they open, so the first paint stays light on mobile data. */
+const HomePage = lazy(() => import('./pages/HomePage'));
+const BookingPage = lazy(() => import('./pages/BookingPage'));
+const GalleryPage = lazy(() => import('./pages/GalleryPage'));
+const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const ServicePage = lazy(() => import('./pages/ServicePage'));
+const WigsOptionsPage = lazy(() => import('./pages/WigsOptionsPage'));
+const AdminClosures = lazy(() => import('./pages/AdminClosures'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 import {
   FEATURES,
   WIG_OPTIONS_PREVIEW_KEY,
@@ -108,17 +111,19 @@ export default function App() {
 
       {isHome ? null : <Navbar />}
 
-      <Routes>
-        <Route path="/" element={<HomePage introDone={introDone} />} />
-        <Route path="/book" element={<BookingPage />} />
-        <Route path="/gallery" element={<GalleryPage />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/services/wigs/options" element={<WigOptionsGate />} />
-        <Route path="/services/:serviceId" element={<ServicePage />} />
-        <Route path="/services/:serviceId/:slug" element={<ServicePage />} />
-        <Route path="/admin" element={<AdminClosures />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<div className="min-h-screen bg-ink-950" aria-hidden="true" />}>
+        <Routes>
+          <Route path="/" element={<HomePage introDone={introDone} />} />
+          <Route path="/book" element={<BookingPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services/wigs/options" element={<WigOptionsGate />} />
+          <Route path="/services/:serviceId" element={<ServicePage />} />
+          <Route path="/services/:serviceId/:slug" element={<ServicePage />} />
+          <Route path="/admin" element={<AdminClosures />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
 
       {isHome ? null : <Footer />}
     </div>

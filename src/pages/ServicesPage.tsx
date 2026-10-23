@@ -8,6 +8,7 @@ import { WIG_BASE, WIG_GROUPS } from '../data/wigOptions';
 import { formatDuration, formatPrice, HOUSE } from '../data/house';
 import { EASE } from '../lib/animations';
 import { FEATURES } from '../lib/features';
+import { usePageTitle } from '../lib/usePageTitle';
 import Eyebrow from '../components/ui/Eyebrow';
 import Reveal from '../components/ui/Reveal';
 import SplitText from '../components/ui/SplitText';
@@ -40,6 +41,7 @@ const cheapest = Math.min(...menu.map((item) => item.price));
 const quickest = Math.min(...menu.map((item) => item.duration));
 
 export default function ServicesPage() {
+  usePageTitle('Services');
   return (
     <>
       {/* ------------------------------------------------------------ hero */}
