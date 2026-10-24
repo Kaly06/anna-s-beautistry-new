@@ -3,7 +3,7 @@ import { CalendarOff, Loader2, LogOut, Trash2 } from 'lucide-react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import { addDaysISO, todayInGhanaISO } from '../lib/booking';
-import { usePageMeta } from '../lib/usePageTitle';
+import { SITE_URL, usePageMeta } from '../lib/usePageTitle';
 import AdminBookings from '../components/AdminBookings';
 import Eyebrow from '../components/ui/Eyebrow';
 
@@ -71,6 +71,8 @@ export default function AdminClosures() {
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
   const [signingIn, setSigningIn] = useState(false);
+  const [resetNotice, setResetNotice] = useState('');
+  const [resetSending, setResetSending] = useState(false);
 
   const today = todayInGhanaISO();
   const [startDate, setStartDate] = useState(today);
@@ -138,6 +140,27 @@ export default function AdminClosures() {
     });
     if (error) setAuthError(friendlyAdminError(error));
     setSigningIn(false);
+  }
+
+  async function handleSendReset() {
+    setAuthError('');
+    setResetNotice('');
+    if (!email.trim()) {
+      setAuthError('Type your email first, then tap “Email me a new password”.');
+      return;
+    }
+    setResetSending(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${SITE_URL}/set-password`,
+    });
+    setResetSending(false);
+    if (error) {
+      setAuthError(friendlyAdminError(error));
+      return;
+    }
+    setResetNotice(
+      `If ${email.trim()} has a studio login, a link is on its way. Open it on this device and it will let you choose a new password.`,
+    );
   }
 
   async function handleAddClosure(event: FormEvent) {
@@ -249,9 +272,22 @@ export default function AdminClosures() {
             <button type="submit" disabled={signingIn} className="btn-gold mt-10 disabled:opacity-50">
               {signingIn ? 'Signing in…' : 'Sign in'}
             </button>
+            <button
+              type="button"
+              onClick={() => void handleSendReset()}
+              disabled={resetSending}
+              className="link-underline mt-6 disabled:opacity-50"
+            >
+              {resetSending ? 'Sending…' : 'Email me a new password'}
+            </button>
+            {resetNotice ? (
+              <p role="status" className="mt-4 font-sans text-[11px] font-light leading-relaxed text-gold-100">
+                {resetNotice}
+              </p>
+            ) : null}
             <p className="mt-6 font-sans text-[11px] font-light leading-relaxed text-ivory-500">
-              This page is only for the studio. If there is no login yet, one can be
-              created in the Supabase dashboard under Authentication → Users.
+              This page is only for the studio. Nobody without a login can see or change
+              anything here.
             </p>
           </form>
         ) : (
