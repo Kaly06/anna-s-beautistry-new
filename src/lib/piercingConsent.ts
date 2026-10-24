@@ -68,6 +68,7 @@ export function inferPiercingPlacement(treatment: string | null): string {
   if (text.includes('tragus')) return 'Tragus';
   if (text.includes('nostril')) return 'Nostril';
   if (text.includes('medusa') || text.includes('lip')) return 'Lip / Medusa';
+  if (text.includes('tongue')) return 'Tongue';
   if (text.includes('navel')) return 'Navel';
   return '';
 }

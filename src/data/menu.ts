@@ -1,7 +1,7 @@
 import type { MenuItem } from '../types';
 
 /**
- * Anna's service menu: 19 services across the four rooms.
+ * Anna's service menu: 20 services across the four rooms.
  *
  * Names and room order are exactly as supplied by the house. Prices are the
  * house's starting prices; Wigs finals depend on the option chosen.
@@ -218,6 +218,18 @@ export const menu: MenuItem[] = [
     tagline: 'Accurate oral or labret facial piercing performed with supreme hygiene.',
     note: 'Healing and aftercare are explained before you leave. Follow the oral-care instructions and avoid touching the jewellery.',
     variant: 3,
+  },
+  {
+    slug: 'tongue-piercing',
+    service: 'piercing',
+    name: 'Tongue Piercing',
+    image: '/images/service-tongue-piercing.webp',
+    price: 45,
+    priceFrom: true,
+    duration: 30,
+    tagline: 'Classic tongue piercing with a sterile titanium barbell and careful placement.',
+    note: 'Four to eight weeks to heal. Expect some swelling at first; use alcohol-free oral rinse after eating and avoid spicy foods while it settles.',
+    variant: 5,
   },
   {
     slug: 'navel-piercing',

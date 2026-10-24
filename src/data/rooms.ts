@@ -39,7 +39,7 @@ export const rooms: Record<ServiceId, RoomMeta> = {
     numeral: '03',
     headline: 'Marked twice. Pierced once.',
     intro:
-      'Needle-only earlobe, cartilage, Nostril, lip / Medusa and navel piercings in implant-grade titanium. No guns, ever.',
+      'Needle-only earlobe, cartilage, Nostril, lip / Medusa, tongue and navel piercings in implant-grade titanium. No guns, ever.',
     note: 'Piercing placement — study drawing',
     signatureVariant: 1,
   },

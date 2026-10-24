@@ -21,9 +21,9 @@ export const services: Service[] = [
     id: 'piercing',
     name: 'Piercings',
     description:
-      'Needle-only earlobe, cartilage, Nostril, lip / Medusa and navel piercings in implant-grade titanium.',
+      'Needle-only earlobe, cartilage, Nostril, lip / Medusa, tongue and navel piercings in implant-grade titanium.',
     image: '/images/cat-piercing.webp',
-    count: '5 services',
+    count: '6 services',
   },
   {
     id: 'makeup',

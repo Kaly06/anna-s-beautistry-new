@@ -2,7 +2,7 @@ import { ShieldAlert } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
 import type { PiercingConsent, YesNo } from '../lib/piercingConsent';
 
-const PLACEMENTS = ['Earlobe', 'Helix', 'Tragus', 'Nostril', 'Lip / Medusa', 'Navel'] as const;
+const PLACEMENTS = ['Earlobe', 'Helix', 'Tragus', 'Nostril', 'Lip / Medusa', 'Tongue', 'Navel'] as const;
 
 interface PiercingConsentFormProps {
   value: PiercingConsent;
