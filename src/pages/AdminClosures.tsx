@@ -7,6 +7,8 @@ import { addDaysISO, todayInGhanaISO } from '../lib/booking';
 import { SITE_URL, usePageMeta } from '../lib/usePageTitle';
 import AdminBookings from '../components/AdminBookings';
 import Eyebrow from '../components/ui/Eyebrow';
+import DateField from '../components/ui/DateField';
+import TimeField from '../components/ui/TimeField';
 
 interface StudioClosure {
   id: string;
@@ -304,65 +306,25 @@ export default function AdminClosures() {
               </p>
 
               <div className="mt-8 grid grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="closure-start-date" className="field-label">
-                    From date
-                  </label>
-                  <input
-                    id="closure-start-date"
-                    type="date"
-                    required
-                    min={addDaysISO(today, -1)}
-                    value={startDate}
-                    onChange={(event) => {
-                      setStartDate(event.target.value);
-                      if (event.target.value > endDate) setEndDate(event.target.value);
-                    }}
-                    className="field mt-3"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="closure-start-time" className="field-label">
-                    From time
-                  </label>
-                  <input
-                    id="closure-start-time"
-                    type="time"
-                    required
-                    step={900}
-                    value={startTime}
-                    onChange={(event) => setStartTime(event.target.value)}
-                    className="field mt-3"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="closure-end-date" className="field-label">
-                    To date
-                  </label>
-                  <input
-                    id="closure-end-date"
-                    type="date"
-                    required
-                    min={startDate}
-                    value={endDate}
-                    onChange={(event) => setEndDate(event.target.value)}
-                    className="field mt-3"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="closure-end-time" className="field-label">
-                    To time
-                  </label>
-                  <input
-                    id="closure-end-time"
-                    type="time"
-                    required
-                    step={900}
-                    value={endTime}
-                    onChange={(event) => setEndTime(event.target.value)}
-                    className="field mt-3"
-                  />
-                </div>
+                <DateField
+                  id="closure-start-date"
+                  label="From date"
+                  value={startDate}
+                  min={addDaysISO(today, -1)}
+                  onChange={(next) => {
+                    setStartDate(next);
+                    if (next > endDate) setEndDate(next);
+                  }}
+                />
+                <TimeField id="closure-start-time" label="From time" value={startTime} onChange={setStartTime} />
+                <DateField
+                  id="closure-end-date"
+                  label="To date"
+                  value={endDate}
+                  min={startDate}
+                  onChange={setEndDate}
+                />
+                <TimeField id="closure-end-time" label="To time" value={endTime} onChange={setEndTime} />
               </div>
 
               <div className="mt-8">
