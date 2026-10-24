@@ -36,6 +36,8 @@ import { EASE } from '../lib/animations';
 import { HOUSE, formatDuration, formatPrice } from '../data/house';
 import { menu } from '../data/menu';
 import type { MenuItemOption, ServiceId } from '../types';
+import BookingWhatsAppCard from './BookingWhatsAppCard';
+import { emailBookingToStudio } from '../lib/notify';
 import Eyebrow from './ui/Eyebrow';
 import Reveal from './ui/Reveal';
 import SplitText from './ui/SplitText';
@@ -441,6 +443,13 @@ export default function Booking() {
       setPaymentReference('');
       setPaymentNotice('');
       setPaymentError('');
+      // Best effort and never blocking. The customer's WhatsApp message is the
+      // guaranteed path; this only makes sure the studio also gets an email copy.
+      void emailBookingToStudio(
+        booking,
+        { name: pending.customerName, phone: pending.customerPhone },
+        notes.trim(),
+      );
       setSlotTick((value) => value + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
@@ -710,6 +719,16 @@ export default function Booking() {
                     </div>
                   </dl>
                 </div>
+
+                <BookingWhatsAppCard
+                  booking={pendingBooking}
+                  customer={{ name: pendingCustomer.name, phone: pendingCustomer.phone }}
+                  notes={notes}
+                  paymentSubmitted={pendingBooking.status !== 'pending_partial_payment'}
+                  expired={
+                    pendingBooking.status === 'pending_partial_payment' && holdMsLeft <= 0
+                  }
+                />
 
                 {pendingBooking.status === 'pending_partial_payment' ? (
                   <div className="mt-5 border border-gold-300/30 bg-gold-400/[0.08] px-5 py-5">
