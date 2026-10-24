@@ -99,7 +99,8 @@ export default function PrivacyPage() {
               </h2>
               <p className="mt-4 font-sans text-[13px] font-light leading-[1.95] text-ivory-300/75">
                 Up to twelve months after your appointment, so the studio has a record of what was
-                done and what was paid. After that it is deleted. Ask sooner and it goes sooner.
+                done and what was paid. After twelve months it is deleted automatically — no one
+                has to remember. Ask sooner and it goes sooner.
               </p>
             </div>
 
@@ -178,7 +179,7 @@ export default function PrivacyPage() {
                 <li>No card details, ever.</li>
                 <li>Only Anna can read it.</li>
                 <li>No ads, no analytics, no tracking.</li>
-                <li>Deleted within twelve months of your appointment.</li>
+                <li>Deleted automatically twelve months after your appointment.</li>
                 <li>Ask any time and it goes sooner.</li>
               </ul>
             </div>
