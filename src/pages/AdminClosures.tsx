@@ -4,6 +4,7 @@ import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import { addDaysISO, todayInGhanaISO } from '../lib/booking';
 import { usePageMeta } from '../lib/usePageTitle';
+import AdminBookings from '../components/AdminBookings';
 import Eyebrow from '../components/ui/Eyebrow';
 
 interface StudioClosure {
@@ -254,6 +255,7 @@ export default function AdminClosures() {
             </p>
           </form>
         ) : (
+          <>
           <div className="mt-12 grid gap-10 lg:grid-cols-2">
             <form
               onSubmit={handleAddClosure}
@@ -434,6 +436,9 @@ export default function AdminClosures() {
               )}
             </div>
           </div>
+
+          <AdminBookings />
+          </>
         )}
       </div>
     </main>
