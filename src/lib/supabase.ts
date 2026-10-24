@@ -4,8 +4,8 @@ import { createClient } from '@supabase/supabase-js';
 // The publishable key is safe to expose in the browser because Row Level
 // Security and the narrow booking RPCs protect customer data. Environment
 // variables can override them for another Supabase project.
-const fallbackSupabaseUrl = 'https://busrljzyzaalswqolqcw.supabase.co';
-const fallbackSupabasePublishableKey = 'sb_publishable_VcTgcnHSVcNpx4XjB0MzwA_qSmy6MbG';
+const fallbackSupabaseUrl = 'https://ueoowlqruzbjtgcxvxzp.supabase.co';
+const fallbackSupabasePublishableKey = 'sb_publishable_Ibh6ANsdKFsc41ZVVXYlIQ_Tn1uIe5D';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() || fallbackSupabaseUrl;
 const supabasePublishableKey =
