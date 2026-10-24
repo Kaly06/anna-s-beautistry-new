@@ -55,6 +55,37 @@ export function buildWhatsAppBookingUrl(message: string): string {
   return `${base}?text=${encodeURIComponent(message)}`;
 }
 
+/** Everything the customer typed, in the shape the fallback message needs. */
+export interface UnsaveableBooking {
+  service: string;
+  option?: string | null;
+  /** Human wording, e.g. "Sat 25 Oct · 10:00 (Ghana time) · about 2 hours". */
+  when: string;
+  name: string;
+  phone: string;
+  notes?: string;
+}
+
+/**
+ * The message for the one case where nothing was saved: the database is asleep,
+ * the network dropped, or the booking was refused. There is no reference
+ * because there is no row — but every detail the customer typed is still in the
+ * message, so the appointment is offered to Anna rather than lost.
+ */
+export function buildUnsaveableWhatsAppMessage(details: UnsaveableBooking): string {
+  const lines = [
+    'Hello Anna, I tried to book on the website but it would not go through.',
+    '',
+    `Service: ${details.service}${details.option ? ` — ${details.option}` : ''}`,
+    `When: ${details.when}`,
+    `Name: ${details.name || 'Not given'}`,
+    `WhatsApp: ${details.phone || 'Not given'}`,
+  ];
+  if (details.notes?.trim()) lines.push(`Notes: ${details.notes.trim()}`);
+  lines.push('', 'Is that time still free?');
+  return lines.join('\n');
+}
+
 /**
  * Best-effort email to the studio. Returns false rather than throwing: the
  * customer must never see an error because our backup channel is offline.

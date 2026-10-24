@@ -12,6 +12,7 @@ const ServicePage = lazy(() => import('./pages/ServicePage'));
 const WigsOptionsPage = lazy(() => import('./pages/WigsOptionsPage'));
 const AdminClosures = lazy(() => import('./pages/AdminClosures'));
 const SetPasswordPage = lazy(() => import('./pages/SetPasswordPage'));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 import {
   FEATURES,
@@ -123,6 +124,7 @@ export default function App() {
           <Route path="/services/:serviceId/:slug" element={<ServicePage />} />
           <Route path="/admin" element={<AdminClosures />} />
           <Route path="/set-password" element={<SetPasswordPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

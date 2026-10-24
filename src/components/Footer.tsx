@@ -22,6 +22,7 @@ const QUICK_LINKS = [
     ? [{ label: 'Wigs options sheet', href: '/services/wigs/options' }]
     : []),
   { label: 'Book a service', href: '/book' },
+  { label: 'Privacy', href: '/privacy' },
 ];
 
 const SOCIALS = [
