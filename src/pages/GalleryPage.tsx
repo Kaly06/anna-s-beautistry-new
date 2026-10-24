@@ -116,8 +116,8 @@ export default function GalleryPage() {
             </h1>
             <Reveal delay={0.2}>
               <p className="mt-7 max-w-xl font-sans text-[13px] font-light leading-[1.95] text-ivory-300/65">
-                This wall is for my clients — real installs, fresh lash sets,
-                healed piercings and faces I have painted, photographed here in{' '}
+                This wall is for my clients — real installs, fresh lash sets
+                and healed piercings, photographed here in{' '}
                 {HOUSE.city} and shared with permission. New ones will be added as
                 the chair keeps turning.
               </p>
