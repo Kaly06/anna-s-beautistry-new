@@ -13,12 +13,17 @@ and gets booked." Written so it can be worked through top to bottom.
 From the other working chat, which built the booking backend, `/admin`, `/gallery` and the new hours/footer.
 **That work is on a different branch and is not merged.** This branch contains none of it — I checked.
 
-- [ ] `You` `L` **CRITICAL — the booking database has gone.** The Supabase project is no longer there.
-  Either reconnect the account that owns it, or create a fresh project and send me its **Project URL +
-  publishable key** (Settings → API). I will re-run both migrations and reconnect the site myself.
-- [ ] `You` `S` **Anna's admin login** — once the backend is back: Supabase → Authentication → Users → Add user,
-  her email and a password *she* chooses. Then she can sign in at `/admin` and block her busy times.
-  I cannot set her password for her, and I should not.
+- [x] `Me` `S` **The booking database is alive.** Confirmed 24 Oct: `annas-beautistry`, ref
+  `ueoowlqruzbjtgcxvxzp`, three tables, 20 services seeded, locked down properly. The earlier
+  "the database has gone" scare was a stale connection, not a lost project.
+- [ ] `You` `S` **Anna sets her own admin password.** Supabase → Authentication → Users →
+  `annasbeautistry@gmail.com` → **Reset password**. She chooses a password only she knows — I can trigger
+  the reset, but I can't and shouldn't choose it for her. Then she signs in at `/admin`.
+  **Two things must be true first:** the site branch is merged (so `/admin` exists on the live site) and the
+  auth `site_url` is off `localhost` — otherwise the reset link opens a dead address.
+- [ ] `Both` `S` **Live test: Anna blocks a Busy period.** Once she's signed in, she marks one afternoon as
+  busy, and I check the public booking form refuses that slot. This is the first end-to-end proof the
+  backend works with a human at the controls — worth doing before anything else gets built on top of it.
 - [ ] `You` `S` **Google Maps pin** for the exact studio spot — I will point the Location card at it precisely.
 - [ ] `You` `L` **Real gallery photos** — `/gallery` still shows ten placeholders.
 - [ ] `Me` `S` **Open the pull request into `main`** when you say so. Everything so far, this roadmap included,
