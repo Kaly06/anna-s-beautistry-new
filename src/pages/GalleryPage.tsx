@@ -30,11 +30,11 @@ function GalleryTile({ item, index }: { item: GalleryItem; index: number }) {
           loading="lazy"
           className="h-auto w-full object-cover transition-transform duration-700 ease-luxe group-hover:scale-[1.04]"
         />
-        <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950/85 via-ink-950/35 to-transparent px-3 pb-2.5 pt-8 sm:px-4 sm:pb-3.5 sm:pt-10">
-          <p className="font-sans text-[8px] uppercase tracking-[0.24em] text-gold-200 sm:text-[9px]">
+        <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950/85 via-ink-950/35 to-transparent px-2.5 pb-2 pt-6 sm:px-4 sm:pb-3.5 sm:pt-10">
+          <p className="font-sans text-[7px] uppercase tracking-[0.18em] text-gold-200 sm:text-[9px] sm:tracking-[0.24em]">
             {item.category}
           </p>
-          <p className="mt-1 font-display text-[15px] leading-snug text-ivory-50 sm:text-lg">
+          <p className="mt-0.5 font-display text-[13px] leading-snug text-ivory-50 sm:mt-1 sm:text-lg">
             {item.caption}
           </p>
         </figcaption>
@@ -57,11 +57,11 @@ function GalleryTile({ item, index }: { item: GalleryItem; index: number }) {
       >
         {item.category.charAt(0)}
       </span>
-      <div className="absolute inset-x-0 bottom-0 px-3 pb-3 sm:px-5 sm:pb-5">
-        <p className="font-sans text-[8px] uppercase tracking-[0.24em] text-gold-200 sm:text-[9px]">
+      <div className="absolute inset-x-0 bottom-0 px-2.5 pb-2.5 sm:px-5 sm:pb-5">
+        <p className="font-sans text-[7px] uppercase tracking-[0.18em] text-gold-200 sm:text-[9px] sm:tracking-[0.24em]">
           {item.category}
         </p>
-        <p className="mt-1.5 font-sans text-[9px] font-light uppercase tracking-[0.16em] text-ivory-300/50 sm:text-[10px]">
+        <p className="mt-1 font-sans text-[8px] font-light uppercase tracking-[0.14em] text-ivory-300/50 sm:mt-1.5 sm:text-[10px] sm:tracking-[0.16em]">
           Client photo coming soon
         </p>
       </div>
@@ -157,13 +157,13 @@ export default function GalleryPage() {
           {visibleItems.length > 0 ? (
             <div
               key={filter}
-              className="mt-10 columns-2 gap-3 min-[520px]:columns-3 sm:gap-4 lg:columns-4 xl:columns-5"
+              className="mt-10 columns-3 gap-2 sm:gap-4 lg:columns-4 xl:columns-5"
             >
               {visibleItems.map((item, index) => (
                 <Reveal
                   key={item.id}
                   delay={0.06 * (index % 3)}
-                  className="mb-3 break-inside-avoid sm:mb-4"
+                  className="mb-2 break-inside-avoid sm:mb-4"
                 >
                   <GalleryTile item={item} index={index} />
                 </Reveal>
