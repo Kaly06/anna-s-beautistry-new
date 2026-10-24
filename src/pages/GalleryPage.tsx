@@ -114,10 +114,10 @@ export default function GalleryPage() {
             </h1>
             <Reveal delay={0.2}>
               <p className="mt-7 max-w-xl font-sans text-[13px] font-light leading-[1.95] text-ivory-300/65">
-                This wall is reserved for my clients — real installs, fresh lash sets,
+                This wall is for my clients — real installs, fresh lash sets,
                 healed piercings and faces I have painted, photographed here in{' '}
-                {HOUSE.city} and shared with permission. The first photos are being
-                prepared now, and new ones will be added as the chair keeps turning.
+                {HOUSE.city} and shared with permission. New ones will be added as
+                the chair keeps turning.
               </p>
             </Reveal>
           </div>
@@ -176,7 +176,7 @@ export default function GalleryPage() {
           <Reveal delay={0.15}>
             <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-ivory-100/10 pt-10">
               <p className="max-w-md font-sans text-[12px] font-light leading-[1.9] text-ivory-300/60">
-                Every photo on this wall will be a real client, shared with their
+                Every photo on this wall is a real client, shared with their
                 permission. When you sit in the chair, yours could be next — only if
                 you say yes.
               </p>

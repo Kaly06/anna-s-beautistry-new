@@ -31,14 +31,14 @@ export const GALLERY_FILTERS: Array<'All' | GalleryCategory> = [
 ];
 
 export const galleryItems: GalleryItem[] = [
-  { id: 'g01', category: 'Wigs', src: null, caption: 'Wig installation', aspect: '4 / 5' },
+  { id: 'g01', category: 'Wigs', src: '/images/gallery/wig-curly-install.webp', caption: 'Curly frontal install', aspect: '4 / 5' },
   { id: 'g02', category: 'Makeup', src: null, caption: 'Soft glam', aspect: '3 / 4' },
-  { id: 'g03', category: 'Lashes', src: null, caption: 'Lash set', aspect: '1 / 1' },
-  { id: 'g04', category: 'Piercings', src: null, caption: 'Fresh piercing', aspect: '4 / 5' },
-  { id: 'g05', category: 'Wigs', src: null, caption: 'Custom unit', aspect: '3 / 4' },
+  { id: 'g03', category: 'Lashes', src: '/images/gallery/lashes-in-progress.webp', caption: 'During a lash set', aspect: '1 / 1' },
+  { id: 'g04', category: 'Piercings', src: '/images/gallery/piercing-helix-tragus.webp', caption: 'Helix & tragus piercings', aspect: '4 / 5' },
+  { id: 'g05', category: 'Wigs', src: '/images/gallery/wig-body-wave-install.webp', caption: 'Body-wave install', aspect: '3 / 4' },
   { id: 'g06', category: 'Makeup', src: null, caption: 'Bridal makeup', aspect: '4 / 3' },
-  { id: 'g07', category: 'Lashes', src: null, caption: 'Lash refill', aspect: '4 / 5' },
-  { id: 'g08', category: 'Wigs', src: null, caption: 'Revamped unit', aspect: '1 / 1' },
-  { id: 'g09', category: 'Piercings', src: null, caption: 'Healed piercing', aspect: '3 / 4' },
-  { id: 'g10', category: 'Makeup', src: null, caption: 'Full glam', aspect: '4 / 5' },
+  { id: 'g07', category: 'Lashes', src: '/images/gallery/lashes-volume-set.webp', caption: 'Volume lash set', aspect: '4 / 5' },
+  { id: 'g08', category: 'Wigs', src: '/images/gallery/wig-side-part-install.webp', caption: 'Side-part install', aspect: '1 / 1' },
+  { id: 'g09', category: 'Piercings', src: '/images/gallery/piercing-tongue.webp', caption: 'Tongue piercing', aspect: '3 / 4' },
+  { id: 'g10', category: 'Makeup', src: '/images/gallery/makeup-full-glam.webp', caption: 'Full glam', aspect: '4 / 5' },
 ];
