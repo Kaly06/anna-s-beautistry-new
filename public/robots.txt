@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Private studio tools and one-off sheets are not for search engines.
+Disallow: /admin
+
+Sitemap: https://anna-s-beautistry-new.vercel.app/sitemap.xml

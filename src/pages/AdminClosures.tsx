@@ -3,7 +3,7 @@ import { CalendarOff, Loader2, LogOut, Trash2 } from 'lucide-react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import { addDaysISO, todayInGhanaISO } from '../lib/booking';
-import { usePageTitle } from '../lib/usePageTitle';
+import { usePageMeta } from '../lib/usePageTitle';
 import Eyebrow from '../components/ui/Eyebrow';
 
 interface StudioClosure {
@@ -57,7 +57,12 @@ function ghanaISO(date: string, time: string): string {
 }
 
 export default function AdminClosures() {
-  usePageTitle('Studio admin');
+  usePageMeta({
+    title: 'Studio admin',
+    description: 'Private studio tools.',
+    path: '/admin',
+    noindex: true,
+  });
   const [session, setSession] = useState<Session | null>(null);
   const [checkingSession, setCheckingSession] = useState(true);
 
