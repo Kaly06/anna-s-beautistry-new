@@ -24,6 +24,19 @@ From the other working chat, which built the booking backend, `/admin`, `/galler
 - [ ] `Me` `S` **Open the pull request into `main`** when you say so. Everything so far, this roadmap included,
   sits unmerged until then.
 
+- [ ] `Me` `S` **Revoke public execute on two trigger functions.** `rls_auto_enable` (elevated rights) and
+  `set_booking_updated_at` are callable from a browser via `/rpc/`. Harmless today, but they should not be
+  reachable at all. One line each.
+- [ ] `Me` `M` **Ownership check on payment endpoints.** `submit_partial_payment_reference` accepts any
+  `booking_id` and flips the status to "payment submitted". UUIDs are unguessable so the practical risk is low,
+  but anyone holding a booking id (screenshot, shared link) could submit a reference for someone else's booking.
+  Fix: issue a secret token with the hold and require it on both endpoints.
+- [ ] `Both` `S` **Reconcile the deposit.** The schema takes a 30% deposit and sets status
+  `pending_partial_payment`; the site copy still promises "no payment taken here". One of the two must change
+  before a customer sees both on the same page.
+- [ ] `Me` `S` **Set the auth `site_url`.** It is still `http://localhost:3000`, so password-reset emails point at
+  a machine that does not exist. Set it when the domain is live.
+
 ### The two-branch problem — read before merging
 
 Two unmerged branches exist now: this one (roadmap only) and the one holding the site work. Merging both
@@ -42,7 +55,8 @@ first**, then I rebase this roadmap onto it. Tell me which you want; do not merg
 - [ ] `You` `S` Decide which of the two numbers goes on the site: a clickable WhatsApp link, or the landline
   for calls. Both is fine; a `wa.me` link pointing at a landline is not.
 - [ ] `Both` `S` **Re-authorise Vercel** — the current token can read the account but not a single project (both `projects` and `deployments` return Access denied).
-- [ ] `Both` `M` **Create the Supabase project** in *Kaly06's Org* — region `eu-west-1` (lowest latency to Cape Coast; there is no Africa region on the free tier).
+- [x] `Both` `M` **Create the Supabase project** in *Kaly06's Org* — region `eu-west-1`.
+  **Done 24 Oct** — `annas-beautistry`, ref `ueoowlqruzbjtgcxvxzp`, healthy, Postgres 17.
 - [ ] `You` `S` Decide whether the **free Vercel plan** is acceptable until revenue covers ~$20/mo (it is, for a small studio site — see "The honest risks").
 - [ ] `You` `S` Decide **whether to take payments**: nothing at booking (today's promise), or a refundable deposit later. Nothing in Phase 2 depends on it.
 
@@ -92,9 +106,17 @@ Right now the site has never been hosted. Everything below is what breaks the fi
 > verifying that branch once it is live again, not as unbuilt work.
 
 **Database**
-- [ ] `Me` `M` Tables: `bookings`, `treatments` (19 rows seeded from `menu.ts`), `treatment_rooms`, `wig_option_groups`, `wig_options` (from `wigOptions.ts`).
-- [ ] `Me` `S` **Row-Level Security**: the public may `insert` a booking and read active treatments — nothing else. No deletes, no reads of other people's bookings, ever.
-- [ ] `Me` `S` Keep `service_role` out of the browser bundle. Only the anon key ships.
+- [x] `Me` `M` **Tables.** **Done 24 Oct**, built by the frontend branch and applied as three migrations:
+  `bookable_services` (20 rows seeded), `bookings` (22 columns), `studio_closures`. Plus functions
+  `create_booking_hold`, `get_busy_slots`, `get_booking_payment_status`, `submit_partial_payment_reference`.
+  Note: the shape differs from what this line originally specified — it is better, and the code matches it.
+  `bookable_services` holds the menu, so `treatments` / `wig_options` were folded into one table + jsonb.
+- [x] `Me` `S` **Row-Level Security.** **Done 24 Oct.** RLS on for all three tables. `bookings` deliberately has
+  *no* policies — the public key is visible in every browser, so a raw insert policy would let anyone script
+  fake bookings at invented prices. Bookings go through the `SECURITY DEFINER` function instead, which
+  re-checks service, price, hours, overlaps and closures server-side. Verified: all four functions are
+  `SECURITY DEFINER` with `search_path` pinned.
+- [x] `Me` `S` **`service_role` stays out of the bundle.** **Confirmed 24 Oct** — only the publishable key is used.
 - [ ] `Me` `S` `amount_minor` + `currency` stored as *two* columns. The studio prices in **GH₵**; your Notion Finance HQ is in **AED**. Never mix them silently.
 
 **The form**
