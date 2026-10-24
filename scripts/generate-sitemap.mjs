@@ -21,6 +21,7 @@ const paths = [
   { path: '/book', priority: '0.9', changefreq: 'weekly' },
   { path: '/services', priority: '0.9', changefreq: 'weekly' },
   { path: '/gallery', priority: '0.7', changefreq: 'monthly' },
+  { path: '/privacy', priority: '0.3', changefreq: 'yearly' },
   ...rooms.map((room) => ({ path: `/services/${room}`, priority: '0.8', changefreq: 'monthly' })),
   ...items.map((item) => ({
     path: `/services/${item.room}/${item.slug}`,

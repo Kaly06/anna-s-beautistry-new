@@ -37,7 +37,11 @@ import { HOUSE, formatDuration, formatPrice } from '../data/house';
 import { menu } from '../data/menu';
 import type { MenuItemOption, ServiceId } from '../types';
 import BookingWhatsAppCard from './BookingWhatsAppCard';
-import { emailBookingToStudio } from '../lib/notify';
+import {
+  buildUnsaveableWhatsAppMessage,
+  buildWhatsAppBookingUrl,
+  emailBookingToStudio,
+} from '../lib/notify';
 import Eyebrow from './ui/Eyebrow';
 import Reveal from './ui/Reveal';
 import SplitText from './ui/SplitText';
@@ -54,6 +58,40 @@ import BookingCalendar from './BookingCalendar';
 import BookingSelect from './BookingSelect';
 
 const PENDING_BOOKING_KEY = 'annas-beautistry-pending-booking';
+
+/**
+ * Spam barriers. None of these is armour — a determined script walks past all
+ * three — but together they stop the junk a public form collects by default,
+ * without ever asking a real customer to solve a puzzle. Captchas cost
+ * bookings; these do not.
+ */
+const ATTEMPT_KEY = 'annas-beautistry-booking-attempts';
+const MAX_ATTEMPTS_PER_WINDOW = 3;
+const ATTEMPT_WINDOW_MS = 30 * 60 * 1000;
+/** Nobody fills this form in three seconds. Scripts do. */
+const MIN_FILL_MS = 3000;
+
+function recentAttempts(): number[] {
+  try {
+    const raw = localStorage.getItem(ATTEMPT_KEY);
+    const stamps: unknown = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(stamps)) return [];
+    const now = Date.now();
+    return stamps.filter((value): value is number =>
+      typeof value === 'number' && now - value < ATTEMPT_WINDOW_MS,
+    );
+  } catch {
+    return [];
+  }
+}
+
+function recordAttempt(): void {
+  try {
+    localStorage.setItem(ATTEMPT_KEY, JSON.stringify([...recentAttempts(), Date.now()]));
+  } catch {
+    // Storage blocked or full: the barrier simply does not apply.
+  }
+}
 
 const ROOM_LABELS: Record<ServiceId, string> = {
   wigs: 'Wigs',
@@ -154,6 +192,10 @@ export default function Booking() {
   const [slotError, setSlotError] = useState('');
   const [slotTick, setSlotTick] = useState(0);
   const [submitError, setSubmitError] = useState('');
+  /** Prefilled WhatsApp link, set only when the booking could not be saved. */
+  const [fallbackUrl, setFallbackUrl] = useState('');
+  const [honeypot, setHoneypot] = useState('');
+  const formOpenedAt = useRef(Date.now());
   const [submitting, setSubmitting] = useState(false);
   const [optionError, setOptionError] = useState(false);
   const [timeAttempted, setTimeAttempted] = useState(false);
@@ -390,7 +432,26 @@ export default function Booking() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitError('');
+    setFallbackUrl('');
     setTimeAttempted(true);
+
+    // Barrier 1: a field no person can see or tab to. Bots fill everything.
+    if (honeypot.trim()) return;
+
+    // Barrier 2: submitted faster than a human can type it.
+    if (Date.now() - formOpenedAt.current < MIN_FILL_MS) {
+      setSubmitError('That was very quick. Please check the details and submit again.');
+      return;
+    }
+
+    // Barrier 3: the same browser, over and over.
+    if (recentAttempts().length >= MAX_ATTEMPTS_PER_WINDOW) {
+      setSubmitError(
+        'That is several attempts in a short time. Please message the studio on WhatsApp instead, or try again in half an hour.',
+      );
+      return;
+    }
+    recordAttempt();
 
     if (!selectedItem) {
       setSubmitError('Please choose a service.');
@@ -453,6 +514,27 @@ export default function Booking() {
       setSlotTick((value) => value + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
+      // Nothing was saved. Rather than hand the customer a dead end, keep every
+      // detail they typed and offer it to Anna directly, prefilled.
+      const when = [
+        formatGhanaDate(bookingDate),
+        selectedStart ? `${selectedStart} (Ghana time)` : '',
+        durationMinutes ? `about ${formatDuration(durationMinutes)}` : '',
+      ]
+        .filter(Boolean)
+        .join(' · ');
+      setFallbackUrl(
+        buildWhatsAppBookingUrl(
+          buildUnsaveableWhatsAppMessage({
+            service: selectedItem.name,
+            option: selectedOption?.name ?? null,
+            when,
+            name: customerName.trim(),
+            phone: customerPhone.trim(),
+            notes,
+          }),
+        ),
+      );
       setSubmitError(friendlierBookingError(error));
       setSlotTick((value) => value + 1);
     } finally {
@@ -506,6 +588,9 @@ export default function Booking() {
     setSelectedOptionName('');
     setPiercingConsent(createEmptyPiercingConsent());
     setSubmitError('');
+    setFallbackUrl('');
+    setHoneypot('');
+    formOpenedAt.current = Date.now();
     setPaymentError('');
     setPaymentNotice('');
     setSlotTick((value) => value + 1);
@@ -821,6 +906,22 @@ export default function Booking() {
               </m.div>
             ) : (
               <form onSubmit={handleSubmit} noValidate={false}>
+                {/* Honeypot: invisible and unreachable for people. */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -left-[9999px] top-auto h-0 w-0 overflow-hidden"
+                >
+                  <label htmlFor="booking-fax">Fax number</label>
+                  <input
+                    id="booking-fax"
+                    name="booking_fax"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(event) => setHoneypot(event.target.value)}
+                  />
+                </div>
                 <div className="grid gap-8 sm:grid-cols-2">
                   <div>
                     <label htmlFor="booking-name" className="field-label">
@@ -1096,6 +1197,28 @@ export default function Booking() {
                   <p role="alert" className="mt-8 font-sans text-[11px] leading-relaxed text-rose-200">
                     Please choose an available start time.
                   </p>
+                ) : null}
+
+                {fallbackUrl ? (
+                  <div className="mt-4 border border-gold-300/40 bg-gold-300/[0.06] px-4 py-5">
+                    <p className="font-sans text-[11.5px] font-medium text-gold-100">
+                      Your details are safe. Send them straight to Anna.
+                    </p>
+                    <p className="mt-2 font-sans text-[11px] font-light leading-relaxed text-ivory-300">
+                      The form could not reach the studio&apos;s calendar just now, so nothing
+                      was saved. Tap below and WhatsApp opens with everything you typed already
+                      written out. You only press send.
+                    </p>
+                    <a
+                      href={fallbackUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn-gold mt-6 inline-flex items-center gap-3"
+                    >
+                      <MessageCircle className="h-4 w-4" strokeWidth={1.4} />
+                      Send my booking on WhatsApp
+                    </a>
+                  </div>
                 ) : null}
 
                 <div className="mt-10 flex flex-wrap items-center justify-between gap-6">

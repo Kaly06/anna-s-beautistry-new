@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
-import { CalendarOff, Loader2, LogOut, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { CalendarOff, KeyRound, Loader2, LogOut, Trash2 } from 'lucide-react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import { addDaysISO, todayInGhanaISO } from '../lib/booking';
@@ -416,14 +417,24 @@ export default function AdminClosures() {
                 <p className="font-sans text-[9px] uppercase tracking-[0.28em] text-gold-200">
                   Coming up blocked
                 </p>
-                <button
-                  type="button"
-                  onClick={() => void supabase.auth.signOut()}
-                  className="flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.2em] text-ivory-400 transition-colors hover:text-gold-200"
-                >
-                  <LogOut className="h-3.5 w-3.5" strokeWidth={1.4} />
-                  Sign out
-                </button>
+                <div className="flex items-center gap-5">
+                  <Link
+                    to="/set-password"
+                    title="Choose a new password for this page."
+                    className="flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.2em] text-ivory-400 transition-colors hover:text-gold-200"
+                  >
+                    <KeyRound className="h-3.5 w-3.5" strokeWidth={1.4} />
+                    Change password
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => void supabase.auth.signOut()}
+                    className="flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.2em] text-ivory-400 transition-colors hover:text-gold-200"
+                  >
+                    <LogOut className="h-3.5 w-3.5" strokeWidth={1.4} />
+                    Sign out
+                  </button>
+                </div>
               </div>
               <p className="mt-3 font-sans text-[11px] font-light text-ivory-500">
                 Signed in as {session.user.email}

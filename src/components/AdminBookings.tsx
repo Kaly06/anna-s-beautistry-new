@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Loader2, Phone, RefreshCcw } from 'lucide-react';
+import { Download, Loader2, Phone, RefreshCcw } from 'lucide-react';
 import { formatPrice } from '../data/house';
 import { formatAppointmentWindow } from '../lib/booking';
 import { supabase } from '../lib/supabase';
@@ -40,6 +40,54 @@ function statusTone(status: string): string {
 
 function asNumber(value: number | string): number {
   return typeof value === 'number' ? value : Number(value);
+}
+
+const CSV_HEADER = [
+  'Reference',
+  'Status',
+  'Starts (ISO, Ghana)',
+  'Ends (ISO, Ghana)',
+  'Service',
+  'Option',
+  'Customer',
+  'WhatsApp',
+  'Total GHS',
+  'Deposit GHS',
+  'Balance GHS',
+  'Payment reference',
+  'Notes',
+];
+
+function csvCell(value: string | number | null | undefined): string {
+  const text = value === null || value === undefined ? '' : String(value);
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
+/**
+ * A copy she owns. Free databases do not owe anyone a backup, so the export is
+ * deliberately one tap and deliberately boring.
+ */
+function bookingsToCsv(bookings: StudioBooking[]): string {
+  const rows = bookings.map((booking) =>
+    [
+      booking.booking_reference,
+      STATUS_LABEL[booking.status] ?? booking.status,
+      booking.starts_at,
+      booking.ends_at,
+      booking.service_name,
+      booking.selected_option ?? '',
+      booking.customer_name,
+      booking.customer_phone,
+      asNumber(booking.total_starting_price_ghs),
+      asNumber(booking.deposit_due_ghs),
+      asNumber(booking.balance_due_ghs),
+      booking.payment_reference ?? '',
+      booking.notes ?? '',
+    ]
+      .map(csvCell)
+      .join(','),
+  );
+  return [CSV_HEADER.map(csvCell).join(','), ...rows].join('\r\n');
 }
 
 function friendlyListError(error: unknown): string {
@@ -91,6 +139,23 @@ export default function AdminBookings() {
     void load();
   }, [load]);
 
+  const exportCsv = useCallback(() => {
+    if (bookings.length === 0) return;
+    const stamp = new Date().toISOString().slice(0, 10);
+    // The BOM is what stops Excel mangling accented names and the Ghana cedi sign.
+    const blob = new Blob(['\ufeff', bookingsToCsv(bookings)], {
+      type: 'text/csv;charset=utf-8;',
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `annas-beautistry-bookings-${stamp}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }, [bookings]);
+
   const { upcoming, past, unpaid } = useMemo(() => {
     const now = Date.now();
     const live = bookings.filter((b) => b.status !== 'cancelled' && b.status !== 'expired');
@@ -120,14 +185,32 @@ export default function AdminBookings() {
               : `${upcoming.length} coming up${unpaid > 0 ? ` · ${unpaid} still to confirm` : ''}`}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => void load()}
-          className="flex items-center gap-2 border border-ivory-100/15 px-3 py-2 font-sans text-[9px] uppercase tracking-[0.2em] text-ivory-400 transition-colors hover:border-gold-300/40 hover:text-gold-200"
-        >
-          <RefreshCcw className="h-3.5 w-3.5" strokeWidth={1.4} />
-          Refresh
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Always on screen, greyed out until there is something to save —
+              a button that appears from nowhere is a button nobody trusts. */}
+          <button
+            type="button"
+            onClick={exportCsv}
+            disabled={bookings.length === 0}
+            title={
+              bookings.length === 0
+                ? 'Nothing to download until the first booking arrives.'
+                : 'Saves a spreadsheet of every booking to your phone or computer.'
+            }
+            className="flex items-center gap-2 border border-gold-300/30 px-3 py-2 font-sans text-[9px] uppercase tracking-[0.2em] text-gold-200 transition-colors hover:border-gold-300/60 hover:text-gold-100 disabled:cursor-not-allowed disabled:border-ivory-100/10 disabled:text-ivory-500 disabled:hover:border-ivory-100/10 disabled:hover:text-ivory-500"
+          >
+            <Download className="h-3.5 w-3.5" strokeWidth={1.4} />
+            Download CSV
+          </button>
+          <button
+            type="button"
+            onClick={() => void load()}
+            className="flex items-center gap-2 border border-ivory-100/15 px-3 py-2 font-sans text-[9px] uppercase tracking-[0.2em] text-ivory-400 transition-colors hover:border-gold-300/40 hover:text-gold-200"
+          >
+            <RefreshCcw className="h-3.5 w-3.5" strokeWidth={1.4} />
+            Refresh
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -142,7 +225,8 @@ export default function AdminBookings() {
       ) : bookings.length === 0 ? (
         <p className="mt-6 font-sans text-[12px] font-light leading-relaxed text-ivory-400">
           No bookings yet. When someone books on the site, they appear here — and they
-          also message you on WhatsApp.
+          also message you on WhatsApp. The download button above wakes up with the first
+          one.
         </p>
       ) : (
         <>

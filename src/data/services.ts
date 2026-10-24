@@ -1,4 +1,47 @@
 import type { Service, ServiceId, Signature, Testimonial } from '../types';
+import { galleryItems, type GalleryCategory } from './gallery';
+
+/**
+ * The testimonial photographs come from the gallery wall, not from separate
+ * portrait files: they are real work, they already match the category being
+ * praised, and there is nothing extra to supply when a new frame is added.
+ *
+ * The pick is shuffled once per page load, so the wall does not look identical
+ * on every visit — but it is stable for the length of the visit, so a picture
+ * never changes under the reader mid-sentence. Testimonials are sample copy;
+ * swap a quote for a real one and its picture follows by category.
+ */
+const GALLERY_BY_CATEGORY = (() => {
+  const pools: Record<GalleryCategory, string[]> = { Wigs: [], Lashes: [], Piercings: [], Makeup: [] };
+  for (const item of galleryItems) {
+    if (item.src) pools[item.category].push(item.src);
+  }
+  // Makeup has no frames on the wall yet, so it borrows from the whole wall
+  // rather than showing nothing.
+  const everything = galleryItems.flatMap((item) => (item.src ? [item.src] : []));
+  if (pools.Makeup.length === 0) pools.Makeup = everything;
+  return pools;
+})();
+
+function shuffled<T>(items: T[]): T[] {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+const imagePools: Partial<Record<GalleryCategory, string[]>> = {};
+const imageCursor: Partial<Record<GalleryCategory, number>> = {};
+
+function galleryImageFor(category: GalleryCategory): string {
+  const pool = imagePools[category] ?? shuffled(GALLERY_BY_CATEGORY[category]);
+  imagePools[category] = pool;
+  const next = imageCursor[category] ?? 0;
+  imageCursor[category] = next + 1;
+  return pool[next % pool.length];
+}
 
 export const services: Service[] = [
   {
@@ -95,9 +138,9 @@ export const testimonials: Testimonial[] = [
     quote:
       'I have worn lace for eleven years and no one has ever matched my hairline like Anna. Three weeks in, nobody could find the line — including my sister, who was looking for it.',
     name: 'Efua Baidoo',
-    role: 'Wigs · client since 2019',
+    role: 'Wigs · Cape Coast',
     service: 'Wig Installation',
-    image: '/images/clients/client-Efua-wig-installation.webp',
+    image: galleryImageFor('Wigs'),
   },
   {
     quote:
@@ -105,7 +148,7 @@ export const testimonials: Testimonial[] = [
     name: 'Abena Frimpong',
     role: 'Lashes · Mega Volume',
     service: 'Mega Volume Lashes',
-    image: '/images/clients/client-Abena-mega-volume.webp',
+    image: galleryImageFor('Lashes'),
   },
   {
     quote:
@@ -113,7 +156,7 @@ export const testimonials: Testimonial[] = [
     name: 'Akosua Mensima',
     role: 'Makeup · bridal, Elmina',
     service: 'Bridal Makeup',
-    image: '/images/clients/client-Akosua-bridal-makeup.webp',
+    image: galleryImageFor('Makeup'),
   },
   {
     quote:
@@ -121,7 +164,7 @@ export const testimonials: Testimonial[] = [
     name: 'Adjoa Quarshie',
     role: 'Piercings · nostril',
     service: 'Nostril Piercing',
-    image: '/images/clients/client-Adjoa-nostril.webp',
+    image: galleryImageFor('Piercings'),
   },
   {
     quote:
@@ -129,7 +172,7 @@ export const testimonials: Testimonial[] = [
     name: 'Yaa Owusu',
     role: 'Wigs · custom glueless unit',
     service: 'Wig Construction / Making',
-    image: '/images/clients/client-Yaa-glueless-unit.webp',
+    image: galleryImageFor('Wigs'),
   },
   {
     quote:
@@ -137,7 +180,7 @@ export const testimonials: Testimonial[] = [
     name: 'Zainab Yakubu',
     role: 'Lashes · Volume Lash Extensions',
     service: 'Volume Lash Extensions',
-    image: '/images/clients/client-Zainab-volume-lashes.webp',
+    image: galleryImageFor('Lashes'),
   },
   {
     quote:
@@ -145,7 +188,7 @@ export const testimonials: Testimonial[] = [
     name: 'Nana Ama Agyemang',
     role: 'Makeup · soft glam',
     service: 'Soft Glam Makeup',
-    image: '/images/clients/client-Nana-ama-soft-glam.webp',
+    image: galleryImageFor('Makeup'),
   },
   {
     quote:
@@ -153,7 +196,7 @@ export const testimonials: Testimonial[] = [
     name: 'Ama Serwaa',
     role: 'Piercings · earlobe & cartilage',
     service: 'Earlobe & Cartilage Piercing',
-    image: '/images/clients/client-Ama-piercings.webp',
+    image: galleryImageFor('Piercings'),
   },
   {
     quote:
@@ -161,7 +204,7 @@ export const testimonials: Testimonial[] = [
     name: 'Maame Grant',
     role: 'Wigs · revamping',
     service: 'Wig Revamping',
-    image: '/images/clients/client-Maame-wig-revamping.webp',
+    image: galleryImageFor('Wigs'),
   },
   {
     quote:
@@ -169,7 +212,7 @@ export const testimonials: Testimonial[] = [
     name: 'Araba Mensah',
     role: 'Wigs · pixie styling',
     service: 'Wig Styling & Custom Services',
-    image: '/images/clients/client-Araba-pixie.webp',
+    image: galleryImageFor('Wigs'),
   },
 ];
 

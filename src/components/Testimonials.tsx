@@ -72,7 +72,7 @@ export default function Testimonials() {
                   <figure className="w-36 shrink-0 sm:w-44 lg:w-52">
                     <img
                       src={active.image}
-                      alt={`${active.name} after her ${active.service} at Anna's Beautistry`}
+                      alt={`${active.service} at Anna's Beautistry`}
                       className="aspect-[3/4] w-full object-cover ring-1 ring-ivory-100/15"
                       draggable={false}
                     />

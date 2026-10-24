@@ -16,7 +16,7 @@ export const HOUSE = {
   logoFullSrc: '/images/logo-full.webp' as string | null,
   city: 'Cape Coast',
   region: 'Central Region, Ghana',
-  founded: 2016,
+  founded: 2025,
   address: ["Ayesu, Behind Nunoo's Height Hostel", 'Cape Coast, Ghana'],
   phone: '+233 54 218 4583',
   phoneHref: 'tel:+233542184583',
@@ -27,10 +27,10 @@ export const HOUSE = {
   hours: 'Mon – Fri 9am – 7pm · Sat 10am – 4pm · Sun closed',
   cities: 'Cape Coast · Elmina · Takoradi',
   greeting: 'Akwaaba',
-  est: 'Est. 2016',
+  est: 'Est. 2025',
   season: 'The Coastal Edit · 2026',
   clients: '2,400+ faces',
-  line: 'A beauty house in Cape Coast — lace, needles, lashes and skin, since 2016.',
+  line: 'A beauty house in Cape Coast — lace, needles, lashes and skin, since 2025.',
 } as const;
 
 /** The week's opening hours, Monday first. `dayIndex` matches Date.getDay(). */
