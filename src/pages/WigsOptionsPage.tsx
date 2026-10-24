@@ -8,7 +8,7 @@ import { formatPrice, HOUSE } from '../data/house';
 import { rooms } from '../data/rooms';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
-import { usePageTitle } from '../lib/usePageTitle';
+import { usePageMeta } from '../lib/usePageTitle';
 import Eyebrow from '../components/ui/Eyebrow';
 import Reveal from '../components/ui/Reveal';
 import SplitText from '../components/ui/SplitText';
@@ -33,7 +33,13 @@ const HOUSE_BUILD: Selection = Object.fromEntries(
 const room = rooms.wigs;
 
 export default function WigsOptionsPage() {
-  usePageTitle('Wigs options sheet');
+  usePageMeta({
+    title: 'Wigs options sheet',
+    description:
+      'Choose your wig option — closure, frontal, pony or sew-in — to see the real price range before you book.',
+    path: '/services/wigs/options',
+    noindex: true,
+  });
   const [selection, setSelection] = useState<Selection>(EMPTY_SELECTION);
   const [copied, setCopied] = useState(false);
 

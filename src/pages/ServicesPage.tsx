@@ -8,7 +8,7 @@ import { WIG_BASE, WIG_GROUPS } from '../data/wigOptions';
 import { formatDuration, formatPrice, HOUSE } from '../data/house';
 import { EASE } from '../lib/animations';
 import { FEATURES } from '../lib/features';
-import { usePageTitle } from '../lib/usePageTitle';
+import { usePageMeta } from '../lib/usePageTitle';
 import Eyebrow from '../components/ui/Eyebrow';
 import Reveal from '../components/ui/Reveal';
 import SplitText from '../components/ui/SplitText';
@@ -41,7 +41,12 @@ const cheapest = Math.min(...menu.map((item) => item.price));
 const quickest = Math.min(...menu.map((item) => item.duration));
 
 export default function ServicesPage() {
-  usePageTitle('Services');
+  usePageMeta({
+    title: 'Services',
+    description:
+      'The full menu: hand-laid lace, implant-grade piercings, lash sets and skin-first makeup at Anna\'s Beautistry in Cape Coast. Prices and durations listed.',
+    path: '/services',
+  });
   return (
     <>
       {/* ------------------------------------------------------------ hero */}

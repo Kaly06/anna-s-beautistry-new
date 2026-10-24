@@ -14,9 +14,11 @@ const supabasePublishableKey =
 export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
   auth: {
     // Anonymous visitors never sign in, so nothing is stored for them; the
-    // persisted session only matters for Anna on the /admin closures page.
+    // persisted session only matters for Anna on the /admin page.
     persistSession: true,
     autoRefreshToken: true,
-    detectSessionInUrl: false,
+    // Needed for /set-password: the password-reset email returns a token in the
+    // URL, and the client has to turn it into a session before we can use it.
+    detectSessionInUrl: true,
   },
 });

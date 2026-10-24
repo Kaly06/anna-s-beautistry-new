@@ -23,7 +23,7 @@ import {
   galleryItems,
   type GalleryItem,
 } from '../data/gallery';
-import { usePageTitle } from '../lib/usePageTitle';
+import { usePageMeta } from '../lib/usePageTitle';
 import Eyebrow from '../components/ui/Eyebrow';
 import Reveal from '../components/ui/Reveal';
 import SplitText from '../components/ui/SplitText';
@@ -254,7 +254,12 @@ function GalleryLightbox({
 }
 
 export default function GalleryPage() {
-  usePageTitle('Gallery');
+  usePageMeta({
+    title: 'Gallery',
+    description:
+      "Real work from the chair — lace installations, piercings, lash sets and makeup, photographed at Anna's Beautistry in Cape Coast.",
+    path: '/gallery',
+  });
   const [filter, setFilter] = useState<Filter>('All');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 

@@ -8,10 +8,10 @@ import Statement from '../components/Statement';
 import Testimonials from '../components/Testimonials';
 import Footer from '../components/Footer';
 import { MARQUEE } from '../data/services';
-import { usePageTitle } from '../lib/usePageTitle';
+import { usePageMeta } from '../lib/usePageTitle';
 
 export default function HomePage({ introDone }: { introDone: boolean }) {
-  usePageTitle();
+  usePageMeta({ path: '/' });
   return (
     <>
       <Navbar />
