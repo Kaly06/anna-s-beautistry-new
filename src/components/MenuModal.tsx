@@ -1,21 +1,63 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, m } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight, Clock, X } from 'lucide-react';
-import type { MenuItem } from '../types';
+import { AlertCircle, ArrowRight, ChevronLeft, ChevronRight, Clock, X } from 'lucide-react';
+import type { MenuItem, MenuItemOption } from '../types';
 import { formatDuration, formatPrice, HOUSE } from '../data/house';
 import { rooms } from '../data/rooms';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
 import Specimen from './ui/Specimen';
+import ServiceOptions from './ServiceOptions';
+import { bookingSearch, optionPriceLabel } from '../lib/serviceOptions';
 
 interface MenuModalProps {
   item: MenuItem | null;
+  selectedOption?: string;
+  onSelectOption?: (option: MenuItemOption) => void;
   onClose: () => void;
   onNavigate: (direction: 1 | -1) => void;
   indexLabel: string;
 }
 
-export default function MenuModal({ item, onClose, onNavigate, indexLabel }: MenuModalProps) {
+export default function MenuModal({
+  item,
+  selectedOption,
+  onSelectOption,
+  onClose,
+  onNavigate,
+  indexLabel,
+}: MenuModalProps) {
+  const selected = item?.options?.find((option) => option.name === selectedOption);
+  const [showOptionError, setShowOptionError] = useState(false);
+  const optionsRef = useRef<HTMLDivElement>(null);
+  const optionErrorId = item ? `${item.slug}-option-error` : undefined;
+  const requiresOption = Boolean(item?.options?.length && !selected);
+  const optionInvalid = showOptionError && requiresOption;
+
+  useEffect(() => {
+    setShowOptionError(false);
+  }, [item?.slug]);
+
+  useEffect(() => {
+    if (selected) setShowOptionError(false);
+  }, [selected]);
+
+  const handleSelectOption = (option: MenuItemOption) => {
+    setShowOptionError(false);
+    onSelectOption?.(option);
+  };
+
+  const handleBookWithoutOption = () => {
+    setShowOptionError(true);
+
+    window.setTimeout(() => {
+      const firstOption = optionsRef.current?.querySelector<HTMLElement>('[role="radio"]');
+      firstOption?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstOption?.focus({ preventScroll: true });
+    }, 50);
+  };
+
   return (
     <AnimatePresence>
       {item ? (
@@ -124,16 +166,21 @@ export default function MenuModal({ item, onClose, onNavigate, indexLabel }: Men
                 <div className="grid grid-cols-2 gap-6 border-y border-ivory-100/10 py-6">
                   <div>
                     <p className="font-sans text-[9px] uppercase tracking-[0.26em] text-ivory-500">
-                      {item.priceFrom ? 'From' : 'Price'}
+                      {selected ? 'Selected option' : item.priceFrom ? 'From' : 'Price'}
                     </p>
                     <p className="mt-2 font-display text-3xl text-gold-200">
-                      {formatPrice(item.price)}
+                      {selected ? optionPriceLabel(selected) : formatPrice(item.price)}
                     </p>
+                    {selected ? (
+                      <p className="mt-1 font-sans text-[10px] font-light tracking-wide text-ivory-400">
+                        {selected.name}
+                      </p>
+                    ) : null}
                   </div>
                   <div>
                     <p className="flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.26em] text-ivory-500">
                       <Clock className="h-3 w-3" strokeWidth={1.4} />
-                      In the chair
+                      Duration
                     </p>
                     <p className="mt-2 font-display text-3xl text-ivory-100">
                       {formatDuration(item.duration)}
@@ -141,22 +188,64 @@ export default function MenuModal({ item, onClose, onNavigate, indexLabel }: Men
                   </div>
                 </div>
 
+                {item.options?.length ? (
+                  <div ref={optionsRef} className="scroll-mt-24">
+                    <ServiceOptions
+                      item={item}
+                      selectedOption={selectedOption}
+                      onSelectOption={handleSelectOption}
+                      idPrefix={`${item.slug}-modal-option`}
+                      invalid={optionInvalid}
+                      errorId={optionErrorId}
+                    />
+                    {optionInvalid ? (
+                      <p
+                        id={optionErrorId}
+                        role="alert"
+                        className="mt-3 flex items-start gap-2.5 border border-rose-300/40 bg-rose-400/10 px-3.5 py-3 font-sans text-[11px] font-light leading-relaxed tracking-wide text-rose-100"
+                      >
+                        <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={1.5} />
+                        Please select an option before booking.
+                      </p>
+                    ) : null}
+                  </div>
+                ) : null}
+
                 <div>
                   <p className="font-sans text-[9px] uppercase tracking-[0.26em] text-ivory-500">
-                    Aftercare
+                    {item.options?.length ? 'Good to know' : 'Aftercare'}
                   </p>
                   <p className="mt-3 font-sans text-[12.5px] font-light leading-[1.95] text-ivory-300/70">
                     {item.note}
                   </p>
                 </div>
 
-                <Link to="/#book" onClick={onClose} className="btn-gold group mt-auto self-start">
-                  Book this service
-                  <ArrowRight
-                    className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"
-                    strokeWidth={1.4}
-                  />
-                </Link>
+                {requiresOption ? (
+                  <button
+                    type="button"
+                    onClick={handleBookWithoutOption}
+                    aria-describedby={optionInvalid ? optionErrorId : undefined}
+                    className="btn-gold group mt-auto self-start"
+                  >
+                    Book this service
+                    <ArrowRight
+                      className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"
+                      strokeWidth={1.4}
+                    />
+                  </button>
+                ) : (
+                  <Link
+                    to={{ pathname: '/book', search: bookingSearch(item, selected) }}
+                    onClick={onClose}
+                    className="btn-gold group mt-auto self-start"
+                  >
+                    {selected ? 'Book selected option' : 'Book this service'}
+                    <ArrowRight
+                      className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"
+                      strokeWidth={1.4}
+                    />
+                  </Link>
+                )}
               </div>
             </div>
 

@@ -10,13 +10,24 @@ export interface Service {
   count: string;
 }
 
+/** One selectable option beneath a menu service. */
+export interface MenuItemOption {
+  name: string;
+  /** Fixed price, or the lower end of a range, in cedis. */
+  minPrice?: number;
+  /** Upper end of a price range, in cedis. */
+  maxPrice?: number;
+  /** Used when the price is not a fixed cedi figure. */
+  priceNote?: string;
+}
+
 /** One line of the treatment menu, as it appears on a service page. */
 export interface MenuItem {
   slug: string;
   service: ServiceId;
   name: string;
   price: number;
-  /** True when `price` is the starting price for a service with options. */
+  /** True when `price` is a starting price. */
   priceFrom?: boolean;
   /** Duration in minutes — drives the label and the sort. */
   duration: number;
@@ -28,6 +39,8 @@ export interface MenuItem {
   tag?: string;
   focus?: 'attention';
   image?: string;
+  /** Selectable priced options shown under the service. */
+  options?: MenuItemOption[];
 }
 
 /** A signature treatment, featured on the home page. */
@@ -49,6 +62,10 @@ export interface Testimonial {
   quote: string;
   name: string;
   role: string;
+  /** The exact service this client booked, shown as the portrait caption. */
+  service: string;
+  /** Portrait showing the booked service, e.g. /images/clients/client-Efua-wig-installation.webp */
+  image: string;
 }
 
 /** One choice on a wig's options sheet. */

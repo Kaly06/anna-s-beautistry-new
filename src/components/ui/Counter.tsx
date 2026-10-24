@@ -10,7 +10,10 @@ interface CounterProps {
 /** Counts up once, the first time it scrolls into view. */
 export default function Counter({ value, suffix = '', prefix = '' }: CounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-10%' });
+  // Shrink the trigger area vertically only: a horizontal shrink would
+  // permanently exclude small numbers sitting near the left edge (their
+  // whole span can fall inside the trimmed band and never intersect).
+  const inView = useInView(ref, { once: true, margin: '-10% 0%' });
   const reduce = useReducedMotion();
   const [display, setDisplay] = useState(0);
 

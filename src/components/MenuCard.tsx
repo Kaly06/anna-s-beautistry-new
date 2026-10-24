@@ -1,17 +1,24 @@
 import { Link } from 'react-router-dom';
 import { m } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import type { MenuItem } from '../types';
 import { formatDuration, formatPrice } from '../data/house';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
 import Specimen from './ui/Specimen';
+import { bookingSearch, optionPriceLabel } from '../lib/serviceOptions';
 
 interface MenuCardProps {
   item: MenuItem;
   index: number;
+  selectedOption?: string;
 }
 
-export default function MenuCard({ item, index }: MenuCardProps) {
+export default function MenuCard({ item, index, selectedOption }: MenuCardProps) {
+  const selected = item.options?.find((option) => option.name === selectedOption);
+  const serviceHref = `/services/${item.service}/${item.slug}`;
+  const hasOptions = Boolean(item.options?.length);
+
   return (
     <m.article
       initial={{ opacity: 0, y: 34 }}
@@ -21,11 +28,11 @@ export default function MenuCard({ item, index }: MenuCardProps) {
       className="group"
     >
       <Link
-        to={`/services/${item.service}/${item.slug}`}
-        data-cursor="view"
-        data-cursor-label="View"
+        to={serviceHref}
         className="block w-full text-left"
-        aria-label={`View ${item.name}, ${item.priceFrom ? 'from ' : ''}${formatPrice(item.price)}`}
+        aria-label={`${hasOptions ? 'Choose an option for' : 'View'} ${item.name}, ${
+          item.priceFrom ? 'from ' : ''
+        }${formatPrice(item.price)}`}
       >
         <div className="relative overflow-hidden border border-ivory-100/[0.08] bg-[radial-gradient(120%_100%_at_50%_0%,#341b4e_0%,#200b35_52%,#170429_100%)] transition-colors duration-700 ease-luxe group-hover:border-gold-300/35">
           <div className="pointer-events-none absolute inset-4 border border-ivory-100/[0.06] transition-colors duration-700 group-hover:border-gold-300/20" />
@@ -73,36 +80,67 @@ export default function MenuCard({ item, index }: MenuCardProps) {
 
           <div className="absolute inset-x-0 bottom-0 flex translate-y-2 items-center justify-between px-5 pb-5 opacity-0 transition-all duration-500 ease-luxe group-hover:translate-y-0 group-hover:opacity-100">
             <span className="font-sans text-[9px] uppercase tracking-[0.3em] text-gold-200">
-              View service
+              {hasOptions ? 'Choose an option' : 'View service'}
             </span>
             <span className="h-px w-8 bg-gold-300/60" />
           </div>
         </div>
-
-        <div className="flex items-start justify-between gap-4 pt-5">
-          <div>
-            <h3 className="font-display text-2xl font-light leading-tight text-ivory-50 transition-colors duration-300 group-hover:text-gold-100">
-              {item.name}
-            </h3>
-            <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.2em] text-gold-300/70">
-              {formatDuration(item.duration)}
-            </p>
-            <p className="mt-1.5 font-sans text-[10.5px] font-light leading-relaxed tracking-wide text-ivory-400">
-              {item.tagline}
-            </p>
-          </div>
-          <span className="shrink-0 text-right">
-            {item.priceFrom ? (
-              <span className="block font-sans text-[8px] uppercase tracking-[0.24em] text-ivory-500">
-                From
-              </span>
-            ) : null}
-            <span className="block font-display text-lg leading-tight text-gold-200">
-              {formatPrice(item.price)}
-            </span>
-          </span>
-        </div>
       </Link>
+
+      <div className="flex items-start justify-between gap-4 pt-5">
+        <div>
+          <h3 className="font-display text-2xl font-light leading-tight text-ivory-50">
+            <Link
+              to={serviceHref}
+              className="transition-colors duration-300 hover:text-gold-100"
+            >
+              {item.name}
+            </Link>
+          </h3>
+          <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.2em] text-gold-300/70">
+            {formatDuration(item.duration)}
+          </p>
+          <p className="mt-1.5 font-sans text-[10.5px] font-light leading-relaxed tracking-wide text-ivory-400">
+            {item.tagline}
+          </p>
+        </div>
+        <span className="shrink-0 text-right">
+          <span className="block font-sans text-[8px] uppercase tracking-[0.24em] text-ivory-500">
+            {selected ? 'Selected' : item.priceFrom ? 'From' : 'Price'}
+          </span>
+          <span className="block font-display text-lg leading-tight text-gold-200">
+            {selected ? optionPriceLabel(selected) : formatPrice(item.price)}
+          </span>
+        </span>
+      </div>
+
+      {hasOptions ? (
+        <div className="mt-5 border-t border-ivory-100/10 pt-4">
+          {selected ? (
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="font-sans text-[10px] font-light tracking-wide text-ivory-400">
+                <span className="uppercase tracking-[0.2em] text-gold-300/80">Selected · </span>
+                {selected.name}
+              </p>
+              <Link
+                to={{ pathname: '/book', search: bookingSearch(item, selected) }}
+                className="group/book inline-flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.24em] text-gold-200 transition-colors hover:text-gold-100"
+              >
+                Book selected
+                <ArrowRight
+                  className="h-3 w-3 transition-transform duration-500 ease-luxe group-hover/book:translate-x-1"
+                  strokeWidth={1.5}
+                />
+              </Link>
+            </div>
+          ) : (
+            <p className="flex items-center justify-between gap-4 font-sans text-[9px] uppercase tracking-[0.22em] text-ivory-500">
+              <span>{item.options!.length} options</span>
+              <span className="text-gold-300/80">Click the image to choose</span>
+            </p>
+          )}
+        </div>
+      ) : null}
     </m.article>
   );
 }

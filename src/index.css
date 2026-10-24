@@ -140,6 +140,238 @@
   .field-label {
     @apply block font-sans text-[9px] font-medium uppercase tracking-[0.28em] text-ivory-500;
   }
+
+  /*
+    Living light for the solid purple surfaces — performance-tuned edition.
+
+    Every large ink-purple surface gets the same quiet night-sky treatment:
+    tiny gold/ivory stars twinkle, and a soft spiral sheen turns very slowly
+    in the corner. The first version of this effect animated
+    background-position, an animated gradient angle and a blur filter, which
+    forced full repaints of every surface on every frame and made the whole
+    site lag. This edition only animates the two properties the GPU can
+    composite for free — opacity (twinkle) and transform (spiral rotation) —
+    with the starfield and spiral painted once into their layers. It also
+    applies only to big surfaces (sections, footers, mains, plus anything
+    opted in with .ambient-surface), never to nested cards, and
+    `overflow: clip` keeps the rotating spiral's corners from ever
+    widening the page (clip, unlike hidden, does not break sticky children).
+    The global reduced-motion rule stills everything.
+  */
+  :where(section, footer, main):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):not(.fixed):not(.absolute):not(.sticky),
+  .ambient-surface {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    /* The steady star population: painted once into the surface itself,
+       never animated — half the sky simply stays lit. */
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(17 63) scale(0.13)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23F7E7AC' fill-opacity='0.5'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(68 18) scale(0.11)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23F6F0FC' fill-opacity='0.4'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(43 87) scale(0.10)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23D4AF37' fill-opacity='0.45'/%3E%3C/g%3E%3C/svg%3E");
+    background-position:
+      37px 118px,
+      162px 29px,
+      84px 203px;
+    background-size:
+      425px 425px,
+      557px 557px,
+      668px 668px;
+  }
+
+  :where(section, footer, main):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):not(.fixed):not(.absolute):not(.sticky)::before,
+  .ambient-surface::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(11 64) scale(0.28)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23F7E7AC' fill-opacity='0.95'/%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%23FFFBEF' fill-opacity='0.95'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(73 17) scale(0.21)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23F6F0FC' fill-opacity='0.3'/%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%23FFFFFF' fill-opacity='0.3'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(34 82) scale(0.23)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23D4AF37' fill-opacity='0.5'/%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%23F7E7AC' fill-opacity='0.5'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(88 43) scale(0.16)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23BDA0D4' fill-opacity='0.25'/%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%23F6F0FC' fill-opacity='0.25'/%3E%3C/g%3E%3C/svg%3E");
+    background-position:
+      17px 91px,
+      213px 37px,
+      58px 167px,
+      301px 124px;
+    background-size:
+      283px 283px,
+      397px 397px,
+      479px 479px,
+      617px 617px;
+    /* Twinkle = one smooth opacity breath (see @keyframes below): the
+       twinkling diamonds fade up and down against the steady layer,
+       never switching or blinking. */
+    animation: ambient-twinkle 8s ease-in-out -2.6s infinite;
+  }
+
+  /* Neighbouring sections pulse out of phase with each other, so the whole
+     page never breathes in unison — it shimmers. */
+  :where(section):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):nth-of-type(even)::before {
+    animation-duration: 10.5s;
+    animation-delay: -6.1s;
+  }
+
+  :where(footer):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    )::before {
+    animation-duration: 9.2s;
+    animation-delay: -4.7s;
+  }
+
+  /* Reading sections stay especially quiet. The quote and testimonial
+     sections carry long passages of text, so their diamonds are spread
+     several times farther apart and the spiral is reduced to a whisper. */
+  :where(section, footer, main):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):not(.fixed):not(.absolute):not(.sticky).ambient-calm,
+  .ambient-surface.ambient-calm {
+    /* Wider tiles would normally enlarge each diamond, so the calm
+       artwork is drawn proportionally smaller inside its tile. */
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(23 71) scale(0.092)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23F7E7AC' fill-opacity='0.5'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(71 24) scale(0.079)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23F6F0FC' fill-opacity='0.4'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(38 83) scale(0.066)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23D4AF37' fill-opacity='0.45'/%3E%3C/g%3E%3C/svg%3E");
+    background-position:
+      113px 271px,
+      347px 83px,
+      529px 389px;
+    background-size:
+      500px 500px,
+      650px 650px,
+      820px 820px;
+  }
+
+  :where(section, footer, main):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):not(.fixed):not(.absolute):not(.sticky).ambient-calm::before,
+  .ambient-surface.ambient-calm::before {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(17 68) scale(0.132)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23F7E7AC' fill-opacity='0.95'/%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%23FFFBEF' fill-opacity='0.95'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(76 21) scale(0.108)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23F6F0FC' fill-opacity='0.3'/%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%23FFFFFF' fill-opacity='0.3'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(31 79) scale(0.092)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23D4AF37' fill-opacity='0.5'/%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%23F7E7AC' fill-opacity='0.5'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(84 47) scale(0.076)'%3E%3Cpath d='M12 0 L14.8 9.2 L24 12 L14.8 14.8 L12 24 L9.2 14.8 L0 12 L9.2 9.2 Z' fill='%23BDA0D4' fill-opacity='0.25'/%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%23F6F0FC' fill-opacity='0.25'/%3E%3C/g%3E%3C/svg%3E");
+    background-position:
+      71px 193px,
+      419px 67px,
+      263px 457px,
+      587px 211px;
+    background-size:
+      560px 560px,
+      730px 730px,
+      920px 920px,
+      1160px 1160px;
+  }
+
+  :where(section, footer, main):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):not(.fixed):not(.absolute):not(.sticky).ambient-calm::after,
+  .ambient-surface.ambient-calm::after {
+    opacity: 0.18;
+  }
+
+  :where(section, footer, main):where(
+      .bg-ink-950,
+      .bg-ink-900,
+      .bg-ink-850,
+      .bg-ink-800
+    ):not(.fixed):not(.absolute):not(.sticky)::after,
+  .ambient-surface::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: min(46vw, 32rem);
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at center, rgba(212, 175, 55, 0.13) 0%, transparent 58%),
+      repeating-conic-gradient(
+        from 0deg at 50% 50%,
+        rgba(212, 175, 55, 0.16) 0deg 9deg,
+        transparent 9deg 32deg,
+        rgba(189, 160, 212, 0.09) 32deg 39deg,
+        transparent 39deg 64deg
+      );
+    -webkit-mask-image: radial-gradient(circle, transparent 0 15%, #000 18% 56%, transparent 72%);
+    mask-image: radial-gradient(circle, transparent 0 15%, #000 18% 56%, transparent 72%);
+    opacity: 0.3;
+    /* Rotation = transform only, so the spiral spins on the GPU. The
+       gradient is painted once; no blur filter, no animated angle. */
+    animation: ambient-spiral 90s linear infinite;
+    will-change: transform;
+  }
+
+  /* Smooth twinkle: the twinkling layer breathes with one continuous
+     opacity fade — no frame switching and no background-image animation
+     (animating background-image makes Chrome cross-fade the layer and
+     repaint every frame). The steady layer underneath stays lit the
+     whole time, so the sky shimmers softly instead of blinking. */
+  @keyframes ambient-twinkle {
+    0% { opacity: 0.18; }
+    20% { opacity: 0.55; }
+    38% { opacity: 0.26; }
+    57% { opacity: 0.68; }
+    74% { opacity: 0.34; }
+    88% { opacity: 0.5; }
+    100% { opacity: 0.18; }
+  }
+
+@keyframes ambient-spiral {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(section, footer, main):where(
+        .bg-ink-950,
+        .bg-ink-900,
+        .bg-ink-850,
+        .bg-ink-800
+      ):not(.fixed):not(.absolute):not(.sticky)::before,
+    :where(section, footer, main):where(
+        .bg-ink-950,
+        .bg-ink-900,
+        .bg-ink-850,
+        .bg-ink-800
+      ):not(.fixed):not(.absolute):not(.sticky)::after,
+    .ambient-surface::before,
+    .ambient-surface::after {
+      animation: none;
+    }
+  }
 }
 
 @layer utilities {
@@ -160,6 +392,20 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    /* A slow sheen drifts through the metal — 8s, barely-there luxe. */
+    animation: gold-shine 8s linear infinite;
+  }
+
+  @keyframes gold-shine {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gold-text {
+      animation: none;
+    }
   }
 
   /* Soft lilac-violet gradient text (formerly blush — now in her purple). */

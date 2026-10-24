@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { m, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { EASE } from '../lib/animations';
@@ -72,13 +73,13 @@ export default function Lookbook() {
             className="mt-10"
           >
             <Magnetic>
-              <a href="#book" className="btn-ghost group">
-                Book a sitting
+              <Link to="/book" className="btn-ghost group">
+                Book a service
                 <ArrowUpRight
                   className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                   strokeWidth={1.4}
                 />
-              </a>
+              </Link>
             </Magnetic>
           </m.div>
         </div>

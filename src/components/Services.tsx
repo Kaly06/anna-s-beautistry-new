@@ -40,8 +40,8 @@ export default function Services() {
                 mapped to the shape of your eye, and makeup chosen for daylight. Each room
                 begins with a consultation and ends with aftercare you can actually follow.
               </p>
-              <a href="#lookbook" className="link-underline mt-8">
-                See the looks
+              <a href="#signature" className="link-underline mt-8">
+                See signature treatments
                 <ArrowRight className="h-3 w-3" strokeWidth={1.4} />
               </a>
             </Reveal>

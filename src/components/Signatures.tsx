@@ -34,10 +34,10 @@ export default function Signatures() {
           </div>
 
           <Reveal delay={0.2} className="shrink-0">
-            <a href="#book" className="link-underline">
-              Book a sitting
+            <Link to="/book" className="link-underline">
+              Book a service
               <ArrowRight className="h-3 w-3" strokeWidth={1.4} />
-            </a>
+            </Link>
           </Reveal>
         </div>
 
@@ -53,8 +53,6 @@ export default function Signatures() {
             >
               <Link
                 to={signature.href}
-                data-cursor="view"
-                data-cursor-label="View"
                 className="block"
                 aria-label={`${signature.name} — ${signature.detail}`}
               >

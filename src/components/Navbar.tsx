@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { EASE } from '../lib/animations';
 import { HOUSE } from '../data/house';
+import { FEATURES } from '../lib/features';
 import { services } from '../data/services';
 import Magnetic from './ui/Magnetic';
 import Logo from './ui/Logo';
 
 const LINKS = [
   { label: 'Services', href: '/services' },
-  { label: 'Materials', href: '/#materials' },
-  { label: 'Studio', href: '/#studio' },
-  { label: 'The Looks', href: '/#lookbook' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'About me', href: '/#about' },
   { label: 'Contact', href: '/#contact' },
 ];
 
@@ -53,7 +53,7 @@ export default function Navbar() {
         <nav
           aria-label="Primary"
           className={`container-luxe flex items-center justify-between transition-all duration-500 ease-luxe ${
-            scrolled ? 'h-16' : 'h-20 md:h-24'
+            scrolled ? 'h-[72px] md:h-20' : 'h-24 md:h-[104px]'
           }`}
         >
           <Link to="/" className="group flex items-center" aria-label="Anna's Beautistry — home">
@@ -76,8 +76,8 @@ export default function Navbar() {
 
           <div className="hidden lg:block">
             <Magnetic strength={0.2}>
-              <Link to="/#book" className="btn-ghost !px-6 !py-3">
-                Book a sitting
+              <Link to="/book" className="btn-ghost !px-6 !py-3">
+                Book a service
                 <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.4} />
               </Link>
             </Magnetic>
@@ -106,7 +106,7 @@ export default function Navbar() {
             exit={{ clipPath: 'inset(0 0 100% 0)' }}
             transition={{ duration: 0.75, ease: EASE }}
           >
-            <div className="container-luxe flex h-20 items-center justify-between">
+            <div className="container-luxe flex h-24 items-center justify-between">
               <Logo size="menu" />
               <button
                 type="button"
@@ -163,14 +163,16 @@ export default function Navbar() {
                     </Link>
                   ))}
                 </div>
-                <Link
-                  to="/services/wigs/options"
-                  onClick={() => setOpen(false)}
-                  className="mt-4 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.2em] text-gold-200 transition-colors hover:text-gold-100"
-                >
-                  Wigs options sheet
-                  <ArrowUpRight className="h-3 w-3" strokeWidth={1.4} />
-                </Link>
+                {FEATURES.wigOptionsSheet ? (
+                  <Link
+                    to="/services/wigs/options"
+                    onClick={() => setOpen(false)}
+                    className="mt-4 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.2em] text-gold-200 transition-colors hover:text-gold-100"
+                  >
+                    Wigs options sheet
+                    <ArrowUpRight className="h-3 w-3" strokeWidth={1.4} />
+                  </Link>
+                ) : null}
               </m.div>
 
               <m.div

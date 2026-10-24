@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { m, useScroll, useTransform } from 'framer-motion';
+import { m, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { EASE } from '../lib/animations';
 import { HOUSE } from '../data/house';
@@ -8,6 +8,7 @@ import SplitText from './ui/SplitText';
 
 export default function Hero({ introDone }: { introDone: boolean }) {
   const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
@@ -28,26 +29,41 @@ export default function Hero({ introDone }: { introDone: boolean }) {
     <section
       id="home"
       ref={ref}
-      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink-950"
+      className="relative flex flex-col overflow-hidden bg-ink-950"
     >
       <m.div className="absolute inset-0" style={{ y: imageY, scale: imageScale }}>
-        <img
+        {/* Slow ken-burns settle as the curtain lifts — the portrait breathes in. */}
+        <m.img
           src="/images/hero.webp"
-          alt=""
-          className="h-full w-full object-cover object-[62%_center]"
+          alt="Portrait of a client wearing a hand-laid lace wig at Anna's Beautistry in Cape Coast"
+          initial={{ scale: 1.14 }}
+          animate={introDone ? { scale: 1 } : { scale: 1.14 }}
+          transition={{ duration: reduce ? 0 : 6.5, ease: EASE }}
+          className="h-full w-full object-cover object-[62%_20%]"
         />
       </m.div>
 
       <div className="absolute inset-0 bg-gradient-to-b from-ink-950/90 via-ink-950/35 to-ink-950" />
       <div className="absolute inset-0 bg-gradient-to-r from-ink-950/85 via-ink-950/20 to-transparent" />
       <div className="vignette absolute inset-0" />
-      {/* Royal-purple radiance behind the headline — her colour, felt as light. */}
-      <div className="pointer-events-none absolute -left-40 bottom-0 h-[520px] w-[520px] rounded-full bg-royal-500/35 blur-[130px]" />
-      <div className="pointer-events-none absolute -right-32 top-0 h-[380px] w-[380px] rounded-full bg-royal-400/20 blur-[120px]" />
+      {/* Royal-purple radiance behind the headline — her colour, felt as light,
+          breathing slowly so the still portrait never feels frozen. */}
+      <m.div
+        aria-hidden="true"
+        animate={reduce ? undefined : { opacity: [0.55, 1, 0.55], scale: [1, 1.1, 1] }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute -left-40 bottom-0 h-[520px] w-[520px] rounded-full bg-royal-500/35 blur-[130px]"
+      />
+      <m.div
+        aria-hidden="true"
+        animate={reduce ? undefined : { opacity: [0.5, 0.95, 0.5], scale: [1, 1.08, 1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute -right-32 top-0 h-[380px] w-[380px] rounded-full bg-royal-400/20 blur-[120px]"
+      />
       <div className="noise pointer-events-none absolute inset-0 opacity-[0.055]" />
 
-      <div className="container-luxe relative flex flex-1 flex-col justify-end pb-10 pt-36 sm:pb-14 md:pt-40">
-        <m.div style={{ y: contentY, opacity: contentOpacity }} className="max-w-4xl">
+      <div className="container-luxe relative flex flex-1 flex-col pb-10 pt-[148px] sm:pb-14 md:pt-[180px]">
+        <m.div style={{ y: contentY, opacity: contentOpacity }} className="mb-16 max-w-4xl">
           <m.div {...fade(0.05)} className="flex items-center gap-4">
             <span className="h-px w-10 bg-gold-300/60" />
             <span className="eyebrow">
@@ -95,9 +111,9 @@ export default function Hero({ introDone }: { introDone: boolean }) {
               </a>
             </Magnetic>
             <Magnetic strength={0.2}>
-              <a href="#studio" className="group inline-flex items-center gap-3 px-2 py-4">
+              <a href="#about" className="group inline-flex items-center gap-3 px-2 py-4">
                 <span className="font-sans text-[10px] font-medium uppercase tracking-widest2 text-ivory-200 transition-colors duration-300 group-hover:text-gold-200">
-                  Inside the studio
+                  Meet Anna
                 </span>
                 <span className="flex h-9 w-9 items-center justify-center rounded-full border border-ivory-100/25 text-ivory-200 transition-colors duration-500 group-hover:border-gold-300/70 group-hover:text-gold-200">
                   <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.4} />
@@ -107,9 +123,11 @@ export default function Hero({ introDone }: { introDone: boolean }) {
           </m.div>
         </m.div>
 
+        {/* Copy is anchored under the header and this strip pins to the floor,
+            so taller screens grow portrait between them — not a void up top. */}
         <m.div
           {...fade(0.85)}
-          className="mt-14 flex items-end justify-between gap-6 border-t border-ivory-100/15 pt-6 sm:mt-20"
+          className="mt-auto flex items-end justify-between gap-6 border-t border-ivory-100/15 pt-6"
         >
           <a href="#services" className="group flex items-center gap-3">
             <span className="relative flex h-10 w-px overflow-hidden bg-ivory-100/15">

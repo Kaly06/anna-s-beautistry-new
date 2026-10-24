@@ -7,7 +7,9 @@ import { rooms, roomsMeta } from '../data/rooms';
 import { formatPrice, HOUSE } from '../data/house';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
-import type { MenuItem, ServiceId } from '../types';
+import { FEATURES } from '../lib/features';
+import { usePageTitle } from '../lib/usePageTitle';
+import type { MenuItem, MenuItemOption, ServiceId } from '../types';
 import Specimen from '../components/ui/Specimen';
 import MenuCard from '../components/MenuCard';
 import MenuModal from '../components/MenuModal';
@@ -34,6 +36,7 @@ export default function ServicePage() {
   const valid = isServiceId(serviceId);
 
   const meta = valid ? rooms[serviceId] : null;
+  usePageTitle(meta ? meta.name : 'Services');
   const items = useMemo(
     () => (valid ? menu.filter((item) => item.service === serviceId) : []),
     [valid, serviceId]
@@ -41,6 +44,15 @@ export default function ServicePage() {
 
   const [sort, setSort] = useState<Sort>('curated');
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    setSelectedOptions({});
+  }, [serviceId]);
+
+  const selectOption = (item: MenuItem, option: MenuItemOption) => {
+    setSelectedOptions((current) => ({ ...current, [item.slug]: option.name }));
+  };
 
   const sorted = useMemo(() => {
     const copy = [...items];
@@ -203,7 +215,7 @@ export default function ServicePage() {
       </section>
 
       {/* --------------------------------------------------------- options */}
-      {meta.id === 'wigs' ? (
+      {meta.id === 'wigs' && FEATURES.wigOptionsSheet ? (
         <section className="border-b border-ivory-100/[0.07] bg-ink-900">
           <div className="container-luxe flex flex-col items-start justify-between gap-6 py-9 sm:flex-row sm:items-center">
             <div>
@@ -255,7 +267,12 @@ export default function ServicePage() {
 
           <div className="grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-7">
             {sorted.map((item, index) => (
-              <MenuCard key={item.slug} item={item} index={index} />
+              <MenuCard
+                key={item.slug}
+                item={item}
+                index={index}
+                selectedOption={selectedOptions[item.slug]}
+              />
             ))}
           </div>
 
@@ -266,7 +283,7 @@ export default function ServicePage() {
                 holds the appointment and comes off your bill.
               </p>
               <Magnetic strength={0.2}>
-                <Link to="/#book" className="btn-ghost group">
+                <Link to="/book" className="btn-ghost group">
                   Book {meta.name}
                   <ArrowUpRight
                     className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
@@ -328,6 +345,10 @@ export default function ServicePage() {
 
       <MenuModal
         item={active}
+        selectedOption={active ? selectedOptions[active.slug] : undefined}
+        onSelectOption={(option) => {
+          if (active) selectOption(active, option);
+        }}
         onClose={closeItem}
         onNavigate={(direction) =>
           setActiveIndex((i) => (i === null ? null : (i + direction + sorted.length) % sorted.length))
@@ -337,14 +358,14 @@ export default function ServicePage() {
         ).padStart(2, '0')}`}
       />
 
-      {/* The booking section lives on the home page; send people there. */}
+      {/* Booking has its own page, so this opens at the top of the form. */}
       <section className="bg-ink-900 py-16">
         <div className="container-luxe flex flex-col items-center justify-between gap-6 sm:flex-row">
           <p className="font-display text-2xl font-light text-ivory-100">
             Ready when you are.
           </p>
-          <Link to="/#book" className="btn-gold group">
-            Book a sitting
+          <Link to="/book" className="btn-gold group">
+            Book a service
             <ArrowRight
               className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"
               strokeWidth={1.4}

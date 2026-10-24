@@ -7,6 +7,8 @@ import { services, signatures } from '../data/services';
 import { WIG_BASE, WIG_GROUPS } from '../data/wigOptions';
 import { formatDuration, formatPrice, HOUSE } from '../data/house';
 import { EASE } from '../lib/animations';
+import { FEATURES } from '../lib/features';
+import { usePageTitle } from '../lib/usePageTitle';
 import Eyebrow from '../components/ui/Eyebrow';
 import Reveal from '../components/ui/Reveal';
 import SplitText from '../components/ui/SplitText';
@@ -39,6 +41,7 @@ const cheapest = Math.min(...menu.map((item) => item.price));
 const quickest = Math.min(...menu.map((item) => item.duration));
 
 export default function ServicesPage() {
+  usePageTitle('Services');
   return (
     <>
       {/* ------------------------------------------------------------ hero */}
@@ -92,9 +95,9 @@ export default function ServicesPage() {
           >
             {[
               { value: String(totalTreatments), label: 'Treatments on the menu' },
-              { value: formatPrice(cheapest), label: 'Cheapest sitting' },
-              { value: formatDuration(quickest), label: 'Shortest sitting' },
-              { value: 'Tue – Sat', label: 'In the chair' },
+              { value: formatPrice(cheapest), label: 'Lowest starting price' },
+              { value: formatDuration(quickest), label: 'Shortest service' },
+              { value: 'Mon – Sat', label: 'Studio days' },
             ].map((stat) => (
               <div key={stat.label} className="min-w-[7rem]">
                 <p className="font-display text-4xl font-light text-gold-200">{stat.value}</p>
@@ -125,8 +128,6 @@ export default function ServicesPage() {
                   >
                     <Link
                       to={`/services/${room.id}`}
-                      data-cursor="view"
-                      data-cursor-label="View"
                       aria-label={`See the ${room.name} menu`}
                       className="group relative block w-full shrink-0 overflow-hidden border border-ivory-100/10 lg:w-[44%]"
                     >
@@ -216,7 +217,7 @@ export default function ServicesPage() {
                           </Link>
                         </Magnetic>
 
-                        {room.id === 'wigs' ? (
+                        {room.id === 'wigs' && FEATURES.wigOptionsSheet ? (
                           <Link to="/services/wigs/options" className="link-underline">
                             The options sheet
                             <ArrowUpRight className="h-3 w-3" strokeWidth={1.4} />
@@ -232,7 +233,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* --------------------------------------------------------- options */}
+      {/* ------------------------------------------- options (not live yet) */}
+      {FEATURES.wigOptionsSheet ? (
       <section className="relative overflow-hidden border-y border-gold-300/20 bg-ink-900 py-20 sm:py-24">
         <div className="pointer-events-none absolute -right-32 top-0 h-[420px] w-[420px] rounded-full bg-royal-500/20 blur-[120px]" />
         <div className="container-luxe relative">
@@ -276,12 +278,13 @@ export default function ServicesPage() {
                 ))}
               </ul>
               <p className="mt-4 font-sans text-[10px] font-light leading-relaxed text-ivory-500">
-                From {formatPrice(WIG_BASE.price)} for a glueless closure install · hair priced by the inch
+                Sheet starts at {formatPrice(WIG_BASE.price)} · every chosen line adds its price, standard choices included
               </p>
             </div>
           </div>
         </div>
       </section>
+      ) : null}
 
       {/* ------------------------------------------------------------- cta */}
       <section className="bg-ink-950 py-16">
@@ -295,8 +298,8 @@ export default function ServicesPage() {
             </p>
           </div>
           <Magnetic strength={0.16}>
-            <Link to="/#book" className="btn-gold group">
-              Book a sitting
+            <Link to="/book" className="btn-gold group">
+              Book a service
               <ArrowRight
                 className="h-3.5 w-3.5 transition-transform duration-500 ease-luxe group-hover:translate-x-1"
                 strokeWidth={1.4}

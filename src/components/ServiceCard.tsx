@@ -44,8 +44,6 @@ export default function ServiceCard({ service, index, className = '' }: ServiceC
 
       <Link
         to={`/services/${service.id}`}
-        data-cursor="view"
-        data-cursor-label="View"
         aria-label={`View the ${service.name} menu`}
         className="absolute inset-0 z-20"
       >
