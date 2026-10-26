@@ -43,7 +43,8 @@ function monthLabel(year: number, month: number): string {
 
 /**
  * The booking date picker — a house-styled calendar instead of the browser's
- * native date input, which cannot be themed. Sundays (studio closed) and
+ * native date input, which cannot be themed. Mondays and Wednesdays (closed —
+ * Anna teaches) and
  * past days are disabled; today is ringed; the chosen day fills gold.
  */
 export default function BookingCalendar({ id, value, min, onChange }: BookingCalendarProps) {
@@ -96,12 +97,13 @@ export default function BookingCalendar({ id, value, min, onChange }: BookingCal
       const month = d.getUTCMonth();
       const day = d.getUTCDate();
       const iso = toISO(year, month, day);
-      const isSunday = d.getUTCDay() === 0;
+      const dow = d.getUTCDay();
+      const isClosedDay = dow === 1 || dow === 3; // Monday, Wednesday
       return {
         iso,
         day,
         inMonth: month === viewMonth,
-        isSunday,
+        isClosedDay,
         isPast: iso < min,
         isToday: iso === min,
         isSelected: iso === value,
@@ -188,15 +190,15 @@ export default function BookingCalendar({ id, value, min, onChange }: BookingCal
                 </span>
               ))}
               {cells.map((cell) => {
-                const disabled = cell.isPast || cell.isSunday;
+                const disabled = cell.isPast || cell.isClosedDay;
                 return (
                   <button
                     key={cell.iso}
                     type="button"
                     disabled={disabled}
-                    aria-label={`${formatGhanaDate(cell.iso)}${cell.isSunday ? ' — studio closed' : ''}`}
+                    aria-label={`${formatGhanaDate(cell.iso)}${cell.isClosedDay ? ' — studio closed' : ''}`}
                     aria-pressed={cell.isSelected}
-                    title={cell.isSunday ? 'Closed on Sundays' : undefined}
+                    title={cell.isClosedDay ? 'Closed on Mondays and Wednesdays' : undefined}
                     onClick={() => pick(cell.iso)}
                     className={`flex h-9 items-center justify-center rounded-full font-sans text-[12px] transition-colors duration-300 ${
                       cell.isSelected
@@ -207,7 +209,7 @@ export default function BookingCalendar({ id, value, min, onChange }: BookingCal
                             ? 'text-ivory-100 hover:bg-gold-400/15 hover:text-gold-100'
                             : 'text-ivory-500/50 hover:bg-gold-400/10 hover:text-gold-100'
                     } ${cell.isToday && !cell.isSelected ? 'ring-1 ring-inset ring-gold-300/70' : ''} ${
-                      cell.isSunday && !cell.isSelected ? 'line-through decoration-rose-300/40' : ''
+                      cell.isClosedDay && !cell.isSelected ? 'line-through decoration-rose-300/40' : ''
                     }`}
                   >
                     {cell.day}
@@ -218,7 +220,7 @@ export default function BookingCalendar({ id, value, min, onChange }: BookingCal
 
             <div className="mt-4 flex items-center justify-between border-t border-ivory-100/10 pt-3.5">
               <p className="font-sans text-[9px] uppercase tracking-[0.18em] text-ivory-500">
-                Closed Sundays · Sat 10–4
+                Closed Mon & Wed · Sat/Sun 10–4
               </p>
               <button
                 type="button"
