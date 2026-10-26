@@ -117,7 +117,7 @@ function friendlierBookingError(error: unknown): string {
     return 'Anna is busy or the studio is closed at that time. Please choose another start time.';
   }
   if (lower.includes('closed')) {
-    return 'The studio is closed on Sundays. Please choose Monday to Saturday.';
+    return 'The studio is closed on Mondays and Wednesdays. Please choose another day.';
   }
   if (lower.includes('outside') || lower.includes('opening') || lower.includes('closing')) {
     return 'That service would run outside studio hours. Please choose an earlier start time.';
@@ -466,7 +466,7 @@ export default function Booking() {
       return;
     }
     if (closedDay) {
-      setSubmitError('The studio is closed on Sundays. Please choose Monday to Saturday.');
+      setSubmitError('The studio is closed on Mondays and Wednesdays. Please choose another day.');
       return;
     }
     if (!selectedStart) {
@@ -1039,9 +1039,10 @@ export default function Booking() {
                       />
                     </div>
                     <p className="max-w-sm font-sans text-[11px] font-light leading-relaxed text-ivory-400">
-                      Open Monday–Friday, 9:00 AM–7:00 PM and Saturday, 10:00 AM–4:00 PM
-                      Ghana time (closed Sundays). Starts are every 30 minutes, and a
-                      booking blocks its whole service duration.
+                      Open Tuesday, Thursday and Friday, 9:00 AM–7:00 PM, and Saturday
+                      and Sunday, 10:00 AM–4:00 PM Ghana time. Closed Mondays and
+                      Wednesdays. Starts are every 30 minutes, and a booking blocks its
+                      whole service duration.
                     </p>
                   </div>
 
@@ -1062,7 +1063,8 @@ export default function Booking() {
 
                   {closedDay ? (
                     <p className="mt-4 border border-rose-300/20 bg-rose-400/[0.06] px-4 py-3 font-sans text-[11px] font-light leading-relaxed text-rose-100">
-                      The studio is closed on Sundays. Please choose Monday to Saturday.
+                      The studio is closed on Mondays and Wednesdays. Please choose
+                      another day.
                     </p>
                   ) : slotsLoading ? (
                     <p className="mt-4 flex items-center gap-3 font-sans text-[11px] font-light text-ivory-400">

@@ -35,13 +35,13 @@ export const HOUSE = {
 
 /** The week's opening hours, Monday first. `dayIndex` matches Date.getDay(). */
 export const OPENING_HOURS = [
-  { day: 'Monday', dayIndex: 1, time: '9:00 AM to 7:00 PM' },
+  { day: 'Monday', dayIndex: 1, time: 'Closed' },
   { day: 'Tuesday', dayIndex: 2, time: '9:00 AM to 7:00 PM' },
-  { day: 'Wednesday', dayIndex: 3, time: '9:00 AM to 7:00 PM' },
+  { day: 'Wednesday', dayIndex: 3, time: 'Closed' },
   { day: 'Thursday', dayIndex: 4, time: '9:00 AM to 7:00 PM' },
   { day: 'Friday', dayIndex: 5, time: '9:00 AM to 7:00 PM' },
   { day: 'Saturday', dayIndex: 6, time: '10:00 AM to 4:00 PM' },
-  { day: 'Sunday', dayIndex: 0, time: 'Closed' },
+  { day: 'Sunday', dayIndex: 0, time: '10:00 AM to 4:00 PM' },
 ] as const;
 
 export const CURRENCY = 'GH₵';
