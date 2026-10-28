@@ -102,7 +102,7 @@ export default function ServicesPage() {
               { value: String(totalTreatments), label: 'Treatments on the menu' },
               { value: formatPrice(cheapest), label: 'Lowest starting price' },
               { value: formatDuration(quickest), label: 'Shortest service' },
-              { value: 'Mon – Sat', label: 'Studio days' },
+              { value: 'Wed – Sun', label: 'Studio days' },
             ].map((stat) => (
               <div key={stat.label} className="min-w-[7rem]">
                 <p className="font-display text-4xl font-light text-gold-200">{stat.value}</p>

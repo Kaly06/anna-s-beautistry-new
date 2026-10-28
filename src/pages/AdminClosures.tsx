@@ -219,8 +219,8 @@ export default function AdminClosures() {
             Block off any time you will be busy — a break, an off-site job, a day
             closed. Clients booking online will see those hours as{' '}
             <span className="text-gold-200">Busy</span> and will not be able to book
-            over them. Open hours stay: Monday–Friday 9:00 AM–7:00 PM, Saturday
-            10:00 AM–4:00 PM, Sundays closed.
+            over them. Open hours stay: Wednesday–Friday 9:00 AM–7:00 PM,
+            Saturday–Sunday 10:00 AM–4:00 PM. Mondays and Tuesdays are closed.
           </p>
         </div>
 
