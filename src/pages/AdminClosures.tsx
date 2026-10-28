@@ -272,17 +272,19 @@ export default function AdminClosures() {
                 {authError}
               </p>
             ) : null}
-            <button type="submit" disabled={signingIn} className="btn-gold mt-10 disabled:opacity-50">
-              {signingIn ? 'Signing in…' : 'Sign in'}
-            </button>
-            <button
-              type="button"
-              onClick={() => void handleSendReset()}
-              disabled={resetSending}
-              className="link-underline mt-9 flex w-fit disabled:opacity-50"
-            >
-              {resetSending ? 'Sending…' : 'Email me a new password'}
-            </button>
+            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <button type="submit" disabled={signingIn} className="btn-gold !px-5 !py-3 disabled:opacity-50">
+                {signingIn ? 'Signing in…' : 'Sign in'}
+              </button>
+              <button
+                type="button"
+                onClick={() => void handleSendReset()}
+                disabled={resetSending}
+                className="link-underline whitespace-nowrap text-[8.5px] tracking-[0.18em] disabled:opacity-50"
+              >
+                {resetSending ? 'Sending…' : 'Email me a new password'}
+              </button>
+            </div>
             {resetNotice ? (
               <p role="status" className="mt-4 font-sans text-[11px] font-light leading-relaxed text-gold-100">
                 {resetNotice}
