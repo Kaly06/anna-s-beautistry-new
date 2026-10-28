@@ -249,7 +249,7 @@ export default function AdminClosures() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 className="field mt-3"
-                placeholder="annasbeautistry@gmail.com"
+                placeholder="Enter your email"
               />
             </div>
             <div className="mt-8">
