@@ -279,7 +279,7 @@ export default function AdminClosures() {
               type="button"
               onClick={() => void handleSendReset()}
               disabled={resetSending}
-              className="link-underline mt-6 disabled:opacity-50"
+              className="link-underline mt-9 flex w-fit disabled:opacity-50"
             >
               {resetSending ? 'Sending…' : 'Email me a new password'}
             </button>
