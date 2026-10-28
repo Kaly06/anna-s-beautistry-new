@@ -50,21 +50,21 @@ export default function ServiceCard({ service, index, className = '' }: ServiceC
         <span className="sr-only">{service.name} menu</span>
       </Link>
 
-      <div className="relative flex h-full flex-col justify-between p-5 sm:p-7">
+      <div className="relative flex h-full flex-col justify-between p-3.5 sm:p-7">
         <div className="flex items-start justify-between">
-          <span className="font-display text-sm italic text-gold-200/80">
+          <span className="font-display text-xs italic text-gold-200/80 sm:text-sm">
             {String(index + 1).padStart(2, '0')}
           </span>
-          <span className="flex h-9 w-9 translate-y-1 items-center justify-center rounded-full border border-ivory-50/25 text-ivory-50 opacity-0 transition-all duration-500 ease-luxe group-hover:translate-y-0 group-hover:border-gold-200/70 group-hover:text-gold-200 group-hover:opacity-100">
+          <span className="hidden h-9 w-9 translate-y-1 items-center justify-center rounded-full border border-ivory-50/25 text-ivory-50 opacity-0 transition-all duration-500 ease-luxe group-hover:translate-y-0 group-hover:border-gold-200/70 group-hover:text-gold-200 group-hover:opacity-100 min-[500px]:flex">
             <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.3} />
           </span>
         </div>
 
         <div>
-          <p className="font-sans text-[9px] uppercase tracking-[0.32em] text-ivory-300/70">
+          <p className="font-sans text-[7.5px] uppercase tracking-[0.24em] text-ivory-300/70 sm:text-[9px] sm:tracking-[0.32em]">
             {service.count}
           </p>
-          <h3 className="mt-3 font-display text-4xl font-light leading-none text-ivory-50 sm:text-5xl">
+          <h3 className="mt-2 font-display text-[1.7rem] font-light leading-none text-ivory-50 sm:mt-3 sm:text-5xl">
             {service.name}
           </h3>
           <div className="grid grid-rows-[0fr] transition-all duration-700 ease-luxe group-hover:grid-rows-[1fr]">
@@ -72,9 +72,9 @@ export default function ServiceCard({ service, index, className = '' }: ServiceC
               <span className="block pt-4">{service.description}</span>
             </p>
           </div>
-          <span className="mt-5 inline-flex items-center gap-2 font-sans text-[9px] font-medium uppercase tracking-[0.3em] text-gold-200">
+          <span className="mt-3 inline-flex items-center gap-1.5 font-sans text-[7.5px] font-medium uppercase tracking-[0.22em] text-gold-200 sm:mt-5 sm:gap-2 sm:text-[9px] sm:tracking-[0.3em]">
             See the menu
-            <span className="h-px w-6 bg-gold-300/60 transition-all duration-500 ease-luxe group-hover:w-10" />
+            <span className="h-px w-4 bg-gold-300/60 transition-all duration-500 ease-luxe group-hover:w-10 sm:w-6" />
           </span>
         </div>
       </div>
