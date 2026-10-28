@@ -32,7 +32,7 @@ export default function BookingWhatsAppCard({
   const href = buildWhatsAppBookingUrl(message);
 
   return (
-    <div className="mt-5 border border-gold-300/45 bg-[radial-gradient(120%_140%_at_0%_0%,rgba(212,175,55,0.16),rgba(23,4,41,0.35))] px-5 py-5">
+    <div className="mt-5 border border-gold-300/45 bg-[radial-gradient(120%_140%_at_0%_0%,rgba(212,175,55,0.16),rgba(20,9,38,0.35))] px-5 py-5">
       <p className="flex items-center gap-2 font-sans text-[9px] uppercase tracking-[0.24em] text-gold-100">
         <MessageCircle className="h-4 w-4" strokeWidth={1.4} />
         One tap left — tell Anna

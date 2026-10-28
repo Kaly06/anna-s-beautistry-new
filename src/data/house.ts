@@ -7,7 +7,7 @@ export const HOUSE = {
   /**
    * Her uploaded logo, processed to gold line art on transparency
    * (the original was black on blush; gold is her colour and the site
-   * background is deep royal plum #170429).
+   * background is deep royal plum #140926).
    * logoSrc     — the mark only (face + AB script) for the header, where
    *               the name stays in type beside it.
    * logoFullSrc — the complete lockup incl. name + tagline, for the footer.

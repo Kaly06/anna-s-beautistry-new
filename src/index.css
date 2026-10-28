@@ -37,7 +37,7 @@
     width: 9px;
   }
   ::-webkit-scrollbar-track {
-    background: #170429;
+    background: #140926;
   }
   ::-webkit-scrollbar-thumb {
     background: #563672;
@@ -434,8 +434,8 @@
     background: radial-gradient(
       120% 90% at 50% 30%,
       transparent 35%,
-      rgba(23, 4, 41, 0.55) 78%,
-      rgba(23, 4, 41, 0.92) 100%
+      rgba(20, 9, 38, 0.55) 78%,
+      rgba(20, 9, 38, 0.92) 100%
     );
   }
 
