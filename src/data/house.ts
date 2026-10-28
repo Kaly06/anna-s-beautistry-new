@@ -29,7 +29,7 @@ export const HOUSE = {
   greeting: 'Akwaaba',
   est: 'Est. 2025',
   season: 'The Coastal Edit · 2026',
-  clients: '2,400+ faces',
+  clients: '500+ faces',
   line: 'A beauty house in Cape Coast — lace, needles, lashes and skin, since 2025.',
 } as const;
 

@@ -32,8 +32,8 @@ const STEPS = [
 ];
 
 const STATS = [
-  { value: 10, suffix: '', label: 'Years at the chair' },
-  { value: 2400, suffix: '+', label: 'Faces' },
+  { value: 2, suffix: '', label: 'Years at the chair' },
+  { value: 500, suffix: '+', label: 'Faces' },
   { value: 20, suffix: '', label: 'Services on the menu' },
   { value: 1, suffix: '', label: 'Client at a time' },
 ];
