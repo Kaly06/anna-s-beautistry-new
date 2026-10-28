@@ -128,8 +128,8 @@ function friendlierBookingError(error: unknown): string {
   if (lower.includes('hold has expired') || lower.includes('expired')) {
     return 'The 30-minute hold has expired. Please choose a time and create a new booking.';
   }
-  if (lower.includes('18') || lower.includes('consent')) {
-    return 'Please complete the 18+ piercing consent details before booking.';
+  if (lower.includes('19') || lower.includes('consent')) {
+    return 'Please complete the 19+ piercing consent details before booking.';
   }
   if (lower.includes('option')) {
     return 'Please choose the exact option for this Wigs service.';
@@ -500,7 +500,7 @@ export default function Booking() {
       return;
     }
     if (piercingBlocked) {
-      setSubmitError('You must be 18 or older to book a piercing. This booking cannot continue.');
+      setSubmitError('You must be 19 or older to book a piercing. This booking cannot continue.');
       return;
     }
 
@@ -745,7 +745,7 @@ export default function Booking() {
                     Piercing bookings
                   </p>
                   <p className="mt-2 font-sans text-[11px] font-light leading-relaxed text-ivory-300/75">
-                    Piercing bookings are 18+ only. The consent and health form is required
+                    Piercing bookings are 19+ only. The consent and health form is required
                     before the booking can continue, and we may verify age and suitability in
                     studio.
                   </p>
@@ -1252,7 +1252,7 @@ export default function Booking() {
                 <div className="mt-10 flex flex-wrap items-center justify-between gap-6">
                   <p className="max-w-xs font-sans text-[9px] uppercase leading-relaxed tracking-[0.2em] text-ivory-500">
                     {piercingBlocked
-                      ? 'You must be 18 or older to book a piercing. This booking cannot continue.'
+                      ? 'You must be 19 or older to book a piercing. This booking cannot continue.'
                       : `Submitting holds the time for ${BOOKING_HOLD_MINUTES} minutes. 30% is due by WhatsApp payment; the balance is due in studio.`}
                   </p>
                   <button
@@ -1263,7 +1263,7 @@ export default function Booking() {
                     {submitting
                       ? 'Holding your time…'
                       : piercingBlocked
-                        ? '18+ only for piercings'
+                        ? '19+ only for piercings'
                         : isPiercing
                           ? 'Book & hold time'
                           : 'Book & hold time'}
