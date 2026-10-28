@@ -54,7 +54,7 @@ export default function Logo({ size = 'nav', iconOnly = false, className = '' }:
       )}
       {!iconOnly ? (
         <span className="flex flex-col leading-none">
-          <span className="font-display text-base tracking-[0.26em] text-ivory-50 sm:text-lg sm:tracking-[0.28em]">
+          <span className="font-display text-base tracking-[0.26em] text-[#FAF6F0] sm:text-lg sm:tracking-[0.28em]">
             {lineOne}
           </span>
           <span className="mt-1.5 font-sans text-[8px] font-medium uppercase tracking-[0.52em] text-gold-300/85 sm:text-[9px]">
