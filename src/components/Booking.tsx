@@ -208,6 +208,8 @@ export default function Booking() {
   const [checkingPending, setCheckingPending] = useState(true);
   const [nowMs, setNowMs] = useState(() => Date.now());
   const firstParamLoad = useRef(true);
+  /** The exact note auto-filled from an inbound treatment link, if any. */
+  const autoRequestedNoteRef = useRef('');
 
   const selectedItem = useMemo(
     () => menu.find((item) => item.slug === selectedSlug) ?? menu[0],
@@ -279,7 +281,9 @@ export default function Booking() {
     if (firstParamLoad.current) {
       firstParamLoad.current = false;
       if (treatmentParam && !optionName) {
-        setNotes((current) => current || `Requested: ${treatmentParam}`);
+        const requestedNote = `Requested: ${treatmentParam}`;
+        autoRequestedNoteRef.current = requestedNote;
+        setNotes((current) => current || requestedNote);
       }
     }
   }, [searchParams]);
@@ -396,7 +400,28 @@ export default function Booking() {
     setSlotTick((value) => value + 1);
   }, [nowMs, pendingBooking]);
 
+  /**
+   * Drop the auto-filled "Requested: …" note when the visitor changes the
+   * service themselves — it described the service they arrived from, not the
+   * one now selected. Anything they typed or edited is left untouched.
+   */
+  const clearAutoRequestedNote = () => {
+    const autoNote = autoRequestedNoteRef.current;
+    if (!autoNote) return;
+    autoRequestedNoteRef.current = '';
+    setNotes((current) => {
+      if (current === autoNote) return '';
+      // They added their own words after the auto-filled line: drop only the
+      // stale first line and keep everything they wrote.
+      if (current.startsWith(`${autoNote}\n`)) {
+        return current.slice(autoNote.length).replace(/^\n+/, '');
+      }
+      return current;
+    });
+  };
+
   const handleRoomChange = (room: ServiceId) => {
+    clearAutoRequestedNote();
     const firstItem = menu.find((item) => item.service === room);
     setSelectedRoom(room);
     if (firstItem) setSelectedSlug(firstItem.slug);
@@ -415,6 +440,7 @@ export default function Booking() {
   const handleServiceChange = (slug: string) => {
     const item = menu.find((entry) => entry.slug === slug);
     if (!item) return;
+    clearAutoRequestedNote();
     setSelectedSlug(slug);
     setSelectedRoom(item.service);
     setSelectedOptionName('');
