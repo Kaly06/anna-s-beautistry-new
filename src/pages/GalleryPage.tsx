@@ -31,8 +31,8 @@ import SplitText from '../components/ui/SplitText';
 type Filter = (typeof GALLERY_FILTERS)[number];
 
 const PLACEHOLDER_TONES = [
-  'radial-gradient(120% 90% at 20% 0%, rgba(212,175,55,0.14), transparent 55%), linear-gradient(160deg, #241038 0%, #170429 58%, #0d0218 100%)',
-  'radial-gradient(120% 90% at 85% 10%, rgba(120,72,200,0.22), transparent 55%), linear-gradient(200deg, #1d0a33 0%, #170429 55%, #0d0218 100%)',
+  'radial-gradient(120% 90% at 20% 0%, rgba(212,175,55,0.14), transparent 55%), linear-gradient(160deg, #241038 0%, #140926 58%, #0d0218 100%)',
+  'radial-gradient(120% 90% at 85% 10%, rgba(120,72,200,0.22), transparent 55%), linear-gradient(200deg, #1d0a33 0%, #140926 55%, #0d0218 100%)',
   'radial-gradient(110% 90% at 50% 100%, rgba(212,175,55,0.10), transparent 55%), linear-gradient(150deg, #200c38 0%, #140326 60%, #0d0218 100%)',
 ];
 

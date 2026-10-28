@@ -18,17 +18,17 @@ export interface BusySlot {
 /**
  * Opening hours per weekday (Date.getDay).
  *
- * Monday and Wednesday are closed — Anna teaches on those days. Saturday and
- * Sunday are shorter days. On any open day she can still block a period from
+ * Monday and Tuesday are closed. Saturday and Sunday are shorter days.
+ * On any open day she can still block a period from
  * the admin page; that is a closure, not a change to the week.
  */
 export function openingHoursForDate(dateISO: string): { open: number; close: number } | null {
   if (!dateISO) return null;
   const day = new Date(`${dateISO}T00:00:00.000Z`).getUTCDay();
   if (Number.isNaN(day)) return null;
-  if (day === 1 || day === 3) return null; // Monday, Wednesday — class days
+  if (day === 1 || day === 2) return null; // Monday, Tuesday — closed
   if (day === 6 || day === 0) return { open: 10 * 60, close: 16 * 60 }; // Saturday, Sunday
-  return { open: 9 * 60, close: 19 * 60 }; // Tuesday, Thursday, Friday
+  return { open: 9 * 60, close: 19 * 60 }; // Wednesday, Thursday, Friday
 }
 
 export type BookingStatus =

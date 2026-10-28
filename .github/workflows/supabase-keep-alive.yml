@@ -1,0 +1,52 @@
+name: Supabase keep-alive
+
+# Keeps the Free-plan Supabase project from looking inactive by making one
+# tiny read-only database request on a schedule. This does not create a
+# booking or change any data; it only reads one active service row.
+#
+# GitHub only runs scheduled workflows from the repository's default branch,
+# so this starts working automatically once this file is merged into main.
+
+on:
+  schedule:
+    # Daily at 06:17 UTC. Supabase checks roughly the previous 7 days, so
+    # daily is comfortably inside the window even if GitHub delays a run.
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-keep-alive
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    name: Ping Supabase
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      # Optional overrides: set SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY as
+      # repository secrets if the project ever changes.
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - name: Read one active service
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          supabase_url="${SUPABASE_URL:-https://ueoowlqruzbjtgcxvxzp.supabase.co}"
+          publishable_key="${SUPABASE_PUBLISHABLE_KEY:-sb_publishable_Ibh6ANsdKFsc41ZVVXYlIQ_Tn1uIe5D}"
+
+          response="$(curl --fail --silent --show-error \
+            --max-time 30 \
+            --retry 2 \
+            --retry-delay 5 \
+            -H "apikey: ${publishable_key}" \
+            -H "Authorization: Bearer ${publishable_key}" \
+            -H "Accept: application/json" \
+            "${supabase_url}/rest/v1/bookable_services?select=slug&active=eq.true&limit=1")"
+
+          echo "Supabase keep-alive OK: ${response}"

@@ -200,7 +200,7 @@ export default function Footer() {
         <div className="relative pt-10">
           <p
             aria-hidden="true"
-            className="select-none whitespace-nowrap text-center font-display text-[clamp(1.9rem,6.8vw,6.25rem)] font-light leading-[0.85] tracking-[0.05em] text-ivory-50/[0.055]"
+            className="select-none whitespace-nowrap text-center font-display text-[clamp(1.9rem,6.8vw,6.25rem)] font-light leading-[0.85] tracking-[0.05em] text-[#FAF6F0]/[0.055]"
           >
             ANNA&apos;S BEAUTISTRY
           </p>

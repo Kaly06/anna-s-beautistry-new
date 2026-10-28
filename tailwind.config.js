@@ -9,11 +9,11 @@ export default {
       },
       colors: {
         // Her colours: purple and gold.
-        // `ink` is the purple foundation, anchored exactly on #170429.
+        // `ink` is the purple foundation, anchored exactly on #140926.
         // The rest of the scale stays in that deep, muted family for
         // surfaces and gradients, while ivory text and gold details sit on top.
         ink: {
-          950: '#170429',
+          950: '#140926',
           900: '#200b35',
           850: '#291240',
           800: '#341b4e',
@@ -22,7 +22,7 @@ export default {
           500: '#6d4c88',
         },
         // Royal purple — the glow/accent scale. It is deliberately kept
-        // inside the same muted #170429 family as `ink`; using a vivid
+        // inside the same muted #140926 family as `ink`; using a vivid
         // royal here would repaint large blurred areas bright purple even
         // when the flat foundation underneath is exact.
         royal: {
@@ -35,7 +35,7 @@ export default {
           600: '#44275f',
           700: '#341b4e',
           800: '#200b35',
-          900: '#170429',
+          900: '#140926',
         },
         // Metallic gold, anchored exactly on #d4af37 at gold-400.
         // The lighter and deeper stops are only tints/shades around that
@@ -51,10 +51,10 @@ export default {
           700: '#775a16',
           800: '#57410f',
         },
-        // Lilac-ivory: the warm ivory cooled into the purple family, so
-        // light sections read as pale lavender against the royal plum.
+        // Alabaster-ivory: warm cream for the main text against the
+        // Imperial Velvet Plum foundation, with paler lavender tints below.
         ivory: {
-          50: '#fdfaff',
+          50: '#FAF6F0',
           100: '#f6f0fc',
           200: '#ece1f6',
           300: '#ddd0f2',
@@ -73,7 +73,7 @@ export default {
           600: '#563672',
           700: '#44275f',
         },
-        wine: '#170429',
+        wine: '#140926',
       },
       letterSpacing: {
         mega: '0.42em',

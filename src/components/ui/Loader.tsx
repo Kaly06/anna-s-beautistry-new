@@ -123,7 +123,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
                 <m.span
                   key={`${letter}-${i}`}
                   aria-hidden="true"
-                  className="font-display text-[11vw] font-light leading-none tracking-[0.12em] text-ivory-50 sm:text-[7.5vw]"
+                  className="font-display text-[11vw] font-light leading-none tracking-[0.12em] text-[#FAF6F0] sm:text-[7.5vw]"
                   initial={{ y: '110%' }}
                   animate={{ y: '0%' }}
                   transition={{ duration: 1.1, ease: EASE, delay: 0.08 + i * 0.045 }}

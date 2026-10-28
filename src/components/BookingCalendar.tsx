@@ -43,9 +43,8 @@ function monthLabel(year: number, month: number): string {
 
 /**
  * The booking date picker — a house-styled calendar instead of the browser's
- * native date input, which cannot be themed. Mondays and Wednesdays (closed —
- * Anna teaches) and
- * past days are disabled; today is ringed; the chosen day fills gold.
+ * native date input, which cannot be themed. Mondays and Tuesdays (closed)
+ * and past days are disabled; today is ringed; the chosen day fills gold.
  */
 export default function BookingCalendar({ id, value, min, onChange }: BookingCalendarProps) {
   const [open, setOpen] = useState(false);
@@ -98,7 +97,7 @@ export default function BookingCalendar({ id, value, min, onChange }: BookingCal
       const day = d.getUTCDate();
       const iso = toISO(year, month, day);
       const dow = d.getUTCDay();
-      const isClosedDay = dow === 1 || dow === 3; // Monday, Wednesday
+      const isClosedDay = dow === 1 || dow === 2; // Monday, Tuesday
       return {
         iso,
         day,
@@ -198,7 +197,7 @@ export default function BookingCalendar({ id, value, min, onChange }: BookingCal
                     disabled={disabled}
                     aria-label={`${formatGhanaDate(cell.iso)}${cell.isClosedDay ? ' — studio closed' : ''}`}
                     aria-pressed={cell.isSelected}
-                    title={cell.isClosedDay ? 'Closed on Mondays and Wednesdays' : undefined}
+                    title={cell.isClosedDay ? 'Closed on Mondays and Tuesdays' : undefined}
                     onClick={() => pick(cell.iso)}
                     className={`flex h-9 items-center justify-center rounded-full font-sans text-[12px] transition-colors duration-300 ${
                       cell.isSelected
@@ -220,7 +219,7 @@ export default function BookingCalendar({ id, value, min, onChange }: BookingCal
 
             <div className="mt-4 flex items-center justify-between border-t border-ivory-100/10 pt-3.5">
               <p className="font-sans text-[9px] uppercase tracking-[0.18em] text-ivory-500">
-                Closed Mon & Wed · Sat/Sun 10–4
+                Closed Mon & Tue · Sat/Sun 10–4
               </p>
               <button
                 type="button"
