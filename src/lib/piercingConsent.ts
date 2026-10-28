@@ -6,6 +6,9 @@
 
 export type YesNo = '' | 'yes' | 'no';
 
+/** Minimum age for a piercing booking, enforced in the form and database. */
+export const PIERCING_MIN_AGE = 19;
+
 export interface PiercingConsent {
   age: string;
   placement: string;
@@ -52,10 +55,13 @@ export function createEmptyPiercingConsent(): PiercingConsent {
   };
 }
 
-/** Piercing bookings are 18+ only; under-18 requests cannot be submitted. */
+/** Piercing bookings are 19+ only; under-19 requests cannot be submitted. */
 export function isPiercingAgeBlocked(value: PiercingConsent): boolean {
   const age = value.age === '' ? null : Number(value.age);
-  return value.isAdult === 'no' || (age !== null && Number.isFinite(age) && age < 18);
+  return (
+    value.isAdult === 'no' ||
+    (age !== null && Number.isFinite(age) && age < PIERCING_MIN_AGE)
+  );
 }
 
 export function inferPiercingPlacement(treatment: string | null): string {
