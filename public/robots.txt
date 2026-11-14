@@ -3,5 +3,7 @@ Allow: /
 
 # Private studio tools and one-off sheets are not for search engines.
 Disallow: /admin
+Disallow: /set-password
+Disallow: /services/wigs/options
 
 Sitemap: https://anna-s-beautistry-new.vercel.app/sitemap.xml

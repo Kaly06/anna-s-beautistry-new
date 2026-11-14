@@ -4,7 +4,7 @@ import { m } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { menu } from '../data/menu';
 import { rooms, roomsMeta } from '../data/rooms';
-import { formatPrice, HOUSE } from '../data/house';
+import { formatDuration, formatPrice, HOUSE } from '../data/house';
 import { specimen } from '../lib/specimens';
 import { EASE } from '../lib/animations';
 import { FEATURES } from '../lib/features';
@@ -36,17 +36,28 @@ export default function ServicePage() {
   const valid = isServiceId(serviceId);
 
   const meta = valid ? rooms[serviceId] : null;
-  usePageMeta({
-    title: meta ? meta.name : 'Services',
-    description: meta
-      ? `${meta.name} at Anna's Beautistry, Cape Coast — prices, durations and what to expect. Book online or on WhatsApp.`
-      : undefined,
-    path: serviceId ? `/services/${serviceId}${slug ? `/${slug}` : ''}` : '/services',
-  });
   const items = useMemo(
     () => (valid ? menu.filter((item) => item.service === serviceId) : []),
     [valid, serviceId]
   );
+  const activeItem = slug ? items.find((item) => item.slug === slug) : undefined;
+  usePageMeta({
+    title: activeItem
+      ? `${activeItem.name} in Cape Coast`
+      : meta
+        ? meta.seoTitle
+        : 'Services',
+    description: activeItem
+      ? `${activeItem.name} at Anna's Beautistry, Cape Coast — ${activeItem.tagline} From ${formatPrice(activeItem.price)}, ${formatDuration(activeItem.duration)}. Book online or on WhatsApp.`
+      : meta
+        ? meta.seoDescription
+        : undefined,
+    keywords: activeItem
+      ? `${activeItem.name} Cape Coast, ${activeItem.name} price Ghana, ${meta?.keywords ?? ''}`
+      : meta?.keywords,
+    image: activeItem?.image,
+    path: serviceId ? `/services/${serviceId}${slug ? `/${slug}` : ''}` : '/services',
+  });
 
   const [sort, setSort] = useState<Sort>('curated');
   const [activeIndex, setActiveIndex] = useState<number | null>(null);

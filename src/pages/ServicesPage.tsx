@@ -42,9 +42,11 @@ const quickest = Math.min(...menu.map((item) => item.duration));
 
 export default function ServicesPage() {
   usePageMeta({
-    title: 'Services',
+    title: 'Wig Installation, Lashes, Piercings & Makeup in Cape Coast',
     description:
-      'The full menu: hand-laid lace, implant-grade piercings, lash sets and skin-first makeup at Anna\'s Beautistry in Cape Coast. Prices and durations listed.',
+      'The full Anna\'s Beautistry menu in Cape Coast: wig installation and custom wigs, lash extensions, needle-only piercings and skin-first makeup. Prices and durations listed.',
+    keywords:
+      "beauty salon Cape Coast, wig installation Cape Coast, lash extensions Cape Coast, piercing studio Cape Coast, makeup artist Cape Coast, bridal makeup Cape Coast, Anna's Beautistry",
     path: '/services',
   });
   return (
