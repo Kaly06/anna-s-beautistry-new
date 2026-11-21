@@ -299,7 +299,10 @@ export default function Booking() {
       }
 
       try {
-        const latest = await fetchBookingPaymentStatus(stored.booking.bookingId);
+        const latest = await fetchBookingPaymentStatus(
+          stored.booking.bookingId,
+          stored.booking.bookingReference,
+        );
         if (cancelled) return;
         if (!latest || latest.status === 'cancelled' || latest.status === 'completed') {
           savePendingBooking(null);
@@ -578,6 +581,7 @@ export default function Booking() {
     try {
       const result = await submitPartialPaymentReference(
         pendingBooking.bookingId,
+        pendingBooking.bookingReference,
         paymentReference.trim(),
       );
       const updated: BookingHold = {
@@ -956,6 +960,7 @@ export default function Booking() {
                     <input
                       id="booking-name"
                       required
+                      maxLength={120}
                       autoComplete="name"
                       value={customerName}
                       onChange={(event) => setCustomerName(event.target.value)}
@@ -972,6 +977,7 @@ export default function Booking() {
                       id="booking-phone"
                       type="tel"
                       required
+                      maxLength={40}
                       autoComplete="tel"
                       value={customerPhone}
                       onChange={(event) => setCustomerPhone(event.target.value)}
@@ -1203,6 +1209,7 @@ export default function Booking() {
                   <textarea
                     id="booking-notes"
                     rows={2}
+                    maxLength={2000}
                     value={notes}
                     onChange={(event) => setNotes(event.target.value)}
                     placeholder="Sensitive scalp, a wedding at noon, the hoop you want matched…"

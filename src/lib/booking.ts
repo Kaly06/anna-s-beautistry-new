@@ -327,9 +327,13 @@ export async function createBookingHold(input: CreateBookingHoldInput): Promise<
   return normalizeBooking(row);
 }
 
-export async function fetchBookingPaymentStatus(bookingId: string): Promise<BookingHold | null> {
+export async function fetchBookingPaymentStatus(
+  bookingId: string,
+  bookingReference: string,
+): Promise<BookingHold | null> {
   const { data, error } = await supabase.rpc('get_booking_payment_status', {
     p_booking_id: bookingId,
+    p_booking_reference: bookingReference,
   });
   if (error) throw new Error(error.message);
   const row = (data as RpcBookingHold[] | null)?.[0];
@@ -338,10 +342,12 @@ export async function fetchBookingPaymentStatus(bookingId: string): Promise<Book
 
 export async function submitPartialPaymentReference(
   bookingId: string,
+  bookingReference: string,
   paymentReference: string,
 ): Promise<RpcPaymentReferenceResult> {
   const { data, error } = await supabase.rpc('submit_partial_payment_reference', {
     p_booking_id: bookingId,
+    p_booking_reference: bookingReference,
     p_payment_reference: paymentReference,
   });
   if (error) throw new Error(error.message);

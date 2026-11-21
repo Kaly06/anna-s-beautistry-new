@@ -30,10 +30,12 @@ const paths = [
   })),
 ];
 
+const lastmod = new Date().toISOString().slice(0, 10);
+
 const body = paths
   .map(
     ({ path, priority, changefreq }) =>
-      `  <url>\n    <loc>${SITE}${path}</loc>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`,
+      `  <url>\n    <loc>${SITE}${path}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`,
   )
   .join('\n');
 

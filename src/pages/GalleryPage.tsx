@@ -255,9 +255,11 @@ function GalleryLightbox({
 
 export default function GalleryPage() {
   usePageMeta({
-    title: 'Gallery',
+    title: 'Gallery — Wig, Lash, Piercing & Makeup Work in Cape Coast',
     description:
-      "Real work from the chair — lace installations, piercings, lash sets and makeup, photographed at Anna's Beautistry in Cape Coast.",
+      "Real work from the chair — wig installations, lash sets, piercings and makeup photographed at Anna's Beautistry in Cape Coast.",
+    keywords:
+      "wig installation photos Cape Coast, lash extensions photos Ghana, piercing photos Cape Coast, makeup photos Cape Coast, Anna's Beautistry gallery",
     path: '/gallery',
   });
   const [filter, setFilter] = useState<Filter>('All');

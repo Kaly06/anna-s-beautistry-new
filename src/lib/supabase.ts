@@ -1,15 +1,20 @@
 import { createClient } from '@supabase/supabase-js';
 
-// These fallbacks are the public browser configuration for Anna's Beautistry.
-// The publishable key is safe to expose in the browser because Row Level
-// Security and the narrow booking RPCs protect customer data. Environment
-// variables can override them for another Supabase project.
-const fallbackSupabaseUrl = 'https://ueoowlqruzbjtgcxvxzp.supabase.co';
-const fallbackSupabasePublishableKey = 'sb_publishable_Ibh6ANsdKFsc41ZVVXYlIQ_Tn1uIe5D';
+// Supabase configuration comes from environment variables only — no keys are
+// hardcoded in source. The publishable key is safe to expose in the browser
+// because Row Level Security and the narrow booking RPCs protect customer
+// data, but it is still managed through the hosting dashboard, not the repo.
+//
+// Set these in Vercel (Project → Settings → Environment Variables) and in a
+// local .env file for development. See .env.example.
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim();
+const supabasePublishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim();
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() || fallbackSupabaseUrl;
-const supabasePublishableKey =
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim() || fallbackSupabasePublishableKey;
+if (!supabaseUrl || !supabasePublishableKey) {
+  throw new Error(
+    'Missing Supabase configuration. Set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in your environment (see .env.example).',
+  );
+}
 
 export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
   auth: {

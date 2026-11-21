@@ -59,7 +59,10 @@ const CSV_HEADER = [
 ];
 
 function csvCell(value: string | number | null | undefined): string {
-  const text = value === null || value === undefined ? '' : String(value);
+  let text = value === null || value === undefined ? '' : String(value);
+  // Neutralise spreadsheet formula injection: a cell starting with =, +, -,
+  // @, tab or carriage return can execute as a formula when opened in Excel.
+  if (/^[=+\-@\t\r]/.test(text)) text = `'${text}`;
   return `"${text.replace(/"/g, '""')}"`;
 }
 

@@ -15,11 +15,27 @@ const RESEND_ENDPOINT = 'https://api.resend.com/emails';
 const STUDIO_EMAIL = Deno.env.get('STUDIO_EMAIL') ?? 'annasbeautistry@gmail.com';
 const FROM_ADDRESS = Deno.env.get('STUDIO_FROM') ?? "Anna's Beautistry <onboarding@resend.dev>";
 
-const CORS_HEADERS: Record<string, string> = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-};
+// Only the live site (and local development) may call this function. A
+// wildcard origin would let any website on the internet spend the studio's
+// Resend quota by POSTing here directly.
+const ALLOWED_ORIGINS = new Set([
+  'https://anna-s-beautistry-new.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:4173',
+]);
+
+function corsHeaders(request: Request): Record<string, string> {
+  const origin = request.headers.get('Origin') ?? '';
+  const headers: Record<string, string> = {
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    Vary: 'Origin',
+  };
+  if (ALLOWED_ORIGINS.has(origin)) {
+    headers['Access-Control-Allow-Origin'] = origin;
+  }
+  return headers;
+}
 
 interface BookingEmail {
   reference?: string;
@@ -65,35 +81,52 @@ function when(startsAt?: string, endsAt?: string): string {
   return `${date}, ${time.format(new Date(startsAt))}–${time.format(new Date(endsAt))} (Ghana time)`;
 }
 
-function json(body: unknown, status = 200): Response {
+function json(request: Request, body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
+    headers: { ...corsHeaders(request), 'Content-Type': 'application/json' },
   });
+}
+
+function isValidBooking(booking: BookingEmail): boolean {
+  if (!booking || typeof booking !== 'object') return false;
+  // Booking references are issued by the database as AB- + 8 hex chars.
+  if (!/^AB-[A-Z0-9]{8}$/i.test((booking.reference ?? '').trim())) return false;
+  const start = Date.parse(booking.startsAt ?? '');
+  const end = Date.parse(booking.endsAt ?? '');
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) return false;
+  const limits: [string | undefined, number][] = [
+    [booking.service, 120],
+    [booking.option ?? undefined, 120],
+    [booking.customerName, 120],
+    [booking.customerPhone, 40],
+    [booking.notes, 2000],
+  ];
+  return limits.every(([value, max]) => value === undefined || value.length <= max);
 }
 
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') {
-    return new Response('ok', { headers: CORS_HEADERS });
+    return new Response('ok', { headers: corsHeaders(request) });
   }
   if (request.method !== 'POST') {
-    return json({ ok: false, error: 'Method not allowed' }, 405);
+    return json(request, { ok: false, error: 'Method not allowed' }, 405);
   }
 
   const apiKey = Deno.env.get('RESEND_API_KEY');
   if (!apiKey) {
-    return json({ ok: false, error: 'Email backup is not configured yet (no RESEND_API_KEY).' }, 503);
+    return json(request, { ok: false, error: 'Email backup is not configured yet (no RESEND_API_KEY).' }, 503);
   }
 
   let booking: BookingEmail;
   try {
     booking = (await request.json()) as BookingEmail;
   } catch {
-    return json({ ok: false, error: 'Invalid JSON body' }, 400);
+    return json(request, { ok: false, error: 'Invalid JSON body' }, 400);
   }
 
-  if (!booking?.reference || !booking?.startsAt) {
-    return json({ ok: false, error: 'A booking reference and start time are required' }, 400);
+  if (!isValidBooking(booking)) {
+    return json(request, { ok: false, error: 'Invalid booking payload' }, 400);
   }
 
   const serviceLine = booking.option
@@ -147,8 +180,8 @@ Deno.serve(async (request) => {
   if (!response.ok) {
     const detail = await response.text();
     console.error('Resend rejected the email', response.status, detail);
-    return json({ ok: false, error: 'The email provider refused the message' }, 502);
+    return json(request, { ok: false, error: 'The email provider refused the message' }, 502);
   }
 
-  return json({ ok: true });
+  return json(request, { ok: true });
 });
